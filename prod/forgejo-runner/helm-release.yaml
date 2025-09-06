@@ -5,14 +5,10 @@ metadata:
   namespace: forgejo-runner
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: forgejo-runner
-      version: "0.6.6"
-      sourceRef:
-        kind: HelmRepository
-        name: forgejo-runner
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: forgejo-runner
+    namespace: flux-system
   values:
     runner:
       config:
