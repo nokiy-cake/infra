@@ -3,10 +3,6 @@ kind: HelmRelease
 metadata:
   name: tailscale-operator
   namespace: tailscale-system
-  annotations:
-    operator.1password.io/auto-restart: "true"
-    operator.1password.io/item-path: "vaults/cake.nokiy.net/items/tailscale"
-    operator.1password.io/item-name: "tailscale"
 spec:
   interval: 5m
   chart:
