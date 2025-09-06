@@ -20,7 +20,7 @@ spec:
   values:
     operatorConfig:
       defaultTags:
-        - "cake-operator"
+        - "tag:cake-operator"
     proxyConfig:
       defaultTags: "tag:cake"
   valuesFrom:
