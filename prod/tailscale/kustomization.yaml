@@ -5,4 +5,4 @@ resources:
 - 1password.yaml
 - helm-repository.yaml
 - helm-release.yaml
-- connecter.yaml
+- connector.yaml
