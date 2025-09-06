@@ -18,10 +18,10 @@ spec:
       replicas: 2
     ports:
       tailscale:
-        exposedPort: 41641
         port: 41641
-        exposedPortUDP: 41641
-        portUDP: 41641
+        expose: true
+        exposedPort: 41641
+        protocol: UDP
   install:
     crds: CreateReplace
   upgrade:
