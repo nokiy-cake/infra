@@ -13,6 +13,15 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
+  values:
+    deployment:
+      replicas: 2
+    ports:
+      tailscale:
+        exposedPort: 41641
+        port: 41641
+        exposedPortUDP: 41641
+        portUDP: 41641
   install:
     crds: CreateReplace
   upgrade:

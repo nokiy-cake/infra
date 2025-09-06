@@ -3,9 +3,39 @@ kind: Connector
 metadata:
   name: cake
   namespace: tailscale-system
+  labels:
+    tailscale.com/connector: cake
 spec:
   hostname: cake
   subnetRouter:
     advertiseRoutes:
       - 10.20.5.0/24
   exitNode: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cake
+  namespace: tailscale-system
+spec:
+  type: ClusterIP
+  selector:
+    tailscale.com/connector: cake
+  ports:
+    - name: tailscale
+      protocol: UDP
+      port: 41641
+      targetPort: 41641
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteUDP
+metadata:
+  name: tailscale-udp-route
+  namespace: tailscale-system
+spec:
+  entryPoints:
+    - tailscale
+  routes:
+    - services:
+        - name: cake 
+          port: 41641
