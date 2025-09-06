@@ -15,6 +15,7 @@ spec:
         namespace: flux-system
   values:
     operatorConfig:
+      hostname: cake
       defaultTags:
         - "tag:cake-operator"
     proxyConfig:
