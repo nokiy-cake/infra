@@ -16,11 +16,11 @@ spec:
   values:
     deployment:
       replicas: 2
-    gateway:
-      listeners:
-        tailscale:
-          port: 41641
-          protocol: UDP
+    # gateway:
+    #   listeners:
+    #     tailscale:
+    #       port: 41641
+    #       protocol: UDP
   install:
     crds: CreateReplace
   upgrade:
