@@ -12,6 +12,8 @@ spec:
   values:
     runner:
       config:
+        name: "cake-nokiy-net"
+        instance: https://git.nokiy.net
         create: true
         existingSecret: ""
         file:
@@ -35,3 +37,8 @@ spec:
             options: -v /certs/client:/certs/client
             valid_volumes:
               - /certs/client
+  valuesFrom:
+    - kind: Secret
+      name: forgejo-runner
+      valuesKey: TOKEN
+      targetPath: runner.config.token
