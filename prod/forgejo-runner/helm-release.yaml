@@ -15,7 +15,6 @@ spec:
         name: "cake-nokiy-net"
         instance: https://git.nokiy.net
         create: true
-        existingSecret: ""
         file:
           log:
             level: "info"
