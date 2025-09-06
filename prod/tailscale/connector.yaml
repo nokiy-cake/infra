@@ -1,12 +1,11 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: cake-connector
+  name: cake
   namespace: tailscale-system
 spec:
-  hostname: cake-connector
+  hostname: cake
   subnetRouter:
     advertiseRoutes:
       - 10.20.5.0/24
   exitNode: true
-  replicas: 2
