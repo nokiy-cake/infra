@@ -7,4 +7,4 @@ spec:
   interval: 5m
   url: oci://codeberg.org/wrenix/helm-charts/forgejo-runner
   ref:
-    tag: "0.6.6"
+    semver: "0.6.6"
