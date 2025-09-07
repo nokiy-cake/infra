@@ -4,6 +4,7 @@ namespace: sing-box
 resources:
 - namespace.yaml
 - sing-box.yaml
+- ingress.yaml
 configMapGenerator:
   - name: sing-box-config-template
     files:
