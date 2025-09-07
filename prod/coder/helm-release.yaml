@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./ci/helm-chart
+      version: "*"
+      sourceRef:
+        kind: GitRepository
+        name: coder-repo
+        namespace: coder
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace

@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: coder-repo
+  namespace: coder
+spec:
+  url: https://github.com/coder/code-server
+  interval: 5m
+  ref:
+    tag: v4.103.2
