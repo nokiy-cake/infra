@@ -21,7 +21,6 @@ spec:
     - websecure
   routes:
     - match: HostSNIRegexp(`^.+\.hk$`)
-      kind: Rule
       services:
         - name: sing-box
           port: 443
