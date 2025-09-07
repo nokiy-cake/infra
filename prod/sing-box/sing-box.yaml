@@ -47,7 +47,7 @@ spec:
         image: ghcr.io/sagernet/sing-box:v1.12.4
         ports:
         - containerPort: 443
-        command: ["run", "-c", "/etc/sing-box/config/config.json"]
+        command: ["/bin/sing-box", "run", "-c", "/etc/sing-box/config/config.json"]
         volumeMounts:
           - name: rendered-config-volume
             mountPath: /etc/sing-box/config
