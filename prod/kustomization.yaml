@@ -6,3 +6,4 @@ resources:
 - tailscale
 - traefik
 - forgejo-runner
+- sing-box

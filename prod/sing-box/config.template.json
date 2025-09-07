@@ -1,0 +1,145 @@
+{
+    "log": {
+        "level": "info",
+        "timestamp": true
+    },
+    "dns": {
+        "servers": [
+            {
+                "tag": "dns:local",
+                "type": "local"
+            },
+            {
+                "tag": "dns:cloudflare",
+                "type": "h3",
+                "server": "1.1.1.1",
+                "server_port": 443
+            }
+        ]
+    },
+    "ntp": {
+        "enabled": true,
+        "server": "pool.ntp.org",
+        "server_port": 123,
+        "interval": "60m",
+        "detour": "out:direct",
+        "domain_resolver": {
+            "server": "dns:cloudflare",
+            "strategy": "ipv4_only",
+            "disable_cache": false
+        }
+    },
+    "inbounds": [
+        {
+            "type": "vless",
+            "tag": "in:vless",
+            "listen": "::",
+            "listen_port": 443,
+            "users": [
+                {
+                    "name": "direct",
+                    "uuid": "${DIRECT_UUID}",
+                    "flow": "xtls-rprx-vision"
+                },
+                {
+                    "name": "warp",
+                    "uuid": "${WARP_UUID}",
+                    "flow": "xtls-rprx-vision"
+                }
+            ],
+            "tls": {
+                "enabled": true,
+                "server_name": "${DOMAIN}",
+                "reality": {
+                    "enabled": true,
+                    "handshake": {
+                        "server": "${DOMAIN}",
+                        "server_port": 443
+                    },
+                    "private_key": "${PRIVATE_KEY}",
+                    "short_id": [
+                        "${SHORT_ID}"
+                    ]
+                }
+            },
+            "multiplex": {
+                "enabled": true,
+                "padding": true
+            }
+        }
+    ],
+    "endpoints": [
+        {
+            "tag": "out:warp",
+            "type": "wireguard",
+            "system": false,
+            "address": [
+                "${WARP_IPV4}",
+                "${WARP_IPV6}"
+            ],
+            "mtu": 1280,
+            "private_key": "${WARP_PRIVATE_KEY}",
+            "peers": [
+                {
+                    "address": "engage.cloudflareclient.com",
+                    "port": 2408,
+                    "public_key": "${WARP_PUBLIC_KEY}",
+                    "allowed_ips": [
+                        "0.0.0.0/0", "::/0"
+                    ],
+                    "persistent_keepalive_interval": 10
+                }
+            ],
+            "domain_resolver": {
+                "server": "dns:cloudflare",
+                "strategy": "ipv4_only",
+                "disable_cache": false
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "out:direct",
+            "type": "direct",
+            "tcp_fast_open": true,
+            "tcp_multi_path": true,
+            "domain_resolver": {
+                "server": "dns:cloudflare",
+                "strategy": "ipv4_only",
+                "disable_cache": false
+            }
+        }
+    ],
+    "route": {
+        "rules": [
+            {
+                "ip_is_private": true,
+                "outbound": [
+                    "out:direct",
+                    "out:warp"
+                ],
+                "action": "reject"
+            },
+            {
+                "inbound": [
+                    "in:vless"
+                ],
+                "auth_user": "direct",
+                "action": "route",
+                "outbound": "out:direct"
+            },
+            {
+                "inbound": [
+                    "in:vless"
+                ],
+                "auth_user": "warp",
+                "action": "route",
+                "outbound": "out:warp"
+            }
+        ],
+        "default_domain_resolver": {
+            "server": "dns:cloudflare"
+        },
+        "final": "out:warp"
+    }
+}

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sing-box-deployment
+  namespace: sing-box
+  labels:
+    app: sing-box
+  annotations:
+    operator.1password.io/item-path: "vaults/cake.nokiy.net/items/sing-box"
+    operator.1password.io/item-name: "sing-box"
+    operator.1password.io/auto-restart: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sing-box
+  template:
+    metadata:
+      labels:
+        app: sing-box
+    spec:
+      volumes:
+        - name: rendered-config-volume
+          emptyDir: {}
+        - name: config-template-volume
+          configMap:
+            name: sing-box-config-template
+
+      initContainers:
+      - name: init-config
+        image: alpine:3.22
+        command: ["/bin/sh", "-c"]
+        args:
+          - "apk add --no-cache gettext && envsubst < /templates/config.template.json > /config/config.json"
+        envFrom:
+          - secretRef:
+              name: sing-box
+        volumeMounts:
+          - name: config-template-volume
+            mountPath: /templates
+            readOnly: true
+          - name: rendered-config-volume
+            mountPath: /config
+
+      containers:
+      - name: sing-box
+        image: ghcr.io/sagernet/sing-box:v1.12.4
+        ports:
+        - containerPort: 443
+        commands: ["/bin/sing-box", "run", "-c", "/etc/sing-box/config/config.json"]
+        volumeMounts:
+          - name: rendered-config-volume
+            mountPath: /etc/sing-box/config
+            readOnly: true
