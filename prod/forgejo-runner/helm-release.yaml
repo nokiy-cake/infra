@@ -23,12 +23,17 @@ spec:
             capacity: 3
             envs:
               DOCKER_HOST: tcp://127.0.0.1:2376
+              DOCKER_TLS_VERIFY: 1
+              DOCKER_CERT_PATH: /certs/client
             labels:
               - "ubuntu-latest:docker://mirror.gcr.io/library/node:22-trixie-slim"
           container:
             network: "host"
             enable_ipv6: false
             privileged: false
+            options: -v /certs/client:/certs/client
+            valid_volumes:
+              - /certs/client
   valuesFrom:
     - kind: Secret
       name: forgejo-runner
