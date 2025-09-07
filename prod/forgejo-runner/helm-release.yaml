@@ -20,7 +20,7 @@ spec:
             level: "info"
           runner:
             file: ".runner"
-            capacity: 1
+            capacity: 3
             envs:
               DOCKER_HOST: tcp://127.0.0.1:2376
             labels:
