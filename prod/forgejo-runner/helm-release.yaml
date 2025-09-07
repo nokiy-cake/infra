@@ -26,7 +26,8 @@ spec:
               DOCKER_TLS_VERIFY: 1
               DOCKER_CERT_PATH: /certs/client
             labels:
-              - "ubuntu-latest:docker://mirror.gcr.io/library/node:22-trixie-slim"
+              - "debian:docker://mirror.gcr.io/library/node:22-trixie-slim"
+              - "ubuntu-latest:docker://git.nokiy.net/actions/runner:latest"
           container:
             network: "host"
             enable_ipv6: false
