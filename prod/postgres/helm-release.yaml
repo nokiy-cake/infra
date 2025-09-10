@@ -13,9 +13,6 @@ spec:
         kind: HelmRepository
         name: cnpg
         namespace: flux-system
-  values:
-    crds:
-      enabled: true
   install:
     crds: CreateReplace
   upgrade:
