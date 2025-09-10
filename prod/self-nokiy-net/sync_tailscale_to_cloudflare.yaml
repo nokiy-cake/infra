@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: sync-tailscale-to-cloudflare
-  namespace: sync-tailscale-to-cloudflare
+  namespace: self-nokiy-net
 spec:
   schedule: "0 * * * *"
   jobTemplate:
