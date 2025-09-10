@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./prod/kubeblocks/kubeblocks_crds_v1.0.0.yaml
+  path: ./prod/kubeblocks/crds
   prune: true
   sourceRef:
     kind: GitRepository
