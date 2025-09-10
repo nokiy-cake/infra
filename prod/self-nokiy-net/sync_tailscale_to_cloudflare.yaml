@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: sync-tailscale-to-cloudflare
+  namespace: sync-tailscale-to-cloudflare
 spec:
   schedule: "0 * * * *"
   jobTemplate:
