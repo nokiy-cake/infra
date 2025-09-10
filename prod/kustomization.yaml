@@ -7,4 +7,5 @@ resources:
 - traefik
 - forgejo-runner
 - sing-box
+- greptime
 # - coder
