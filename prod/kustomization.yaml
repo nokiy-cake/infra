@@ -5,6 +5,7 @@ resources:
 - cert-manager
 - common
 - tailscale
+- postgres
 - traefik
 - forgejo-runner
 - sing-box
