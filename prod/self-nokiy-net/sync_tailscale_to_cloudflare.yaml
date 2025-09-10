@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync-tailscale-to-cloudflare
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sync-tailscale-to-cloudflare
+            image: ghcr.io/reonokiy/sync_tailscale_to_cloudflare
+            imagePullPolicy: Always
+            env:
+            - name: TAILSCALE_TAILNET
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: TAILSCALE_TAILNET
+            - name: TAILSCALE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: TAILSCALE_API_KEY
+            - name: CLOUDFLARE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: CLOUDFLARE_API_TOKEN
+            - name: CLOUDFLARE_ZONE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: CLOUDFLARE_ZONE_ID
+            - name: CLOUDFLARE_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: CLOUDFLARE_DOMAIN
+            - name: CLOUDFLARE_BASE_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: sync-tailscale-to-cloudflare
+                  key: CLOUDFLARE_BASE_DOMAIN
+          restartPolicy: OnFailure

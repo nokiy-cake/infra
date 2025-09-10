@@ -8,4 +8,5 @@ resources:
 - forgejo-runner
 - sing-box
 - greptime
+- self-nokiy-net
 # - coder
