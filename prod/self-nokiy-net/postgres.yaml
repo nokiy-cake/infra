@@ -50,7 +50,7 @@ metadata:
   namespace: self-nokiy-net
   tailscale.com/hostname: postgres-nokiy-pooler
   annotations:
-  tailscale.com/expose: "true"
+    tailscale.com/expose: "true"
     tailscale.com/proxy-group: postgres-nokiy-pooler
 spec:
   type: LoadBalancer
