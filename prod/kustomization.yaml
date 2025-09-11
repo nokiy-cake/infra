@@ -6,7 +6,6 @@ resources:
 - common
 - tailscale
 - cnpg
-- documentdb
 # - kubeblocks
 - traefik
 - forgejo-runner
