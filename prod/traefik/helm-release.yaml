@@ -16,6 +16,10 @@ spec:
   values:
     deployment:
       replicas: 2
+    ports:
+      websecure:
+        http3:
+          enabled: true
     # gateway:
     #   listeners:
     #     tailscale:
