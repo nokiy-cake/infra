@@ -5,8 +5,8 @@ resources:
 - cert-manager
 - common
 - tailscale
-# - postgres
-- kubeblocks
+- cnpg
+# - kubeblocks
 - traefik
 - forgejo-runner
 - sing-box
