@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres-ferretdb-nokiy
-  namespace: cnpg
+  namespace: self-nokiy-net
 spec:
   instances: 1
   imageName: 'ghcr.io/ferretdb/postgres-documentdb:17-0.106.0-ferretdb-2.5.0'
@@ -60,7 +60,7 @@ spec:
 #     spec:
 #       containers:
 #         - name: ferretdb
-#           image: ghcr.io/ferretdb/ferretdb:2.1.0
+#           image: ghcr.io/ferretdb/ferretdb:2.5.0
 #           ports:
 #             - containerPort: 27017
 #           env:
