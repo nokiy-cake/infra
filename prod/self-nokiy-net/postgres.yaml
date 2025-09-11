@@ -46,7 +46,6 @@ spec:
     metadata:
       annotations:
         tailscale.com/expose: "true"
-        tailscale.com/proxy-group: "pooler-postgres-nokiy-rw"
     spec:
       type: LoadBalancer
       loadBalancerClass: tailscale
