@@ -1,0 +1,82 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-ferretdb-nokiy
+  namespace: cnpg
+spec:
+  instances: 3
+  imageName: 'ghcr.io/ferretdb/postgres-documentdb:17-0.106.0-ferretdb-2.5.0'
+  postgresUID: 999
+  postgresGID: 999
+  enableSuperuserAccess: true
+
+  storage:
+    size: 1Gi
+
+  postgresql:
+    shared_preload_libraries:
+      - pg_cron
+      - pg_documentdb_core
+      - pg_documentdb
+    parameters:
+      cron.database_name: 'postgres'
+
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - 'CREATE EXTENSION IF NOT EXISTS documentdb CASCADE;'
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: pooler-postgres-ferretdb-nokiy-rw
+  namespace: self-nokiy-net
+spec:
+  cluster:
+    name: postgres-nokiy
+  instances: 3
+  type: rw
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: ferretdb
+#   namespace: cnpg
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: ferretdb
+#   template:
+#     metadata:
+#       labels:
+#         app: ferretdb
+#     spec:
+#       containers:
+#         - name: ferretdb
+#           image: ghcr.io/ferretdb/ferretdb:2.1.0
+#           ports:
+#             - containerPort: 27017
+#           env:
+#             - name: FERRETDB_POSTGRESQL_URL
+#               value: 'postgresql://postgres:<password>@postgres-cluster-rw.cnpg.svc.cluster.local:5432/postgres'
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ferretdb-nokiy-service
+#   namespace: cnpg
+# spec:
+#   selector:
+#     app: ferretdb
+#   ports:
+#     - protocol: TCP
+#       port: 27017
+#       targetPort: 27017
+#   type: NodePort

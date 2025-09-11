@@ -4,3 +4,4 @@ resources:
 - namespace.yaml
 - 1password.yaml
 - sync_tailscale_to_cloudflare.yaml
+- ferretdb.yaml

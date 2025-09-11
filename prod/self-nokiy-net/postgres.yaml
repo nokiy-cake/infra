@@ -1,0 +1,48 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-nokiy
+  namespace: self-nokiy-net
+spec:
+  instances: 3
+  storage:
+    size: 1Gi
+  roles:
+    - name: nokiy
+      ensure: present
+      login: true
+      superuser: true
+      passwordSecret:
+        name: cluster-example-nokiy
+      inRoles:
+        - pg_monitor
+        - pg_signal_backend
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: pooler-nokiy-rw
+  namespace: self-nokiy-net
+spec:
+  cluster:
+    name: postgres-nokiy
+  instances: 3
+  type: rw
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "10"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres
+  namespace: self-nokiy-net
+spec:
+  name: nokiy
+  owner: nokiy
+  cluster:
+    name: postgres-nokiy
+
