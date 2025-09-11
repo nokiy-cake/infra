@@ -20,11 +20,8 @@ spec:
       websecure:
         http3:
           enabled: true
-    # gateway:
-    #   listeners:
-    #     tailscale:
-    #       port: 41641
-    #       protocol: UDP
+    gatewayClass:
+      enabled: true
   install:
     crds: CreateReplace
   upgrade:
