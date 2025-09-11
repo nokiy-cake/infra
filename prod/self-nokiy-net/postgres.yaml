@@ -1,4 +1,14 @@
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: postgres-nokiy
+  namespace: self-nokiy-net
+  annotations:
+    operator.1password.io/auto-restart: "true"
+spec:
+  itemPath: "vaults/cake.nokiy.net/items/postgres-nokiy"
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -7,22 +17,20 @@ metadata:
 spec:
   instances: 3
   storage:
-    size: 1Gi
-  roles:
+    size: 5Gi
+  managed:
+    roles:
     - name: nokiy
       ensure: present
       login: true
-      superuser: true
+      superuser: false
       passwordSecret:
-        name: cluster-example-nokiy
-      inRoles:
-        - pg_monitor
-        - pg_signal_backend
+        name: postgres-nokiy
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: pooler-nokiy-rw
+  name: pooler-postgres-nokiy-rw
   namespace: self-nokiy-net
 spec:
   cluster:
