@@ -46,6 +46,7 @@ spec:
     metadata:
       annotations:
         tailscale.com/expose: "true"
+        tailscale.com/hostname: postgres-nokiy-pooler-rw
     spec:
       type: LoadBalancer
       loadBalancerClass: tailscale
