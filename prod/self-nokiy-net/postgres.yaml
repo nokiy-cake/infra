@@ -42,27 +42,14 @@ spec:
     parameters:
       max_client_conn: "1000"
       default_pool_size: "10"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres-nokiy-pooler-tailscale
-  namespace: self-nokiy-net
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/proxy-group: postgres-nokiy-pooler
-spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
-  selector:
-    cnpg.io/cluster: postgres-nokiy
-    cnpg.io/podRole: pooler
-    cnpg.io/poolerName: pooler-postgres-nokiy-rw
-  ports:
-    - name: postgres
-      port: 5432
-      protocol: TCP
-      targetPort: 5432
+  serviceTemplate:
+    metadata:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/proxy-group: pooler-postgres-nokiy-rw"
+      spec:
+        type: LoadBalancer
+        loadBalancerClass: tailscale
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
