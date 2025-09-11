@@ -34,7 +34,7 @@ metadata:
   namespace: self-nokiy-net
 spec:
   cluster:
-    name: postgres-nokiy
+    name: postgres-ferretdb-nokiy
   instances: 1
   type: rw
   pgbouncer:
