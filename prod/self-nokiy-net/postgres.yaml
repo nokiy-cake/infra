@@ -32,6 +32,9 @@ kind: Pooler
 metadata:
   name: pooler-postgres-nokiy-rw
   namespace: self-nokiy-net
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/proxy-group: pooler-postgres-nokiy-rw"
 spec:
   cluster:
     name: postgres-nokiy
