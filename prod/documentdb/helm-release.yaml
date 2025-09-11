@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: documentdb-operator
+  namespace: documentdb
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: documentdb-operator
+    namespace: flux-system
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace

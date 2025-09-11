@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: documentdb-operator
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: oci://ghcr.io/microsoft/documentdb-kubernetes-operator/documentdb-operator
+  ref:
+    semver: "0.0.1"
