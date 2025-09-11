@@ -42,41 +42,44 @@ spec:
     parameters:
       max_client_conn: "1000"
       default_pool_size: "10"
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: ferretdb
-#   namespace: cnpg
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: ferretdb
-#   template:
-#     metadata:
-#       labels:
-#         app: ferretdb
-#     spec:
-#       containers:
-#         - name: ferretdb
-#           image: ghcr.io/ferretdb/ferretdb:2.5.0
-#           ports:
-#             - containerPort: 27017
-#           env:
-#             - name: FERRETDB_POSTGRESQL_URL
-#               value: 'postgresql://postgres:<password>@postgres-cluster-rw.cnpg.svc.cluster.local:5432/postgres'
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: ferretdb-nokiy-service
-#   namespace: cnpg
-# spec:
-#   selector:
-#     app: ferretdb
-#   ports:
-#     - protocol: TCP
-#       port: 27017
-#       targetPort: 27017
-#   type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ferretdb
+  namespace: self-nokiy-net
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ferretdb
+  template:
+    metadata:
+      labels:
+        app: ferretdb
+    spec:
+      containers:
+        - name: ferretdb
+          image: ghcr.io/ferretdb/ferretdb:2.5.0
+          ports:
+            - containerPort: 27017
+          env:
+            - name: FERRETDB_POSTGRESQL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-ferretdb-nokiy-superuser 
+                  key: uri
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ferretdb-nokiy-service
+  namespace: self-nokiy-net
+spec:
+  selector:
+    app: ferretdb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: NodePort
