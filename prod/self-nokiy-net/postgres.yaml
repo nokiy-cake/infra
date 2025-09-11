@@ -47,9 +47,9 @@ spec:
       annotations:
         tailscale.com/expose: "true"
         tailscale.com/proxy-group: "pooler-postgres-nokiy-rw"
-      spec:
-        type: LoadBalancer
-        loadBalancerClass: tailscale
+    spec:
+      type: LoadBalancer
+      loadBalancerClass: tailscale
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
