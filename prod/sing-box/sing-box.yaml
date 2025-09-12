@@ -10,7 +10,7 @@ metadata:
     operator.1password.io/item-name: "sing-box"
     operator.1password.io/auto-restart: "true"
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: sing-box
