@@ -147,78 +147,78 @@ spec:
             timestamp_format: unix_us
 
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: vector-agent
-  namespace: telemetry
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: vector
-      version: "0.45.0"
-      sourceRef:
-        kind: HelmRepository
-        name: vector
-        namespace: flux-system
-  values:
-    role: Agent
-    persistence:
-      hostPath:
-        enabled: false
-    customConfig:
-      sources:
-        kubernetes_logs:
-          type: kubernetes_logs
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: vector-agent
+#   namespace: telemetry
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: vector
+#       version: "0.45.0"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: vector
+#         namespace: flux-system
+#   values:
+#     role: Agent
+#     persistence:
+#       hostPath:
+#         enabled: false
+#     customConfig:
+#       sources:
+#         kubernetes_logs:
+#           type: kubernetes_logs
 
-        host_metrics:
-          type: host_metrics
-          collectors:
-            - cpu
-            - memory
-            - network
-            - load
-          namespace: host
-          scrape_interval_secs: 15
-      # transforms:
-      #   transformed_kubernetes_logs:
-      #     type: remap
-      #     inputs:
-      #       - kubernetes_logs
-      #     source: |
-      #       if exists(.metadata) && is_object(.metadata) {
-      #         if exists(.metadata.level) {
-      #           level, err = downcase(.metadata.level)
-      #           if err != null {
-      #             .level = null
-      #           } else {
-      #             .level = level
-      #           }
-      #         }
-      #       }
+#         host_metrics:
+#           type: host_metrics
+#           collectors:
+#             - cpu
+#             - memory
+#             - network
+#             - load
+#           namespace: host
+#           scrape_interval_secs: 15
+#       # transforms:
+#       #   transformed_kubernetes_logs:
+#       #     type: remap
+#       #     inputs:
+#       #       - kubernetes_logs
+#       #     source: |
+#       #       if exists(.metadata) && is_object(.metadata) {
+#       #         if exists(.metadata.level) {
+#       #           level, err = downcase(.metadata.level)
+#       #           if err != null {
+#       #             .level = null
+#       #           } else {
+#       #             .level = level
+#       #           }
+#       #         }
+#       #       }
 
-      #       if exists(.host) && is_string(.host) {
-      #         .service = .host
-      #       }
+#       #       if exists(.host) && is_string(.host) {
+#       #         .service = .host
+#       #       }
 
-      #       .host = "cake.nokiy.net"
+#       #       .host = "cake.nokiy.net"
 
-      sinks:
-        greptimedb_metrics:
-          type: greptimedb_metrics
-          inputs:
-            - "host_metrics"
-          endpoint: "greptimedb-standalone:4001"
-          dbname: "public"
-          new_naming: true
-        greptimedb_logs:
-          type: greptimedb_logs
-          inputs:
-            - "kubernetes_logs"
-          endpoint: "http://greptimedb-standalone:4000"
-          dbname: "public"
-          table: "logs"
-          compression: "none"
-          encoding:
-            timestamp_format: unix_us
+#       sinks:
+#         greptimedb_metrics:
+#           type: greptimedb_metrics
+#           inputs:
+#             - "host_metrics"
+#           endpoint: "greptimedb-standalone:4001"
+#           dbname: "public"
+#           new_naming: true
+#         greptimedb_logs:
+#           type: greptimedb_logs
+#           inputs:
+#             - "kubernetes_logs"
+#           endpoint: "http://greptimedb-standalone:4000"
+#           dbname: "public"
+#           table: "logs"
+#           compression: "none"
+#           encoding:
+#             timestamp_format: unix_us
