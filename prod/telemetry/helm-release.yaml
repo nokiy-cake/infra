@@ -65,3 +65,5 @@ spec:
     extraVolumes:
       - name: grafana-greptimedb-plugin-storage
         emptyDir: {}
+    plugins:
+      - info8fcc-greptimedb-datasource
