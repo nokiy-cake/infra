@@ -107,6 +107,28 @@ spec:
         vector_in:
           type: vector
           address: "0.0.0.0:9000"
+      transforms:
+        transformed_internal_logs:
+          type: remap
+          inputs:
+            - internal_logs
+          source: |
+            if exists(.timestamp) && is_string(.timestamp) {
+              .timestamp = to_timestamp(.timestamp)
+            }
+
+            if exists(.metadata) && is_object(.metadata) {
+              if exists(.metadata.level) && is_string(.metadata.level) {
+                .level = downcase(.metadata.level)
+              }
+            }
+
+            if exists(.host) && is_string(.host) {
+              .service = .host
+            }
+
+            .host = "cake.nokiy.net"
+
       sinks:
         greptimedb_metrics:
           type: greptimedb_metrics
@@ -118,7 +140,7 @@ spec:
         greptimedb_logs:
           type: greptimedb_logs
           inputs:
-            - "*_logs"
+            - "transformed_internal_logs"
           endpoint: "http://greptimedb-standalone:4000"
           dbname: "public"
           table: "logs"
