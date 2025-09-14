@@ -21,3 +21,25 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: telemetry
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: grafana
+      version: "9.4.5"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  values:
+    grafana.ini:
+      auth:
+        anonymous:
+          enabled: true
+          org_role: Admin
