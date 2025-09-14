@@ -46,24 +46,5 @@ spec:
       existingSecret: grafana
       userKey: username
       passwordKey: password
-    image:
-      repository: grafana/grafana
-      tag: 12.1.1
-    extraInitContainers:
-      - name: install-greptimedb-plugin
-        image: grafana/grafana:12.1.1  # 使用与主容器相同的镜像
-        command: ["sh", "-c"]
-        args:
-          - >
-            grafana cli --pluginUrl https://github.com/GreptimeTeam/greptimedb-grafana-datasource/releases/latest/download/info8fcc-greptimedb-datasource.zip plugins install info8fcc-greptimedb-datasource
-        volumeMounts:
-          - name: grafana-plugin-storage
-            mountPath: /var/lib/grafana/plugins
-    extraVolumeMounts:
-      - name: grafana-plugin-storage
-        mountPath: /var/lib/grafana/plugins
-    extraVolumes:
-      - name: grafana-plugin-storage
-        emptyDir: {}
     plugins:
-      - info8fcc-greptimedb-datasource
+      - https://github.com/GreptimeTeam/greptimedb-grafana-datasource/releases/latest/download/info8fcc-greptimedb-datasource.zip
