@@ -164,6 +164,9 @@ spec:
         namespace: flux-system
   values:
     role: Agent
+    persistence:
+      hostPath:
+        enabled: false
     customConfig:
       sources:
         kubernetes_logs:
