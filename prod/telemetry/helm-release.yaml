@@ -107,13 +107,13 @@ spec:
           inputs:
             - "*_metrics"
           endpoint: "greptimedb-standalone:4001"
-          dbname: "metrics"
+          dbname: "public"
           new_naming: true
         greptimedb_logs:
           type: greptimedb_logs
           inputs:
             - "*_logs"
           endpoint: "http://greptimedb-standalone:4000"
-          dbname: "logs"
+          dbname: "public"
           table: "logs"
           compression: "none"
