@@ -47,4 +47,4 @@ spec:
       userKey: username
       passwordKey: password
     plugins:
-      - https://github.com/GreptimeTeam/greptimedb-grafana-datasource/releases/latest/download/info8fcc-greptimedb-datasource.zip
+      - https://github.com/GreptimeTeam/greptimedb-grafana-datasource/releases/latest/download/info8fcc-greptimedb-datasource.zip;info8fcc-greptimedb-datasource
