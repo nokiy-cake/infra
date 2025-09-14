@@ -98,6 +98,7 @@ spec:
         name: vector
         namespace: flux-system
   values:
+    role: Stateless-Aggregator
     customConfig:
       sources:
         internal_logs:
