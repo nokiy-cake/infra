@@ -57,13 +57,13 @@ spec:
           - >
             grafana cli --pluginUrl https://github.com/GreptimeTeam/greptimedb-grafana-datasource/releases/latest/download/info8fcc-greptimedb-datasource.zip plugins install info8fcc-greptimedb-datasource
         volumeMounts:
-          - name: grafana-greptimedb-plugin-storage
-            mountPath: /var/lib/grafana/info8fcc-greptimedb-datasource
+          - name: grafana-plugin-storage
+            mountPath: /var/lib/grafana
     extraVolumeMounts:
-      - name: grafana-greptimedb-plugin-storage
-        mountPath: /var/lib/grafana/info8fcc-greptimedb-datasource
+      - name: grafana-plugin-storage
+        mountPath: /var/lib/grafana
     extraVolumes:
-      - name: grafana-greptimedb-plugin-storage
+      - name: grafana-plugin-storage
         emptyDir: {}
     plugins:
       - info8fcc-greptimedb-datasource
