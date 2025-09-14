@@ -62,3 +62,6 @@ spec:
     extraVolumeMounts:
       - name: grafana-greptimedb-plugin-storage
         mountPath: /var/lib/grafana/info8fcc-greptimedb-datasource
+    extraVolumes:
+      - name: grafana-greptimedb-plugin-storage
+        emptyDir: {}
