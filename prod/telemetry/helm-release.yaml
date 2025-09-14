@@ -73,7 +73,8 @@ spec:
         datasources:
           - name: GreptimeDB
             isDefault: true
-            url: http://greptimedb-standalone:4000
+            jsonData:
+              host: http://greptimedb-standalone:4000
             type: info8fcc-greptimedb-datasource
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
