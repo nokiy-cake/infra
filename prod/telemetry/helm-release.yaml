@@ -42,10 +42,10 @@ spec:
       operator.1password.io/item-path: "vaults/cake.nokiy.net/items/grafana"
       operator.1password.io/item-name: "grafana"
       operator.1password.io/auto-restart: "true"
-    admin:
-      existingSecret: grafana
-      userKey: username
-      passwordKey: password
+    # admin:
+    #   existingSecret: grafana
+    #   userKey: username
+    #   passwordKey: password
     imageRenderer:
       image:
         repository: greptime/grafana-greptimedb
