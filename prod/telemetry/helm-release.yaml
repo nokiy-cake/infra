@@ -14,9 +14,28 @@ spec:
         name: greptime
         namespace: flux-system
   values:
+    annotations:
+      operator.1password.io/item-path: "vaults/cake.nokiy.net/items/greptimedb"
+      operator.1password.io/item-name: "greptimedb"
+      operator.1password.io/auto-restart: "true"
+    objectStorage:
+      s3:
+        root: greptimedb/cake.nokiy.net
+        bucket: telemetry-storage
+        region: auto
+        endpoint: nokiy.net
     persistence:
       size: 5Gi
       storageClass: sata
+  valueFrom:
+    - kind: Secret
+      name: greptimedb
+      valuesKey: ACCESS_KEY
+      targetPath: objectStorage.credentials.accessKeyId
+    - kind: Secret
+      name: greptimedb
+      valuesKey: SECRET_KEY
+      targetPath: objectStorage.credentials.secretAccessKey
   install:
     crds: CreateReplace
   upgrade:
