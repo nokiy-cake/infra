@@ -10,6 +10,6 @@ resources:
 - traefik
 - forgejo-runner
 - sing-box
-- greptime
+- telemetry
 - self-nokiy-net
 # - coder
