@@ -22,31 +22,31 @@ spec:
   upgrade:
     crds: CreateReplace
 ---
-# apiVersion: helm.toolkit.fluxcd.io/v2
-# kind: HelmRelease
-# metadata:
-#   name: grafana
-#   namespace: telemetry
-# spec:
-#   interval: 5m
-#   chart:
-#     spec:
-#       chart: grafana
-#       version: "9.4.5"
-#       sourceRef:
-#         kind: HelmRepository
-#         name: grafana
-#         namespace: flux-system
-#   values:
-#     annotations:
-#       operator.1password.io/item-path: "vaults/cake.nokiy.net/items/grafana"
-#       operator.1password.io/item-name: "grafana"
-#       operator.1password.io/auto-restart: "true"
-#     admin:
-#       existingSecret: grafana
-#       userKey: username
-#       passwordKey: password
-#     imageRenderer:
-#       image:
-#         repository: greptime/grafana-greptimedb
-#         tag: 11.2.5-greptime-v2.0.7
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: telemetry
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: grafana
+      version: "9.4.5"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  values:
+    annotations:
+      operator.1password.io/item-path: "vaults/cake.nokiy.net/items/grafana"
+      operator.1password.io/item-name: "grafana"
+      operator.1password.io/auto-restart: "true"
+    admin:
+      existingSecret: grafana
+      userKey: username
+      passwordKey: password
+    imageRenderer:
+      image:
+        repository: greptime/grafana-greptimedb
+        tag: 11.2.5-greptime-v2.0.7
