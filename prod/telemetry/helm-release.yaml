@@ -38,6 +38,10 @@ spec:
         name: grafana
         namespace: flux-system
   values:
+    annotations:
+      operator.1password.io/item-path: "vaults/cake.nokiy.net/items/grafana"
+      operator.1password.io/item-name: "grafana"
+      operator.1password.io/auto-restart: "true"
     admin:
       existingSecret: grafana
       userKey: username
