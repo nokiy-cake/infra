@@ -27,7 +27,7 @@ spec:
     persistence:
       size: 5Gi
       storageClass: sata
-  valueFrom:
+  valuesFrom:
     - kind: Secret
       name: greptimedb
       valuesKey: ACCESS_KEY
