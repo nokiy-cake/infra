@@ -38,6 +38,10 @@ spec:
         name: grafana
         namespace: flux-system
   values:
+    admin:
+      existingSecret: grafana
+      userKey: username
+      passwordKey: password
     imageRenderer:
       image:
         repository: greptime/grafana-greptimedb
