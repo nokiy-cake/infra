@@ -23,13 +23,13 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: HostSNIRegexp(`^.+\.hk$`)
-      services:
-        - name: sing-box
-          port: 443
     - match: HostSNIRegexp(`^.+\.org$`)
       services:
         - name: sing-box
           port: 444
+    - match: HostSNIRegexp(`^.+\.hk$`)
+      services:
+        - name: sing-box
+          port: 443
   tls:
     passthrough: true
