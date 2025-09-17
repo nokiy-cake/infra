@@ -66,6 +66,44 @@
                 "enabled": true,
                 "padding": true
             }
+        },
+        {
+            "type": "anytls",
+            "tag": "in:anytls",
+            "listen": "::",
+            "listen_port": 444,
+            "users": [
+                {
+                "name": "${NAME1}",
+                "password": "${PASSWORD1}"
+                }
+            ],
+            "padding_scheme": [
+                "stop=8",
+                "0=30-30",
+                "1=100-400",
+                "2=400-500,c,500-1000,c,500-1000,c,500-1000,c,500-1000",
+                "3=9-9,500-1000",
+                "4=500-1000",
+                "5=500-1000",
+                "6=500-1000",
+                "7=500-1000"
+            ],
+            "tls": {
+                "enabled": true,
+                "server_name": "${DOMAIN1}",
+                "reality": {
+                "enabled": true,
+                "handshake": {
+                    "server": "${DOMAIN1}",
+                    "server_port": 443
+                },
+                "private_key": "${PRIVATE_KEY1}",
+                "short_id": [
+                    "${SHORT_ID1}"
+                ]
+                }
+            }
         }
     ],
     "endpoints": [
@@ -135,6 +173,13 @@
                 "auth_user": "warp",
                 "action": "route",
                 "outbound": "out:warp"
+            },
+            {
+                "inbound": [
+                    "in:anytls"
+                ],
+                "action": "route",
+                "outbound": "out:direct"
             }
         ],
         "default_domain_resolver": {
