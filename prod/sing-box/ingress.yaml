@@ -8,9 +8,11 @@ spec:
     app: sing-box
   ports:
     - protocol: TCP
+      name: vless
       port: 443
       targetPort: 443
     - protocol: TCP
+      name: anytls
       port: 444
       targetPort: 444
   type: ClusterIP
