@@ -10,6 +10,9 @@ spec:
     - protocol: TCP
       port: 443
       targetPort: 443
+    - protocol: TCP
+      port: 444
+      targetPort: 444
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRouteTCP
@@ -27,6 +30,6 @@ spec:
     - match: HostSNIRegexp(`^.+\.org$`)
       services:
         - name: sing-box
-          port: 443
+          port: 444
   tls:
     passthrough: true
