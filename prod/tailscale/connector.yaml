@@ -8,3 +8,18 @@ metadata:
 spec:
   hostname: cake
   exitNode: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sing-box
+  namespace: sing-box
+spec:
+  selector:
+    tailscale.com/connector: cake
+  ports:
+    - protocol: UDP
+      name: tailscale
+      port: 41641
+      targetPort: 41641
+  type: LoadBalancer
