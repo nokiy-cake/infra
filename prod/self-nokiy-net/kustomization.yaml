@@ -6,3 +6,4 @@ resources:
 - sync_tailscale_to_cloudflare.yaml
 # - ferretdb.yaml
 - postgres.yaml
+- nokiy.yaml
