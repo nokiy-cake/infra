@@ -16,8 +16,7 @@ metadata:
   namespace: tailscale-system
 spec:
   selector:
-    tailscale.com/parent-resource: cake
-    tailscale.com/parent-resource-type: connector  
+    tailscale.com/connector: cake 
   ports:
     - protocol: UDP
       name: tailscale
