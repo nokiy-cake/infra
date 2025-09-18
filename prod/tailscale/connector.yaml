@@ -23,4 +23,4 @@ spec:
       name: tailscale
       port: 41641
       targetPort: 41641
-  type: NodePort
+  type: LoadBalancer
