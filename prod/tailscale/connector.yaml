@@ -12,8 +12,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sing-box
-  namespace: sing-box
+  name: tailscale-connector
+  namespace: tailscale-system
 spec:
   selector:
     tailscale.com/connector: cake
