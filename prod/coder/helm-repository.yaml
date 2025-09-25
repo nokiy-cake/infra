@@ -7,4 +7,4 @@ spec:
   url: https://github.com/coder/code-server
   interval: 5m
   ref:
-    tag: v4.104.0
+    tag: v4.104.1
