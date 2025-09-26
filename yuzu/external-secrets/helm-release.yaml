@@ -36,7 +36,7 @@ spec:
   values:
     connect:
       tls:
-        enabled: true
+        enabled: false # cannot use https due to https://github.com/external-secrets/external-secrets/issues/4515
         secret: op-connect-tls-secret
   install:
     crds: CreateReplace
