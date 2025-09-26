@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+  namespace: tailscale
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: tailscale-operator
+      version: "1.88.2"
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale
+        namespace: flux-system
+  values:
+    operatorConfig:
+      hostname: yuzu-operator
+      defaultTags:
+        - "tag:yuzu-operator"
+    proxyConfig:
+      defaultTags: "tag:yuzu"
+  valuesFrom:
+    - kind: Secret
+      name: tailscale-secrets
+      valuesKey: client_id
+      targetPath: oauth.clientId
+    - kind: Secret
+      name: tailscale-secrets
+      valuesKey: client_secret
+      targetPath: oauth.clientSecret
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
