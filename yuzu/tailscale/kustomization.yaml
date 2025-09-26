@@ -12,7 +12,5 @@ spec:
   dependsOn:
     - name: tailscale-init
 resources:
-- namespace.yaml
-- secrets.yaml
 - helm-repository.yaml
 - helm-release.yaml
