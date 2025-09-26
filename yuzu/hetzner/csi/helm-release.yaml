@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: hetzner-csi
+      chart: hcloud-csi
       version: "2.18.0"
       sourceRef:
         kind: HelmRepository
