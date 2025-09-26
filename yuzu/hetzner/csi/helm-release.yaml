@@ -14,10 +14,11 @@ spec:
         name: hetzner
         namespace: flux-system
   values:
-    hcloudToken:
-      existingSecret:
-        name: hetzner-secrets
-        key: token
+    controller:
+      hcloudToken:
+        existingSecret:
+          name: hetzner-secrets
+          key: token
   install:
     crds: CreateReplace
   upgrade:
