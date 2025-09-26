@@ -5,6 +5,7 @@ metadata:
 resources:
 - namespace.yaml
 - secrets.yaml
+- helm-repository.yaml
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -12,5 +13,4 @@ spec:
   dependsOn:
     - name: tailscale-init
 resources:
-- helm-repository.yaml
 - helm-release.yaml
