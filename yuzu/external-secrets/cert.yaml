@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: op-connect-tls
+  namespace: external-secrets
+spec:
+  secretName: op-connect-tls-secret
+  issuerRef:
+    name: ca-cluster-issuer
+    kind: ClusterIssuer
+  commonName: op-connect.default.svc.cluster.local
+  dnsNames:
+  - onepassword-connect.external-secrets.svc.cluster.local
+  - onepassword-connect.external-secrets.svc
+  - onepassword-connect.external-secrets
+  - onepassword-connect
