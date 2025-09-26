@@ -34,9 +34,10 @@ spec:
         name: 1password
         namespace: flux-system
   values:
-    tls:
-      enabled: true
-      secret: op-connect-tls-secret
+    connect:
+      tls:
+        enabled: true
+        secret: op-connect-tls-secret
   install:
     crds: CreateReplace
   upgrade:
