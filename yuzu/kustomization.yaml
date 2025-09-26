@@ -4,4 +4,4 @@ resources:
 - flux-system
 - external-secrets
 - cert-manager
-# tailscale managed via dedicated Flux Kustomizations (handled by flux-system/tailscale-*.yaml)
+- tailscale
