@@ -1,6 +1,7 @@
 ```shell
+# 1password need to mannually encode the credentials file to base64
 kubectl create secret generic op-credentials \
-  --from-file=1password-credentials.json=./1password-credentials.json \
+  --from-literal=1password-credentials.json=$(cat ./1password-credentials.json | base64 -w 0) \
   -n external-secrets
 ```
 ```shell
