@@ -38,12 +38,17 @@ spec:
           enabled: true
           className: traefik
           hosts:
-          - host: http.otel.nokiy.net
+          - host: otel.nokiy.net
             paths:
             - path: /
               pathType: ImplementationSpecific
               port: 4317
           - host: grpc.otel.nokiy.net
+            paths:
+            - path: /
+              pathType: ImplementationSpecific
+              port: 4317
+          - host: http.otel.nokiy.net
             paths:
             - path: /
               pathType: ImplementationSpecific
@@ -53,23 +58,23 @@ spec:
             hosts:
               - otel.nokiy.net
               - *.otel.nokiy.net
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: k8s-infra
-  namespace: signoz
-spec:
-  interval: 5m
-  chart:
-    spec:
-      chart: k8s-infra
-      version: "0.14.0"
-      sourceRef:
-        kind: HelmRepository
-        name: signoz
-        namespace: flux-system
-  values:
-    global:
-      storageClass: local-path
-    otelCollectorEndpoint: signoz-otel-collector.signoz.svc.cluster.local:4317
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: k8s-infra
+#   namespace: signoz
+# spec:
+#   interval: 5m
+#   chart:
+#     spec:
+#       chart: k8s-infra
+#       version: "0.14.0"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: signoz
+#         namespace: flux-system
+#   values:
+#     global:
+#       storageClass: local-path
+#     otelCollectorEndpoint: signoz-otel-collector.signoz.svc.cluster.local:4317
