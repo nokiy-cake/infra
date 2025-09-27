@@ -76,8 +76,14 @@ spec:
         namespace: flux-system
   values:
     global:
+      cloud: others
       storageClass: local-path
-    otelCollectorEndpoint: "otel.nokiy.net:443"
-    otelInsecure: false
+    otelCollectorEndpoint: signoz-otel-collector:4317
+    otelInsecure: true
     apiKeyExistingSecretName: signoz-secrets
     apiKeyExistingSecretKey: api_key
+    presets:
+      otlpExporter:
+        enabled: true
+      loggingExporter:
+        enabled: false
