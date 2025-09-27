@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
-  commonName: signoz-nokiy-net
+  commonName: signoz.nokiy.net
   dnsNames:
   - signoz.nokiy.net
