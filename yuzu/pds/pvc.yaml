@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pds-data
+  namespace: pds
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: hcloud-volumes-encrypted
+  resources:
+    requests:
+      storage: 10Gi

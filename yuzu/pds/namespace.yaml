@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pds
+  labels:
+    app.kubernetes.io/name: pds
+    nokiy.net/cluster-secret-store: "production"

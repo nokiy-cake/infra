@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pds
+  namespace: pds
+  labels:
+    app.kubernetes.io/name: pds
+    app.kubernetes.io/instance: pds
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pds
+      app.kubernetes.io/instance: pds
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pds
+        app.kubernetes.io/instance: pds
+    spec:
+      serviceAccountName: pds
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: pds
+          image: ghcr.io/bluesky-social/pds:0.4.182
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: PDS_HOSTNAME
+              value: at.nokiy.net
+            - name: PDS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: pds-secrets
+                  key: JWT_SECRET
+            - name: PDS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pds-secrets
+                  key: ADMIN_PASSWORD
+            - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: pds-secrets
+                  key: PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
+            - name: PDS_EMAIL_SMTP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: pds-secrets
+                  key: EMAIL_SMTP_URL
+            - name: PDS_DATA_DIRECTORY
+              value: /var/lib/pds
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: /var/lib/pds/blobstore
+            - name: PDS_DID_PLC_URL
+              value: https://plc.directory
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: https://bsky.social
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: did:web:bsky.social
+            - name: PDS_REPORT_SERVICE_URL
+              value: https://moderation.bsky.app
+            - name: PDS_REPORT_SERVICE_DID
+              value: did:plc:mod-service
+            - name: PDS_CRAWLERS
+              value: https://bsky.network
+            - name: LOG_ENABLED
+              value: "true"
+            - name: PDS_EMAIL_FROM_ADDRESS
+              value: no-reply@at.nokiy.net
+          ports:
+            - name: pds-port
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/pds
+          livenessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: pds-port
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: pds-port
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pds-data

@@ -8,3 +8,4 @@ resources:
 - hetzner
 - traefik.yaml
 - signoz
+- pds
