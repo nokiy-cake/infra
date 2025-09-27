@@ -15,8 +15,11 @@ spec:
         namespace: flux-system
   values:
     web:  
-      redirectTo:
-        port: websecure
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
     deployment:
       replicas: 2
     ports:
