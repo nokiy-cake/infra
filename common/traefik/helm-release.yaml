@@ -14,15 +14,15 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    web:  
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
-          permanent: true
     deployment:
       replicas: 2
     ports:
+      web:  
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+            permanent: true
       websecure:
         http3:
           enabled: true
