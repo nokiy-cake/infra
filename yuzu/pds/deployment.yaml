@@ -59,19 +59,19 @@ spec:
                   name: pds-secrets
                   key: EMAIL_SMTP_URL
             - name: PDS_DATA_DIRECTORY
-              value: /var/lib/pds
+              value: /pds
             - name: PDS_BLOBSTORE_DISK_LOCATION
-              value: /var/lib/pds/blocks
+              value: /pds/blocks
             - name: PDS_DID_PLC_URL
               value: https://plc.directory
             - name: PDS_BSKY_APP_VIEW_URL
               value: https://bsky.social
             - name: PDS_BSKY_APP_VIEW_DID
-              value: did:web:bsky.social
+              value: did:web:api.bsky.app
             - name: PDS_REPORT_SERVICE_URL
-              value: https://moderation.bsky.app
+              value: https://mod.bsky.app
             - name: PDS_REPORT_SERVICE_DID
-              value: did:plc:mod-service
+              value: did:plc:ar7c4by46qjdydhdevvrndac
             - name: PDS_CRAWLERS
               value: https://bsky.network
             - name: LOG_ENABLED
