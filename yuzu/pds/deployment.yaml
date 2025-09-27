@@ -84,7 +84,7 @@ spec:
               path: /xrpc/_health
               port: 3000
             initialDelaySeconds: 300
-            periodSeconds: 20
+            periodSeconds: 10
             failureThreshold: 3
           resources:
             requests:
