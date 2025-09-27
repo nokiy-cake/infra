@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: hcloud-volumes-encrypted
+  storageClassName: local-path
   resources:
     requests:
       storage: 10Gi
