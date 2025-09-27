@@ -6,4 +6,4 @@ resources:
 - cert-manager
 - tailscale
 - hetzner
-- traefik
+- traefik.yaml
