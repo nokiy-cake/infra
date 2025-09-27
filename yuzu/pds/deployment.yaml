@@ -55,7 +55,7 @@ spec:
             - name: PDS_DID_PLC_URL
               value: https://plc.directory
             - name: PDS_BSKY_APP_VIEW_URL
-              value: https://bsky.social
+              value: https://api.bsky.social
             - name: PDS_BSKY_APP_VIEW_DID
               value: did:web:api.bsky.app
             - name: PDS_REPORT_SERVICE_URL
