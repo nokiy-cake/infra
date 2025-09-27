@@ -10,3 +10,4 @@ resources:
 - signoz
 - pds
 - cnpg.yaml
+- redis-operator.yaml
