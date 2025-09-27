@@ -24,5 +24,5 @@ spec:
     kind: ClusterIssuer
   commonName: otel.nokiy.net
   dnsNames:
-  - otel.nokiy.net
-  - *.otel.nokiy.net
+  - "otel.nokiy.net"
+  - "*.otel.nokiy.net"
