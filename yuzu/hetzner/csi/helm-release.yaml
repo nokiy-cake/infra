@@ -22,12 +22,12 @@ spec:
     storageClasses:
       - name: hcloud-volumes
         defaultStorageClass: false
-        reclaimPolicy: Delete
+        reclaimPolicy: Retain
         annotations:
           resize.autoresize.io/enabled: "true"
       - name: hcloud-volumes-encrypted
         defaultStorageClass: false
-        reclaimPolicy: Delete
+        reclaimPolicy: Retain
         annotations:
           resize.autoresize.io/enabled: "true"
         extraParameters:
