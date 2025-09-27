@@ -7,3 +7,4 @@ resources:
 - tailscale
 - hetzner
 - traefik.yaml
+- signoz
