@@ -18,7 +18,18 @@ spec:
                 name: pds
                 port:
                   number: 80
+    - host: "*.at.nokiy.net"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pds
+                port:
+                  number: 80
   tls:
   - hosts:
-    - at.nokiy.net
+    - "at.nokiy.net"
+    - "*.at.nokiy.net"
     secretName: pds-tls
