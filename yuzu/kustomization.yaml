@@ -9,3 +9,4 @@ resources:
 - traefik.yaml
 - signoz
 - pds
+- cnpg.yaml
