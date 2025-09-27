@@ -19,3 +19,15 @@ spec:
     clickhouse:
       persistence:
         size: 10Gi
+    signoz:
+      ingress:
+        enabled: true
+        className: traefik
+        hosts:
+          - host: signoz.nokiy.net
+            paths:
+              - /
+        tls:
+          - secretName: signoz-tls-secret
+            hosts:
+              - signoz.nokiy.net
