@@ -24,10 +24,12 @@ spec:
         enabled: true
         className: traefik
         hosts:
-          - host: signoz.nokiy.net
-            paths:
-              - /
+        - host: signoz.nokiy.net
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+              port: 8080
         tls:
-          - secretName: signoz-tls
-            hosts:
-              - signoz.nokiy.net
+        - secretName: signoz-tls
+          hosts:
+            - signoz.nokiy.net
