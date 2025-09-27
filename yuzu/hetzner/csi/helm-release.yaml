@@ -19,6 +19,20 @@ spec:
         existingSecret:
           name: hetzner-secrets
           key: token
+    storageClasses:
+      - name: hcloud-volumes
+        defaultStorageClass: false
+        reclaimPolicy: Delete
+        annotations:
+          resize.autoresize.io/enabled: "true"
+      - name: hcloud-volumes-encrypted
+        defaultStorageClass: false
+        reclaimPolicy: Delete
+        annotations:
+          resize.autoresize.io/enabled: "true"
+        extraParameters:
+          csi.storage.k8s.io/node-publish-secret-name: hetzner-secrets
+          csi.storage.k8s.io/node-publish-secret-namespace: hetzner
   install:
     crds: CreateReplace
   upgrade:
