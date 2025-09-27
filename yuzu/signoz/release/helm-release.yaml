@@ -78,6 +78,8 @@ spec:
     global:
       cloud: others
       storageClass: local-path
+      clusterName: yuzu.nokiy.net
+      deploymentEnvironment: production
     otelCollectorEndpoint: signoz-otel-collector:4317
     otelInsecure: true
     apiKeyExistingSecretName: signoz-secrets
