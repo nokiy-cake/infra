@@ -21,20 +21,10 @@ spec:
         app.kubernetes.io/instance: pds
     spec:
       serviceAccountName: pds
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
       containers:
         - name: pds
-          image: ghcr.io/bluesky-social/pds:0.4.169
+          image: ghcr.io/bluesky-social/pds:0.4.182
           imagePullPolicy: IfNotPresent
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
           env:
             - name: PDS_HOSTNAME
               value: at.nokiy.net
