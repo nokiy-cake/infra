@@ -77,7 +77,7 @@ spec:
   values:
     global:
       storageClass: local-path
-    otelCollectorEndpoint: otel.nokiy.net:443
+    otelCollectorEndpoint: "otel.nokiy.net:443"
     otelInsecure: false
     apiKeyExistingSecretName: signoz-secrets
     apiKeyExistingSecretKey: api_key
