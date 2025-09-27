@@ -87,7 +87,14 @@ spec:
             httpGet:
               path: /xrpc/_health
               port: 3000
-            initialDelaySeconds: 300
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: 3000
+            initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 3
           resources:
