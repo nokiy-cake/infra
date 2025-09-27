@@ -28,7 +28,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: pds
-          image: ghcr.io/bluesky-social/pds:0.4.182
+          image: ghcr.io/bluesky-social/pds:0.4.169
           imagePullPolicy: IfNotPresent
           securityContext:
             allowPrivilegeEscalation: false
