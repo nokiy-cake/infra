@@ -28,6 +28,8 @@ spec:
           env:
             - name: PDS_HOSTNAME
               value: at.nokiy.net
+            - name: PDS_PORT
+              value: "3000"
             - name: PDS_SERVICE_NAME
               value: "NOKIY PDS"
             - name: PDS_JWT_SECRET
