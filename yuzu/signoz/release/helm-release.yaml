@@ -28,6 +28,6 @@ spec:
             paths:
               - /
         tls:
-          - secretName: signoz-tls-secret
+          - secretName: signoz-tls
             hosts:
               - signoz.nokiy.net

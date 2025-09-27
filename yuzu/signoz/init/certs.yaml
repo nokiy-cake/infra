@@ -4,7 +4,7 @@ metadata:
   name: signoz-tls
   namespace: signoz
 spec:
-  secretName: signoz-tls-secret
+  secretName: signoz-tls
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
