@@ -76,6 +76,8 @@ spec:
               value: https://bsky.network
             - name: LOG_ENABLED
               value: "true"
+            - name: LOG_LEVEL
+              value: debug
             - name: PDS_EMAIL_FROM_ADDRESS
               value: no-reply@at.nokiy.net
             - name: PDS_BLOB_UPLOAD_LIMIT
