@@ -5,7 +5,7 @@ resources:
 - k3s.yaml
 - external-secrets.yaml
 - cert-manager.yaml
-- tailscale
+- tailscale.yaml
 - hetzner.yaml
 - traefik.yaml
 - signoz

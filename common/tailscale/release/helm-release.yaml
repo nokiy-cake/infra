@@ -13,13 +13,6 @@ spec:
         kind: HelmRepository
         name: tailscale
         namespace: flux-system
-  values:
-    operatorConfig:
-      hostname: yuzu-operator
-      defaultTags:
-        - "tag:yuzu-operator"
-    proxyConfig:
-      defaultTags: "tag:yuzu"
   valuesFrom:
     - kind: Secret
       name: tailscale-secrets
