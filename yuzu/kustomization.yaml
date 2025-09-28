@@ -8,9 +8,9 @@ resources:
 - tailscale.yaml
 - hetzner.yaml
 - traefik.yaml
+- cnpg.yaml
+- redis-operator.yaml
+- velero.yaml
 - signoz
 - pds
 # - gotosocial
-- cnpg.yaml
-- redis-operator.yaml
-- velero
