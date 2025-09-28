@@ -26,3 +26,5 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
+  dependsOn:
+    - name: k3s
