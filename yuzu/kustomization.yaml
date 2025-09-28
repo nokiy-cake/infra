@@ -5,12 +5,12 @@ resources:
 - k3s.yaml
 - hetzner.yaml
 - traefik.yaml
-- external-secrets.yaml
-- cert-manager.yaml
-- tailscale.yaml
-- velero.yaml
-- cnpg.yaml
-- redis-operator.yaml
-- signoz
-- pds
+# - external-secrets.yaml
+# - cert-manager.yaml
+# - tailscale.yaml
+# - velero.yaml
+# - cnpg.yaml
+# - redis-operator.yaml
+# - signoz
+# - pds
 # - gotosocial
