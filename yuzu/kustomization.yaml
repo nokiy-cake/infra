@@ -12,3 +12,4 @@ resources:
 # - gotosocial
 - cnpg.yaml
 - redis-operator.yaml
+- local-csi.yaml
