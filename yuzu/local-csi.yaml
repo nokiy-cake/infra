@@ -6,5 +6,6 @@ provisioner: rancher.io/local-path
 parameters:
   nodePath: /data
   pathPattern: "{{ .PVC.Namespace }}/{{ .PVC.Name }}"
+allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
