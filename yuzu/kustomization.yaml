@@ -9,8 +9,8 @@ resources:
 - cert-manager.yaml
 # - tailscale.yaml
 # - velero.yaml
-# - cnpg.yaml
-# - redis-operator.yaml
+- cnpg.yaml
+- redis-operator.yaml
 # - signoz
 # - pds
 # - gotosocial
