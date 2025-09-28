@@ -7,7 +7,7 @@ resources:
   - namespace.yaml
   - serviceaccount.yaml
   - secret.yaml
-  # - pvc.yaml
+  - pvc.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
