@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: k3s-csi
+  name: k3s
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./common/k3s/csi
+  path: ./common/k3s
   prune: true
   sourceRef:
     kind: GitRepository
