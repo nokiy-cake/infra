@@ -4,7 +4,7 @@ metadata:
   name: hetzner-init
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/hetzner/init
   prune: true
   sourceRef:
@@ -21,7 +21,7 @@ metadata:
   name: hetzner-secrets
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/hetzner/secrets
   prune: true
   sourceRef:
@@ -39,7 +39,7 @@ metadata:
   name: hetzner-csi
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/hetzner/csi
   prune: true
   sourceRef:

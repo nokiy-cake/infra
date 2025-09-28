@@ -4,7 +4,7 @@ metadata:
   name: k3s
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/k3s
   prune: true
   sourceRef:

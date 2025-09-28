@@ -6,7 +6,7 @@ metadata:
 spec:
   dependsOn:
     - name: k3s
-  interval: 5m
+  interval: 1m
   path: ./common/cert-manager/init
   prune: true
   sourceRef:
@@ -23,7 +23,7 @@ metadata:
 spec:
   dependsOn:
     - name: k3s
-  interval: 5m
+  interval: 1m
   path: ./common/cert-manager/release
   prune: true
   sourceRef:
@@ -41,7 +41,7 @@ spec:
   dependsOn:
     - name: k3s
     - name: external-secrets-config
-  interval: 5m
+  interval: 1m
   path: ./common/cert-manager/letsencrypt
   prune: true
   sourceRef:

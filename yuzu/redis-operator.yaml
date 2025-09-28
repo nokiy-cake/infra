@@ -4,7 +4,7 @@ metadata:
   name: redis-operator
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/redis-operator
   prune: true
   sourceRef:

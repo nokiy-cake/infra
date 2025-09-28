@@ -39,7 +39,7 @@ metadata:
   name: tailscale-release
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1m
   path: ./common/tailscale/release
   prune: true
   sourceRef:
