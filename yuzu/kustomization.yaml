@@ -5,8 +5,8 @@ resources:
 - k3s.yaml
 - hetzner.yaml
 - traefik.yaml
-# - external-secrets.yaml
-# - cert-manager.yaml
+- external-secrets.yaml
+- cert-manager.yaml
 # - tailscale.yaml
 # - velero.yaml
 # - cnpg.yaml
