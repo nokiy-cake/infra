@@ -9,7 +9,7 @@ resources:
 - hetzner
 - traefik.yaml
 - signoz
-# - pds
+- pds
 # - gotosocial
 - cnpg.yaml
 - redis-operator.yaml
