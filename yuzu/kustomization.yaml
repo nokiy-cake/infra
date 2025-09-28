@@ -6,7 +6,7 @@ resources:
 - external-secrets.yaml
 - cert-manager.yaml
 - tailscale
-- hetzner
+- hetzner.yaml
 - traefik.yaml
 - signoz
 - pds
