@@ -21,8 +21,6 @@ metadata:
   name: cert-manager-release
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: k3s
   interval: 1m
   path: ./common/cert-manager/release
   prune: true
@@ -31,6 +29,26 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
+  dependsOn:
+    - name: cert-manager-init
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cert-manager-secrets
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/cert-manager/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: cert-manager-release
+    - name: external-secrets-config
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -38,9 +56,6 @@ metadata:
   name: cert-manager-letsencrypt
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: k3s
-    - name: external-secrets-config
   interval: 1m
   path: ./common/cert-manager/letsencrypt
   prune: true
@@ -49,3 +64,5 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
+  dependsOn:
+    - name: cert-manager-secrets
