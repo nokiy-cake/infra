@@ -56,5 +56,8 @@ spec:
         - op: add
           path: /spec/values/configuration/volumeSnapshotLocation/0/prefix
           value: yuzu-volumes
+      target:
+        kind: HelmRelease
+        name: velero
   dependsOn:
     - name: velero-secrets
