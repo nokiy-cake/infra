@@ -3,14 +3,14 @@ kind: Kustomization
 resources:
 - flux-system
 - k3s.yaml
+- hetzner.yaml
+- traefik.yaml
 - external-secrets.yaml
 - cert-manager.yaml
 - tailscale.yaml
-- hetzner.yaml
-- traefik.yaml
+- velero.yaml
 - cnpg.yaml
 - redis-operator.yaml
-- velero.yaml
 - signoz
 - pds
 # - gotosocial
