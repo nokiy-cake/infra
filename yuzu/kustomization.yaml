@@ -8,8 +8,8 @@ resources:
 - hetzner
 - traefik.yaml
 - signoz
-- pds
+# - pds
 # - gotosocial
 - cnpg.yaml
 - redis-operator.yaml
-- local-csi.yaml
+# - local-csi.yaml
