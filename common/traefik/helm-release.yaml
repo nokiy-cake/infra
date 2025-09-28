@@ -14,8 +14,8 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    deployment:
-      replicas: 2
+    # deployment:
+    #   replicas: 1
     ports:
       web:  
         redirections:
