@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
 - flux-system
 - k3s.yaml
-- external-secrets
+- external-secrets.yaml
 - cert-manager
 - tailscale
 - hetzner
