@@ -13,3 +13,4 @@ resources:
 # - gotosocial
 - cnpg.yaml
 - redis-operator.yaml
+- velero
