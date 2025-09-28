@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: yuzu@auto.nokiy.net
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-account-key
+    solvers:
+    - selector:
+        dnsZones:
+        - 'nokiy.net'
+      dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cloudflare-secrets
+            key: token

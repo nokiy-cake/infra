@@ -4,7 +4,7 @@ resources:
 - flux-system
 - k3s.yaml
 - external-secrets.yaml
-- cert-manager
+- cert-manager.yaml
 - tailscale
 - hetzner
 - traefik.yaml
