@@ -5,9 +5,10 @@ resources:
 - external-secrets
 - cert-manager
 - tailscale
-- hetzner
+# - hetzner
 - traefik.yaml
 - signoz
 - pds
+# - gotosocial
 - cnpg.yaml
 - redis-operator.yaml
