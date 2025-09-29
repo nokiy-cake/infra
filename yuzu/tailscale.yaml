@@ -54,6 +54,9 @@ spec:
         namespace: tailscale
       patch: |-
         - op: add
+          path: /spec/values
+          value: {}
+        - op: add
           path: /spec/values/operatorConfig
           value: {}
         - op: add
