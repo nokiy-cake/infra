@@ -48,17 +48,24 @@ spec:
   timeout: 2m
   wait: true
   patches:
-    - patch: |
+    - target:
+        kind: HelmRelease
+        name: tailscale-operator
+        namespace: tailscale
+      patch: |
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: tailscale-operator
+          namespace: tailscale
         spec:
           values:
             operatorConfig:
               hostname: yuzu-operator
               defaultTags:
-                - "tag:yuzu-operator"
+                - tag:yuzu-operator
             proxyConfig:
-              defaultTags: "tag:yuzu"
-      target:
-        kind: HelmRelease
-        name: tailscale-operator
+              defaultTags:
+                - tag:yuzu
   dependsOn:
     - name: tailscale-secrets
