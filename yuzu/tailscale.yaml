@@ -71,7 +71,6 @@ spec:
           value: {}
         - op: add
           path: /spec/values/proxyConfig/defaultTags
-          value:
-            - tag:yuzu
+          value: tag:yuzu
   dependsOn:
     - name: tailscale-secrets
