@@ -52,20 +52,23 @@ spec:
         kind: HelmRelease
         name: tailscale-operator
         namespace: tailscale
-      patch: |
-        apiVersion: helm.toolkit.fluxcd.io/v2
-        kind: HelmRelease
-        metadata:
-          name: tailscale-operator
-          namespace: tailscale
-        spec:
-          values:
-            operatorConfig:
-              hostname: yuzu-operator
-              defaultTags:
-                - tag:yuzu-operator
-            proxyConfig:
-              defaultTags:
-                - tag:yuzu
+      patch:
+        - op: add
+          path: /spec/values/operatorConfig
+          value: {}
+        - op: add
+          path: /spec/values/operatorConfig/hostname
+          value: yuzu-operator
+        - op: add
+          path: /spec/values/operatorConfig/defaultTags
+          value:
+            - tag:yuzu-operator
+        - op: add
+          path: /spec/values/proxyConfig
+          value: {}
+        - op: add
+          path: /spec/values/proxyConfig/defaultTags
+          value:
+            - tag:yuzu
   dependsOn:
     - name: tailscale-secrets
