@@ -47,13 +47,12 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
-  patchesJson6902:
+  patches:
     - target:
-        version: v2
         kind: HelmRelease
         name: tailscale-operator
         namespace: tailscale
-      patch:
+      patch: |-
         - op: add
           path: /spec/values/operatorConfig
           value: {}
