@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: huggingface-daily-papers
-          image: ghcr.io/reonokiy/telegram-huggingface-daily-papers-bot:latest@sha256:aa258cda6ac517357c5cb4c55a0636000e15b6e07341f96361fe6a19c45d846d
+          image: ghcr.io/reonokiy/telegram-huggingface-daily-papers-bot:latest@sha256:a0146faf1595cc5b79c91cf41ae88b4969ea0d8f61b2da9e7a3d1ebba1dc59f5
           envFrom:
             - secretRef:
                 name: huggingface-daily-papers-secrets
