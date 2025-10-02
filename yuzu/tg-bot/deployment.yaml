@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: huggingface-daily-papers
+  namespace: tg-bot
+  labels:
+    app.kubernetes.io/name: huggingface-daily-papers
+    app.kubernetes.io/instance: huggingface-daily-papers
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: huggingface-daily-papers
+      app.kubernetes.io/instance: huggingface-daily-papers
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: huggingface-daily-papers
+        app.kubernetes.io/instance: huggingface-daily-papers
+    spec:
+      containers:
+        - name: huggingface-daily-papers
+          image: ghcr.io/reonokiy/telegram-huggingface-daily-papers-bot:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: huggingface-daily-papers-secrets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: huggingface-daily-papers-data

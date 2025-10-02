@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: huggingface-daily-papers-data
+  namespace: tg-bot
+  labels:
+    app.kubernetes.io/name: huggingface-daily-papers
+    app.kubernetes.io/part-of: huggingface-daily-papers
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
