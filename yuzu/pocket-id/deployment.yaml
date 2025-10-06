@@ -28,12 +28,11 @@ spec:
           restartPolicy: Always
           args:
             - replicate
-            - -config=/etc/litestream/litestream.yml
           volumeMounts:
             - name: data
               mountPath: /data
             - name: litestream-config
-              mountPath: /etc/litestream
+              mountPath: /etc/litestream.yml
               subPath: litestream.yml
               readOnly: true
           resources:
