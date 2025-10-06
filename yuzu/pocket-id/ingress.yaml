@@ -4,7 +4,7 @@ metadata:
   name: pocket-id
   namespace: pocket-id
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
   rules:
