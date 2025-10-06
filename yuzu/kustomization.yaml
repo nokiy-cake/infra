@@ -15,4 +15,4 @@ resources:
 # - pds
 # - gotosocial
 - tg-bot
-# - pocket-id
+- pocket-id
