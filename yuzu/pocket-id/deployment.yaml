@@ -51,8 +51,6 @@ spec:
               containerPort: 1411
               protocol: TCP
           env:
-            - name: APP_NAME
-              value: "NOKIY ID"
             - name: APP_URL
               value: "https://id.nokiy.net"
             - name: TRUST_PROXY
