@@ -20,7 +20,10 @@ spec:
       size: 5Gi
     ingress:
       enabled: true
+      host: skypilot.nokiy.net
       ingressClassName: tailscale
-      annotations
+      annotations:
+        
+
     ingress-nginx:
       enabled: false
