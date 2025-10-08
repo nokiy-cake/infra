@@ -16,3 +16,4 @@ resources:
 # - gotosocial
 - tg-bot
 - pocket-id
+- vaultwarden
