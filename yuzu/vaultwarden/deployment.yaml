@@ -12,8 +12,8 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: pocket-id
-      app.kubernetes.io/instance: pocket-id
+      app.kubernetes.io/name: vaultwarden
+      app.kubernetes.io/instance: vaultwarden
   template:
     metadata:
       labels:
