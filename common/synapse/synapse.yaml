@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse
+  namespace: synapse
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/instance: synapse
+    app.kubernetes.io/component: homeserver
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: synapse
+      app.kubernetes.io/instance: synapse
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: synapse
+        app.kubernetes.io/instance: synapse
+        app.kubernetes.io/component: homeserver
+    spec:
+      containers:
+        - name: synapse
+          image: ghcr.io/element-hq/synapse:v1.134.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SYNAPSE_CONFIG_PATH
+              value: /data/homeserver.yaml
+            - name: UID
+              value: "1000"
+            - name: GID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 8008
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /data/homeserver.yaml
+              subPath: homeserver.yaml
+              readOnly: true
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: synapse-data
+        - name: config
+          secret:
+            secretName: synapse-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse
+  namespace: synapse
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/instance: synapse
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/instance: synapse
+  ports:
+    - name: http
+      port: 8008
+      targetPort: http
+      protocol: TCP

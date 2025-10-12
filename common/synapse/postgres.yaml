@@ -1,0 +1,42 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: synapse-postgres
+  namespace: synapse
+spec:
+  instances: 1
+  storage:
+    size: 10Gi
+  bootstrap:
+    initdb:
+      database: synapse
+      owner: synapse
+      secret:
+        name: synapse-postgres-credentials
+      encoding: UTF-8
+      localeCollate: C
+      localeCType: C
+  monitoring:
+    enablePodMonitor: false
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: synapse-db
+  namespace: synapse
+spec:
+  name: synapse
+  owner: synapse
+  cluster:
+    name: synapse-postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mas-db
+  namespace: synapse
+spec:
+  name: mas
+  owner: mas
+  cluster:
+    name: synapse-postgres
