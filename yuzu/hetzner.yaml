@@ -14,6 +14,7 @@ spec:
   wait: true
   dependsOn:
     - name: k3s
+    - name: cilium
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

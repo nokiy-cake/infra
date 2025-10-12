@@ -14,6 +14,7 @@ spec:
   wait: true
   dependsOn:
     - name: k3s
+    - name: cilium
   patches:
     - target:
         kind: Service
