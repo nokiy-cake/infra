@@ -13,6 +13,9 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
+  values:
+    operator:
+      replicas: 1
   install:
     crds: CreateReplace
   upgrade:
