@@ -11,6 +11,7 @@ resources:
 - velero.yaml
 - cnpg.yaml
 - redis-operator.yaml
+- simple-backup.yaml
 # - signoz
 # - pds
 # - gotosocial

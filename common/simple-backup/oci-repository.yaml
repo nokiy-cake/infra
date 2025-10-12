@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: simple-backup-operator
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: oci://ghcr.io/reonokiy/simple-backup-operator-charts
+  ref:
+    tag: '0.1.0'

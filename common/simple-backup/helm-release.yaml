@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: simple-backup-operator
+  namespace: simple-backup
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: simple-backup-operator
+      version: '0.1.0'
+      sourceRef:
+        kind: OCIRepository
+        name: simple-backup-operator
+        namespace: flux-system
