@@ -1,10 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: vaultwarden
+  name: vaultwarden-public
   namespace: vaultwarden
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-public-only@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
@@ -22,3 +23,29 @@ spec:
   - hosts:
     - "vault.nokiy.net"
     secretName: vaultwarden-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vaultwarden-tailscale
+  namespace: vaultwarden
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-tailscale-only@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: vaultwarden.i.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vaultwarden
+                port:
+                  number: 80
+  tls:
+  - hosts:
+    - "vaultwarden.i.nokiy.net"
+    secretName: vaultwarden-tailscale-tls

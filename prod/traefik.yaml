@@ -12,8 +12,6 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
-  dependsOn:
-    - name: k3s
   patches:
     - target:
         kind: Service
@@ -22,4 +20,4 @@ spec:
       patch: |-
         - op: replace
           path: /metadata/annotations/tailscale.com~1hostname
-          value: traefik-yuzu
+          value: traefik-prod

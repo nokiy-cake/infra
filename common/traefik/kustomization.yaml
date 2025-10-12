@@ -4,3 +4,6 @@ resources:
 - namespace.yaml
 - helm-repository.yaml
 - helm-release.yaml
+- tailscale-proxy.yaml
+- middleware-tailscale.yaml
+- middleware-public.yaml

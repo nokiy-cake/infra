@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: tailscale-only
+  namespace: traefik
+spec:
+  ipWhiteList:
+    sourceRange:
+      - 100.64.0.0/10
