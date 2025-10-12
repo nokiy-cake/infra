@@ -5,14 +5,10 @@ metadata:
   namespace: simple-backup
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: simple-backup-operator
-      version: '0.1.0'
-      sourceRef:
-        kind: OCIRepository
-        name: simple-backup-operator
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: simple-backup-operator
+    namespace: flux-system
   install:
     crds: CreateReplace
   upgrade:
