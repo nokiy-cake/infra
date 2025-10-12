@@ -35,7 +35,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: vaultwarden.i.nokiy.net
+    - host: vault.i.nokiy.net
       http:
         paths:
           - path: /
@@ -47,5 +47,5 @@ spec:
                   number: 80
   tls:
   - hosts:
-    - "vaultwarden.i.nokiy.net"
-    secretName: vaultwarden-tailscale-tls
+    - "vault.i.nokiy.net"
+    secretName: vaultwarden-internal-tls
