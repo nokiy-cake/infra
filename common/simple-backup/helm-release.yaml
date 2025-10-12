@@ -13,3 +13,7 @@ spec:
         kind: OCIRepository
         name: simple-backup-operator
         namespace: flux-system
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
