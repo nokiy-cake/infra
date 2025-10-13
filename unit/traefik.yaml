@@ -1,0 +1,26 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/traefik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: k3s
+    - name: cilium
+  patches:
+    - target:
+        kind: Service
+        name: traefik-tailscale
+        namespace: traefik
+      patch: |-
+        - op: replace
+          path: /metadata/annotations/tailscale.com~1hostname
+          value: traefik-unit

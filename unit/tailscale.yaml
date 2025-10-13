@@ -1,0 +1,76 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-init
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/tailscale/init
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: k3s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-secrets
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/tailscale/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: tailscale-init
+    - name: external-secrets-config
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-release
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/tailscale/release
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  patches:
+    - target:
+        kind: HelmRelease
+        name: tailscale-operator
+        namespace: tailscale
+      patch: |-
+        - op: add
+          path: /spec/values
+          value: {}
+        - op: add
+          path: /spec/values/operatorConfig
+          value: {}
+        - op: add
+          path: /spec/values/operatorConfig/hostname
+          value: unit-operator
+        - op: add
+          path: /spec/values/operatorConfig/defaultTags
+          value:
+            - tag:unit-operator
+        - op: add
+          path: /spec/values/proxyConfig
+          value: {}
+        - op: add
+          path: /spec/values/proxyConfig/defaultTags
+          value: tag:unit
+  dependsOn:
+    - name: tailscale-secrets
