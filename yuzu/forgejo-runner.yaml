@@ -1,0 +1,26 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: forgejo-runner
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/forgejo-runner
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: k3s
+    - name: external-secrets-config
+  patches:
+    - target:
+        kind: HelmRelease
+        name: forgejo-runner
+        namespace: forgejo-runner
+      patch: |-
+        - op: replace
+          path: /spec/values/runner/config/name
+          value: yuzu-runner
