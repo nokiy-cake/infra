@@ -10,3 +10,4 @@ resources:
 - tailscale.yaml
 - cnpg.yaml
 - redis-operator.yaml
+- forgejo-runner.yaml
