@@ -8,7 +8,7 @@ resources:
 - cnpg
 # - kubeblocks
 - traefik.yaml
-- forgejo-runner
+# - forgejo-runner
 - sing-box
 - telemetry
 - self-nokiy-net
