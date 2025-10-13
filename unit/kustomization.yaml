@@ -8,6 +8,7 @@ resources:
 - external-secrets.yaml
 - cert-manager.yaml
 - tailscale.yaml
+- simple-backup.yaml
 - cnpg.yaml
 - redis-operator.yaml
 - forgejo-runner.yaml
