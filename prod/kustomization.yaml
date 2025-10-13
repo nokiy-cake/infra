@@ -10,6 +10,6 @@ resources:
 - traefik.yaml
 # - forgejo-runner
 - sing-box
-- telemetry
-- self-nokiy-net
+# - telemetry
+# - self-nokiy-net
 # - coder
