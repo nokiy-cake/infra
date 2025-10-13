@@ -10,6 +10,9 @@ spec:
     name: forgejo-runner
     namespace: flux-system
   values:
+    kubectl:
+      image:
+        tag: latest
     runner:
       config:
         name: "cake-nokiy-net"
