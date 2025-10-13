@@ -15,6 +15,7 @@ spec:
   dependsOn:
     - name: k3s
     - name: cilium
+    - name: tailscale
   patches:
     - target:
         kind: Service
