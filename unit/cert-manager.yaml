@@ -35,6 +35,23 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: cert-manager-issuer
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/cert-manager/issuer
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: cert-manager-release
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cert-manager-secrets
   namespace: flux-system
 spec:
@@ -47,7 +64,7 @@ spec:
   timeout: 2m
   wait: true
   dependsOn:
-    - name: cert-manager-release
+    - name: cert-manager-issuer
     - name: external-secrets-config
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
