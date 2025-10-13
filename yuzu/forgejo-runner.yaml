@@ -24,3 +24,6 @@ spec:
         - op: replace
           path: /spec/values/runner/config/name
           value: yuzu-runner
+        - op: add
+          path: /spec/values/runner/config/file/runner/labels/-
+          value: "arm64:docker://git.nokiy.net/actions/runner:latest"
