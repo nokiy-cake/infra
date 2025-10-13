@@ -58,4 +58,4 @@ spec:
       patch: |-
         - op: replace
           path: /metadata/annotations/tailscale.com~1hostname
-          value: traefik-unit
+          value: unit-traefik
