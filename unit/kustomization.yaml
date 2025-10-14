@@ -11,4 +11,4 @@ resources:
 - simple-backup.yaml
 - cnpg.yaml
 - redis-operator.yaml
-- forgejo-runner.yaml
+# - forgejo-runner.yaml
