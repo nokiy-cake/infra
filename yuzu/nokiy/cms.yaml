@@ -47,26 +47,6 @@ spec:
       labels:
         app: nokiy-cms
     spec:
-      initContainers:
-      - name: init-config
-        image: busybox:1.36
-        imagePullPolicy: Always
-        command: ["sh", "-c"]
-        args:
-          - |
-            cat <<EOF > /config/nokiy.config.yaml
-            log_level: info
-            db:
-              uri: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-            EOF
-            echo "Configuration file created successfully"
-            cat /config/nokiy.config.yaml
-        volumeMounts:
-        - name: config-volume
-          mountPath: /config
-        envFrom:
-        - secretRef:
-            name: nokiy-cms-secrets
       containers:
       - name: nokiy-cms
         image: git.nokiy.net/reonokiy/nokiy:main
@@ -90,4 +70,4 @@ spec:
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi

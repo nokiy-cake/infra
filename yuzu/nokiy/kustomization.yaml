@@ -4,3 +4,4 @@ namespace: nokiy
 resources:
   - namespace.yaml
   - postgres.yaml
+  - redis.yaml
