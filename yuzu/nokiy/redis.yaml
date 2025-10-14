@@ -4,7 +4,7 @@ metadata:
   name: redis
 spec:
   kubernetesConfig:
-    image: redis:8
+    image: quay.io/opstree/redis:v8.2.2
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -14,7 +14,16 @@ spec:
         cpu: 500m
         memory: 512Mi
   redisExporter:
-    enabled: false
+    enabled: true
+    image: quay.io/opstree/redis-exporter:v1.78.0
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
   storage:
     volumeClaimTemplate:
       spec:
