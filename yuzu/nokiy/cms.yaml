@@ -14,12 +14,30 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
-      config.toml: |
-        DB_HOST: "pooler-postgres-rw"
-        DB_PORT: "5432"
-        DB_NAME: "documents"
-        DB_USERNAME: "{{ .username }}"
-        DB_PASSWORD: "{{ .password }}"
+      data:
+        nokiy.config.toml: |
+          log = "Info"
+
+          [api]
+          url = "http://localhost:8080"
+
+          [postgres]
+          uri = "postgres://{{ .username }}:{{ .password }}@pooler-postgres-rw:5432/documents"
+
+          [redis]
+          uri = "redis://redis:6379/0"
+
+          [cache]
+          type = "fs"
+          root = "/cache"
+
+          [archive]
+          type = "s3"
+          endpoint = "http://localhost:9000"
+          access_key_id = "minioadmin"
+          secret_access_key = "minioadmin"
+          bucket = "nokiy-archive"
+          region = "us-east-1"
   data:
     - secretKey: username
       remoteRef:
@@ -31,13 +49,12 @@ spec:
         property: DB_PASSWORD
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: nokiy-cms
   labels:
     app: nokiy-cms
 spec:
-  serviceName: nokiy-cms
   replicas: 2
   selector:
     matchLabels:
@@ -56,18 +73,16 @@ spec:
           name: http
         args: ["server", "start"]
         volumeMounts:
-        - name: config-volume
-          mountPath: /app
-        - name: data
-          mountPath: /data
+        - name: config
+          mountPath: /app/nokiy.config.toml
+          subPath: nokiy.config.toml
+          readOnly: true
+        - name: cache
+          mountPath: /cache
       volumes:
-      - name: config-volume
-        emptyDir: {}
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 1Gi
+      - name: config
+        secret:
+          secretName: nokiy-cms-secrets
+      - name: cache
+        emptyDir:
+          sizeLimit: 5Gi
