@@ -13,10 +13,14 @@ spec:
       ensure: present
       login: true
       superuser: false
+      passwordSecret:
+        name: postgres-nokiy-documents
     - name: nokiy-auth
       ensure: present
       login: true
       superuser: false
+      passwordSecret:
+        name: postgres-nokiy-auth
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
