@@ -13,7 +13,7 @@ resources:
 - cnpg.yaml
 - redis-operator.yaml
 - simple-backup.yaml
-- forgejo-runner.yaml
+# - forgejo-runner.yaml
 # - signoz
 # - pds
 # - gotosocial
