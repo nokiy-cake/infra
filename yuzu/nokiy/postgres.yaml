@@ -9,7 +9,11 @@ spec:
     storageClass: local-path
   managed:
     roles:
-    - name: nokiy
+    - name: nokiy-documents
+      ensure: present
+      login: true
+      superuser: false
+    - name: nokiy-auth
       ensure: present
       login: true
       superuser: false
@@ -35,7 +39,7 @@ metadata:
   name: nokiy-documents
 spec:
   name: documents
-  owner: nokiy
+  owner: nokiy-documents
   cluster:
     name: postgres
 ---
@@ -45,6 +49,6 @@ metadata:
   name: nokiy-auth
 spec:
   name: auth
-  owner: nokiy
+  owner: nokiy-auth
   cluster:
     name: postgres
