@@ -16,7 +16,8 @@ spec:
       engineVersion: v2
       data:
         nokiy.config.toml: |
-          log = "Info"
+          [log]
+          level = "info"
 
           [api]
           url = "http://localhost:8080"
@@ -41,12 +42,12 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: nokiy-cms
-        property: DB_USERNAME
+        key: postgres-nokiy-documents
+        property: username
     - secretKey: password
       remoteRef:
-        key: nokiy-cms
-        property: DB_PASSWORD
+        key: postgres-nokiy-documents
+        property: password
 ---
 apiVersion: apps/v1
 kind: Deployment
