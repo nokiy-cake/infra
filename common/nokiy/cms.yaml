@@ -23,7 +23,7 @@ spec:
           url = "http://localhost:8080"
 
           [postgres]
-          uri = "postgres://{{ .username }}:{{ .password }}@pooler-postgres-rw:5432/documents"
+          uri = "postgres://{{ .username }}:{{ .password }}@postgres-rw:5432/documents"
 
           [redis]
           uri = "redis://redis:6379/0"
