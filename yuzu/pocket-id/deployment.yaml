@@ -22,6 +22,28 @@ spec:
     spec:
       serviceAccountName: pocket-id
       initContainers:
+        - name: litestream-restore
+          image: litestream/litestream:0.5.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - restore
+            - -if-db-not-exists
+            - -if-replica-exists
+            - /data/pocket-id.db
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: litestream-config
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yml
+              readOnly: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
         - name: litestream
           image: litestream/litestream:0.5.0
           imagePullPolicy: IfNotPresent
