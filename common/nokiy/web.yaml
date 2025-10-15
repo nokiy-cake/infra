@@ -81,7 +81,7 @@ spec:
         image: git.nokiy.net/reonokiy/nokiy-web:main
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 4321
           name: http
         envFrom:
         - secretRef:
@@ -104,7 +104,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: http
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
