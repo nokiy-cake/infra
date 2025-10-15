@@ -52,12 +52,11 @@ spec:
     - name: tailscale-release
   patches:
     - target:
-        kind: Ingress
+        kind: Service
         name: traefik-tailscale
         namespace: traefik
       patch: |-
         - op: add
-          path: /spec/tls
+          path: /metadata/annotations
           value:
-            - hosts:
-                - yuzu-traefik
+            tailscale.com/hostname: yuzu-traefik
