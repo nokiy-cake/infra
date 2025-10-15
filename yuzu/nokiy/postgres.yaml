@@ -1,3 +1,59 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nokiy-postgres-documents
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-nokiy-documents
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      metadata:
+        labels:
+          cnpg.io/reload: "true"
+  data:
+  - secretKey: username
+    remoteRef:
+      key: postgres-nokiy-documents
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: postgres-nokiy-documents
+      property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nokiy-postgres-auth
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-nokiy-auth
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      metadata:
+        labels:
+          cnpg.io/reload: "true"
+  data:
+  - secretKey: username
+    remoteRef:
+      key: postgres-nokiy-auth
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: postgres-nokiy-auth
+      property: password
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
