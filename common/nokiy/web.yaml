@@ -122,4 +122,4 @@ spec:
         - name: nokiy-web
           port: 80
   tls:
-    secretName: nokiy-web-tls
+    secretName: nokiy-web-internal-tls

@@ -134,4 +134,4 @@ spec:
         - name: nokiy-cms
           port: 80
   tls:
-    secretName: nokiy-cms-tls
+    secretName: nokiy-cms-internal-tls
