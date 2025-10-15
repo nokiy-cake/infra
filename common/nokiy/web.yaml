@@ -1,0 +1,134 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: nokiy-web-secrets
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: nokiy-web-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        API_ENDPOINT: "https://cms.i.nokiy.net"
+        POSTGRES_DB: "auth"
+        POSTGRES_USER: "{{ .POSTGRES_USER }}"
+        POSTGRES_PASSWORD: "{{ .POSTGRES_PASSWORD }}"
+        SESSION_SECRET: "{{ .SESSION_SECRET }}"
+        GITHUB_CLIENT_ID: "{{ .GITHUB_CLIENT_ID }}"
+        GITHUB_CLIENT_SECRET: "{{ .GITHUB_CLIENT_SECRET }}"
+        OIDC_PROVIDER_ID: "{{ .OIDC_PROVIDER_ID }}"
+        OIDC_DISCOVERY_URL: "{{ .OIDC_DISCOVERY_URL }}"
+        OIDC_CLIENT_ID: "{{ .OIDC_CLIENT_ID }}"
+        OIDC_CLIENT_SECRET: "{{ .OIDC_CLIENT_SECRET }}"
+  data:
+    - secretKey: POSTGRES_USER
+      remoteRef:
+        key: postgres-nokiy-auth
+        property: username
+    - secretKey: POSTGRES_PASSWORD
+      remoteRef:
+        key: postgres-nokiy-auth
+        property: password
+    - secretKey: GITHUB_CLIENT_ID
+      remoteRef:
+        key: nokiy-web
+        property: GITHUB_CLIENT_ID
+    - secretKey: GITHUB_CLIENT_SECRET
+      remoteRef:
+        key: nokiy-web
+        property: GITHUB_CLIENT_SECRET
+    - secretKey: OIDC_PROVIDER_ID
+      remoteRef:
+        key: nokiy-web
+        property: OIDC_PROVIDER_ID
+    - secretKey: OIDC_DISCOVERY_URL
+      remoteRef:
+        key: nokiy-web
+        property: OIDC_DISCOVERY_URL
+    - secretKey: OIDC_CLIENT_ID
+      remoteRef:
+        key: nokiy-web
+        property: OIDC_CLIENT_ID
+    - secretKey: OIDC_CLIENT_SECRET
+      remoteRef:
+        key: nokiy-web
+        property: OIDC_CLIENT_SECRET
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nokiy-web
+  namespace: self-nokiy-net
+  labels:
+    app: nokiy-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nokiy-web
+  template:
+    metadata:
+      labels:
+        app: nokiy-web
+    spec:
+      containers:
+      - name: nokiy-web
+        image: git.nokiy.net/reonokiy/nokiy-web:main
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+        envFrom:
+        - secretRef:
+            name: nokiy-web-secrets
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nokiy-web
+spec:
+  selector:
+    app: nokiy-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nokiy-web
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-tailscale-only@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: web.i.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nokiy-web
+                port:
+                  number: 80
+  tls:
+  - hosts:
+    - "web.i.nokiy.net"
+    secretName: nokiy-web-tls

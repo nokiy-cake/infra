@@ -6,3 +6,4 @@ resources:
   - postgres.yaml
   - redis.yaml
   - cms.yaml
+  - web.yaml
