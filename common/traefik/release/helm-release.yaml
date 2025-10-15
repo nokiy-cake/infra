@@ -16,11 +16,6 @@ spec:
   values:
     # deployment:
     #   replicas: 1
-    providers:
-      kubernetesingress:
-        allowEmptyServices: true
-        publishedService:
-          enabled: true
     ports:
       web:  
         redirections:
