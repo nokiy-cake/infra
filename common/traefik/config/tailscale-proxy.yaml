@@ -1,22 +1,18 @@
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: traefik-tailscale
   namespace: traefik
   annotations:
-    tailscale.com/hostname: traefik-default
+    tailscale.com/funnel: "false"
+    tailscale.com/tailnet-fqdn: yuzu-traefik.rya-pleco.ts.net
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
-  selector:
-    app.kubernetes.io/name: traefik
-    app.kubernetes.io/instance: traefik-traefik
-  ports:
-    - name: websecure
-      port: 443
-      targetPort: 8443
-      protocol: TCP
-    - name: web
-      port: 80
-      targetPort: 8000
-      protocol: TCP
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: traefik
+      port:
+        number: 443
+  tls:
+    - hosts:
+        - yuzu-traefik
