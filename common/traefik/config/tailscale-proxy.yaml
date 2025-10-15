@@ -5,7 +5,6 @@ metadata:
   namespace: traefik
   annotations:
     tailscale.com/funnel: "false"
-    tailscale.com/tailnet-fqdn: yuzu-traefik.rya-pleco.ts.net
 spec:
   ingressClassName: tailscale
   defaultBackend:
@@ -13,6 +12,3 @@ spec:
       name: traefik
       port:
         number: 443
-  tls:
-    - hosts:
-        - yuzu-traefik
