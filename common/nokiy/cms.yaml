@@ -31,6 +31,8 @@ spec:
           [cache]
           type = "fs"
           root = "/cache"
+          max_size = 5368709120 # 5 GiB
+          ttl = 2592000 # 30 days
 
           [archive]
           type = "s3"
