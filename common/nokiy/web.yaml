@@ -114,7 +114,7 @@ metadata:
   namespace: nokiy
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.entrypoints: websecureinternal
+    traefik.ingress.kubernetes.io/router.entrypoints: webinternal,websecureinternal
 spec:
   ingressClassName: traefik
   rules:

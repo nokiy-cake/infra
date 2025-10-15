@@ -16,6 +16,11 @@ spec:
   values:
     # deployment:
     #   replicas: 1
+    providers:
+      kubernetesingress:
+        allowEmptyServices: true
+        publishedService:
+          enabled: true
     ports:
       web:  
         redirections:
@@ -39,7 +44,7 @@ spec:
       # Internal entrypoints for Tailscale traffic only
       webinternal:
         port: 9080
-        expose: false
+        expose: true
         exposedPort: 80
         redirections:
           entryPoint:
@@ -52,7 +57,7 @@ spec:
             - 100.64.0.0/10
       websecureinternal:
         port: 9443
-        expose: false
+        expose: true
         exposedPort: 443
         forwardedHeaders:
           trustedIPs:
