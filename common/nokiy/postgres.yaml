@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: nokiy-postgres-documents
+  name: postgres-nokiy-documents
 spec:
   refreshInterval: 1h
   refreshPolicy: Periodic
@@ -29,7 +29,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: nokiy-postgres-auth
+  name: postgres-nokiy-auth
 spec:
   refreshInterval: 1h
   refreshPolicy: Periodic
@@ -60,6 +60,7 @@ metadata:
   name: postgres
 spec:
   instances: 2
+  enableSuperuserAccess: true
   storage:
     size: 1Gi
     storageClass: local-path
