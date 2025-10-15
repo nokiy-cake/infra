@@ -9,7 +9,7 @@ resources:
 - external-secrets.yaml
 - cert-manager.yaml
 - tailscale.yaml
-- velero.yaml
+#- velero.yaml
 - cnpg.yaml
 - redis-operator.yaml
 - simple-backup.yaml
