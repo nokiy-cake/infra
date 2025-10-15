@@ -35,12 +35,12 @@ spec:
           ttl = 2592000 # 30 days
 
           [archive]
-          type = "s3"
-          endpoint = "http://localhost:9000"
-          access_key_id = "minioadmin"
-          secret_access_key = "minioadmin"
-          bucket = "nokiy-archive"
-          region = "us-east-1"
+          type = "b2"
+          root = "archive"
+          key_id = "{{ .B2_KEY_ID }}"
+          application_key = "{{ .B2_APPLICATION_KEY }}"
+          bucket_id = "{{ .B2_BUCKET_ID }}"
+          bucket = "{{ .B2_BUCKET }}"
   data:
     - secretKey: username
       remoteRef:
@@ -50,6 +50,22 @@ spec:
       remoteRef:
         key: postgres-nokiy-documents
         property: password
+    - secretKey: B2_KEY_ID
+      remoteRef:
+        key: nokiy-cms
+        property: ACCESS_KEY
+    - secretKey: B2_APPLICATION_KEY
+      remoteRef:
+        key: nokiy-cms
+        property: SECRET_KEY
+    - secretKey: B2_BUCKET_ID
+      remoteRef:
+        key: nokiy-cms
+        property: BUCKET_ID
+    - secretKey: B2_BUCKET
+      remoteRef:
+        key: nokiy-cms
+        property: BUCKET
 ---
 apiVersion: apps/v1
 kind: Deployment
