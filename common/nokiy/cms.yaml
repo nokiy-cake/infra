@@ -127,6 +127,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.entrypoints: webinternal,websecureinternal
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-tailscale-only@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
