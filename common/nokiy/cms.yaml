@@ -55,7 +55,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nokiy-cms
-  namespace: self-nokiy-net
   labels:
     app: nokiy-cms
 spec:
@@ -95,7 +94,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nokiy-cms
-  namespace: self-nokiy-net
 spec:
   selector:
     app: nokiy-cms
@@ -109,7 +107,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nokiy-cms
-  namespace: self-nokiy-net
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.middlewares: traefik-tailscale-only@kubernetescrd
