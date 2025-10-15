@@ -28,7 +28,6 @@ spec:
           args:
             - restore
             - -if-db-not-exists
-            - -if-replica-exists
             - /data/pocket-id.db
           volumeMounts:
             - name: data
