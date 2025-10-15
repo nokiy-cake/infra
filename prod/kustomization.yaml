@@ -5,7 +5,7 @@ resources:
 - cert-manager
 - common
 - tailscale
-- cnpg
+# - cnpg
 # - kubeblocks
 - traefik.yaml
 # - forgejo-runner
