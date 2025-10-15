@@ -36,6 +36,30 @@ spec:
             - 100.64.0.0/10
             - 172.16.0.0/12
             - 192.168.0.0/16
+      # Internal entrypoints for Tailscale traffic only
+      webinternal:
+        port: 9080
+        expose: false
+        exposedPort: 80
+        redirections:
+          entryPoint:
+            to: websecureinternal
+            scheme: https
+            permanent: true
+        forwardedHeaders:
+          trustedIPs:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+      websecureinternal:
+        port: 9443
+        expose: false
+        exposedPort: 443
+        forwardedHeaders:
+          trustedIPs:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+        http:
+          tls: true
       # websecure:
       #   http3:
       #     enabled: true

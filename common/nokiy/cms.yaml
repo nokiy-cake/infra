@@ -123,9 +123,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nokiy-cms
+  namespace: nokiy
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-tailscale-only@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: websecureinternal
 spec:
   ingressClassName: traefik
   rules:
