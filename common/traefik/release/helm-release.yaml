@@ -23,6 +23,19 @@ spec:
             to: websecure
             scheme: https
             permanent: true
+        forwardedHeaders:
+          trustedIPs:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      websecure:
+        forwardedHeaders:
+          trustedIPs:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 172.16.0.0/12
+            - 192.168.0.0/16
       # websecure:
       #   http3:
       #     enabled: true
