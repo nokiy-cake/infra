@@ -59,7 +59,7 @@ kind: Cluster
 metadata:
   name: postgres
 spec:
-  instances: 3
+  instances: 2
   storage:
     size: 1Gi
     storageClass: local-path
@@ -85,7 +85,7 @@ metadata:
 spec:
   cluster:
     name: postgres
-  instances: 3
+  instances: 2
   type: rw
   pgbouncer:
     poolMode: session
