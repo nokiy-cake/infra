@@ -14,9 +14,9 @@ spec:
   ports:
     - name: websecure
       port: 443
-      targetPort: 443
+      targetPort: 8443
       protocol: TCP
     - name: web
       port: 80
-      targetPort: 80
+      targetPort: 8000
       protocol: TCP
