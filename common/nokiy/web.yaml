@@ -107,13 +107,24 @@ spec:
       targetPort: http
   type: ClusterIP
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nokiy-web-internal-tls
+spec:
+  secretName: nokiy-web-internal-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  dnsNames:
+    - web.i.nokiy.net
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: nokiy-web
 spec:
   entryPoints:
-    - webinternal
     - websecureinternal
   routes:
     - match: Host(`web.i.nokiy.net`)
