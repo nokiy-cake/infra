@@ -40,22 +40,13 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-  redisExporter:
-    enabled: true
-    image: quay.io/opstree/redis-exporter:v1.78.0
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
         cpu: 50m
-        memory: 64Mi
-      limits:
-        cpu: 100m
         memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
+  redisExporter:
+    enabled: false
   storage:
     volumeClaimTemplate:
       spec:
@@ -97,6 +88,13 @@ spec:
       ingressClassName: traefik
     ingress-nginx:
       enabled: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
   valuesFrom:
     - kind: Secret
       name: skypilot-secrets
