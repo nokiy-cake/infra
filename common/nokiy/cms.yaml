@@ -134,6 +134,23 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
+  name: nokiy-cms-http
+spec:
+  entryPoints:
+    - webinternal
+  routes:
+    - match: Host(`cms.i.nokiy.net`)
+      kind: Rule
+      middlewares:
+        - name: internal-redirect-https
+          namespace: traefik
+      services:
+        - name: nokiy-cms
+          port: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
   name: nokiy-cms
 spec:
   entryPoints:
