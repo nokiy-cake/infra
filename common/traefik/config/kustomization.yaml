@@ -4,3 +4,4 @@ resources:
 - tailscale-proxy.yaml
 - redirect-https-middleware.yaml
 - compression-middleware.yaml
+- access-control-middlewares.yaml
