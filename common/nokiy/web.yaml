@@ -114,7 +114,7 @@ metadata:
 spec:
   secretName: nokiy-web-internal-tls
   issuerRef:
-    name: letsencrypt-production
+    name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
     - web.i.nokiy.net
