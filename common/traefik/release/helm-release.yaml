@@ -17,7 +17,7 @@ spec:
     # deployment:
     #   replicas: 1
     ports:
-      web:  
+      web:
         redirections:
           entryPoint:
             to: websecure
@@ -30,6 +30,10 @@ spec:
             - 172.16.0.0/12
             - 192.168.0.0/16
       websecure:
+        http2:
+          maxConcurrentStreams: 250
+        http3:
+          enabled: true
         forwardedHeaders:
           trustedIPs:
             - 10.0.0.0/8
@@ -56,15 +60,16 @@ spec:
         expose:
           default: true
         exposedPort: 9443
+        http2:
+          maxConcurrentStreams: 250
+        http3:
+          enabled: true
         forwardedHeaders:
           trustedIPs:
             - 10.0.0.0/8
             - 100.64.0.0/10
         tls:
           enabled: true
-      # websecure:
-      #   http3:
-      #     enabled: true
     gatewayClass:
       enabled: true
   install:

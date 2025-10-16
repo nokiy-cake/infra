@@ -132,6 +132,8 @@ spec:
       middlewares:
         - name: internal-redirect-https
           namespace: traefik
+        - name: compress
+          namespace: traefik
       services:
         - name: nokiy-web
           port: 80
@@ -146,6 +148,9 @@ spec:
   routes:
     - match: Host(`web.i.nokiy.net`)
       kind: Rule
+      middlewares:
+        - name: compress
+          namespace: traefik
       services:
         - name: nokiy-web
           port: 80
