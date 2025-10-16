@@ -7,7 +7,7 @@ spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
-    name: infra
+    name: flux-system
     namespace: flux-system
   path: ./common/skypilot
   prune: true
