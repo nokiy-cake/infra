@@ -16,9 +16,8 @@ spec:
   values:
     # deployment:
     #   replicas: 1
-    providers:
-      kubernetesIngressRoute:
-        allowCrossNamespace: true
+    globalArguments:
+      - "--providers.kubernetesIngressRoute.allowCrossNamespace=true"
     ports:
       web:
         redirections:
