@@ -81,6 +81,7 @@ spec:
         namespace: flux-system
   values:
     apiService:
+      skipResourceCheck: true
       resources:
         requests:
           cpu: 100m
