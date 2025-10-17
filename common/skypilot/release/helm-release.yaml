@@ -80,6 +80,14 @@ spec:
         name: skypilot
         namespace: flux-system
   values:
+    apiService:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
     oauth:
       enabled: true
       oidc-issuer-url: https://id.nokiy.net
@@ -95,13 +103,6 @@ spec:
       ingressClassName: traefik
     ingress-nginx:
       enabled: false
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
   valuesFrom:
     - kind: Secret
       name: skypilot-secrets
