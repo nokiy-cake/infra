@@ -20,5 +20,5 @@ resources:
 - tg-bot
 - pocket-id
 - vaultwarden
-- skypilot.yaml
+# - skypilot.yaml
 - nokiy.yaml
