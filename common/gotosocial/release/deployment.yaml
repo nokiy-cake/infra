@@ -85,20 +85,20 @@ spec:
               mountPath: /gotosocial/.cache
           readinessProbe:
             httpGet:
-              path: /api/v1/instance
+              path: /readyz
               port: http
             initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 6
+            periodSeconds: 120
+            timeoutSeconds: 10
+            failureThreshold: 5
           livenessProbe:
             httpGet:
-              path: /api/v1/instance
+              path: /livez
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 30
-            timeoutSeconds: 5
-            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            timeoutSeconds: 10
+            failureThreshold: 5
           resources:
             requests:
               cpu: 100m
