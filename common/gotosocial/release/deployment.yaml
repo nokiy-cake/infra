@@ -24,7 +24,7 @@ spec:
       initContainers:
         # Restore database from S3 backup if it doesn't exist
         - name: litestream-restore
-          image: litestream/litestream:0.5.2
+          image: litestream/litestream:0.5.1
           imagePullPolicy: IfNotPresent
           args:
             - restore
@@ -70,7 +70,7 @@ spec:
 
         # Continuous replication to S3
         - name: litestream
-          image: litestream/litestream:0.5.2
+          image: litestream/litestream:0.5.1
           imagePullPolicy: IfNotPresent
           restartPolicy: Always
           args:
