@@ -25,8 +25,12 @@ spec:
   valuesFrom:
   - kind: Secret
     name: authentik-secrets
-    valuesKey: AUTHENTIK_SECRET_KEY
+    valuesKey: SECRET_KEY
     targetPath: authentik.secret_key
+  - kind: Secret
+    name: postgres-authentik
+    valuesKey: username
+    targetPath: authentik.postgresql.user
   - kind: Secret
     name: postgres-authentik
     valuesKey: password
@@ -39,7 +43,6 @@ spec:
         host: postgres-rw.authentik.svc.cluster.local
         port: 5432
         name: authentik
-        user: authentik
       redis:
         host: redis.authentik.svc.cluster.local
         port: 6379
