@@ -9,13 +9,23 @@ spec:
     size: 1Gi
   bootstrap:
     initdb:
-      database: synapse
-      owner: synapse
-      secret:
-        name: synapse-postgres-credentials
+      database: app
+      owner: postgres
       encoding: UTF-8
       localeCollate: C
       localeCType: C
+  managed:
+    roles:
+      - name: synapse
+        ensure: present
+        login: true
+        passwordSecret:
+          name: synapse-postgres-credentials
+      - name: mas
+        ensure: present
+        login: true
+        passwordSecret:
+          name: mas-postgres-credentials
   monitoring:
     enablePodMonitor: false
 ---
