@@ -16,7 +16,7 @@ resources:
 - forgejo-runner.yaml
 # - signoz
 # - pds
-# - gotosocial
+- gotosocial.yaml
 - tg-bot
 - pocket-id
 - vaultwarden

@@ -1,0 +1,36 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gotosocial
+  namespace: gotosocial
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.middlewares: gotosocial-headers@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - social.nokiy.net
+      secretName: gotosocial-tls
+  rules:
+    - host: social.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gotosocial
+                port:
+                  name: http
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: gotosocial-headers
+  namespace: gotosocial
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
