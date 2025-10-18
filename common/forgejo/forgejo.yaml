@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: forgejo
-          image: codeberg.org/forgejo/forgejo:11.0.3
+          image: codeberg.org/forgejo/forgejo:11.0.6
           imagePullPolicy: IfNotPresent
           env:
             - name: FORGEJO__database__DB_TYPE
