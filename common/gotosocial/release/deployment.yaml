@@ -39,10 +39,10 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 500m
+              cpu: 50m
               memory: 256Mi
             limits:
-              cpu: 2000m
+              cpu: 1000m
               memory: 512Mi
 
         # Continuous replication to S3
@@ -61,10 +61,10 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 500m
+              cpu: 50m
               memory: 256Mi
             limits:
-              cpu: 2000m
+              cpu: 1000m
               memory: 512Mi
 
       containers:
