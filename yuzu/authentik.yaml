@@ -50,6 +50,7 @@ spec:
   wait: true
   dependsOn:
     - name: authentik-init
+    - name: external-secrets-release
     - name: external-secrets-config
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
