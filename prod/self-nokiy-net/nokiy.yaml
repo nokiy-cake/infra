@@ -17,7 +17,7 @@ spec:
     spec:
       initContainers:
       - name: init-config
-        image: busybox:1.36 # A lightweight image to perform the file creation
+        image: busybox:1.37 # A lightweight image to perform the file creation
         imagePullPolicy: Always
         command: ["sh", "-c"]
         args:
