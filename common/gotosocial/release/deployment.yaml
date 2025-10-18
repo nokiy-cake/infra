@@ -45,6 +45,29 @@ spec:
               cpu: 1000m
               memory: 512Mi
 
+        # Fix permissions after restore (litestream runs as root)
+        - name: fix-permissions
+          image: busybox:1.37
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              # Ensure correct ownership for all files in storage directory
+              # including sqlite.db, .wal, .shm files and any other restored data
+              chown -R 1000:1000 /gotosocial/storage
+              chmod -R u+rwX,go+rX /gotosocial/storage
+          volumeMounts:
+            - name: data
+              mountPath: /gotosocial/storage
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+
         # Continuous replication to S3
         - name: litestream
           image: litestream/litestream:0.5.0
