@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: authentik
+      version: "2024.12.1"
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: authentik
+  crds:
+    adopt: true
+    keep: false
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  valuesFrom:
+  - kind: Secret
+    name: authentik-secrets
+    valuesKey: AUTHENTIK_SECRET_KEY
+    targetPath: authentik.secret_key
+  - kind: Secret
+    name: postgres-authentik
+    valuesKey: password
+    targetPath: authentik.postgresql.password
+  values:
+    authentik:
+      error_reporting:
+        enabled: true
+      postgresql:
+        host: postgres-rw.authentik.svc.cluster.local
+        port: 5432
+        name: authentik
+        user: authentik
+      redis:
+        host: redis.authentik.svc.cluster.local
+        port: 6379
+
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+        - auth.nokiy.net
+        tls:
+        - secretName: authentik-tls
+          hosts:
+          - auth.nokiy.net
+
+    postgresql:
+      enabled: false
+
+    redis:
+      enabled: false

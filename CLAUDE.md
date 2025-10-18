@@ -313,3 +313,4 @@ Latest commits show Traefik internal routing improvements:
 - **Database:** CloudNative PostgreSQL (CNPG)
 - **VPN:** Tailscale
 - **Network Policies:** Cilium
+- do not add namespace field in Kustomization yaml

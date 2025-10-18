@@ -1,0 +1,59 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: postgres-authentik
+  namespace: authentik
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-authentik
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      metadata:
+        labels:
+          cnpg.io/reload: "true"
+  data:
+  - secretKey: username
+    remoteRef:
+      key: authentik
+      property: POSTGRES_USERNAME
+  - secretKey: password
+    remoteRef:
+      key: authentik
+      property: POSTGRES_PASSWORD
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: authentik
+spec:
+  instances: 2
+  enableSuperuserAccess: true
+  storage:
+    size: 5Gi
+    storageClass: local-path
+  managed:
+    roles:
+    - name: authentik
+      ensure: present
+      login: true
+      superuser: false
+      passwordSecret:
+        name: postgres-authentik
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  name: authentik
+  owner: authentik
+  cluster:
+    name: postgres
