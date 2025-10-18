@@ -5,3 +5,4 @@ metadata:
   name: authentik
   labels:
     app.kubernetes.io/name: authentik
+    nokiy.net/cluster-secret-store: "production"
