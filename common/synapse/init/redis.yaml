@@ -1,3 +1,4 @@
+---
 apiVersion: redis.redis.opstreelabs.in/v1beta2
 kind: Redis
 metadata:
@@ -5,7 +6,7 @@ metadata:
   namespace: synapse
 spec:
   kubernetesConfig:
-    image: redis:8
+    image: quay.io/opstree/redis:v8.2.2
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -16,10 +17,11 @@ spec:
         memory: 512Mi
   redisExporter:
     enabled: false
+    image: quay.io/opstree/redis-exporter:v1.78.0
   storage:
     volumeClaimTemplate:
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 5Gi
+            storage: 1Gi
