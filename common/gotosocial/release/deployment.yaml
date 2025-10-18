@@ -69,7 +69,7 @@ spec:
 
       containers:
         - name: gotosocial
-          image: superseriousbusiness/gotosocial:0.19.1
+          image: superseriousbusiness/gotosocial:0.20.1
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
