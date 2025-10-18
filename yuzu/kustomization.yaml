@@ -18,7 +18,7 @@ resources:
 # - pds
 - gotosocial.yaml
 # - skypilot.yaml
-- header-echo.yaml
+- header-echo
 - nokiy.yaml
 - authentik.yaml
 - forgejo.yaml
