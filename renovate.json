@@ -5,5 +5,23 @@
   },
   "extends": [
     "config:recommended"
+  ],
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["\\.yaml$"],
+      "matchStrings": [
+        "image:\\s+(?<depName>[^:]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "enabled": true
+    }
   ]
 }
