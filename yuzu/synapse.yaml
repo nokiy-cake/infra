@@ -1,11 +1,12 @@
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: synapse
+  name: synapse-init
   namespace: flux-system
 spec:
   interval: 1m
-  path: ./common/synapse
+  path: ./common/synapse/init
   prune: true
   sourceRef:
     kind: GitRepository
@@ -13,6 +14,43 @@ spec:
   timeout: 2m
   wait: true
   dependsOn:
+    - name: k3s
     - name: cnpg
     - name: redis-operator
-    - name: external-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: synapse-secrets
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/synapse/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: synapse-init
+    - name: external-secrets-release
+    - name: external-secrets-config
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: synapse-release
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/synapse/release
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 5m
+  wait: true
+  dependsOn:
+    - name: synapse-secrets
+    - name: cilium
