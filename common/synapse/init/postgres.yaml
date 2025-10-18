@@ -6,7 +6,7 @@ metadata:
 spec:
   instances: 1
   storage:
-    size: 10Gi
+    size: 1Gi
   bootstrap:
     initdb:
       database: synapse

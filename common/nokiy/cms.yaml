@@ -104,7 +104,7 @@ spec:
           secretName: nokiy-cms-secrets
       - name: cache
         emptyDir:
-          sizeLimit: 5Gi
+          sizeLimit: 1Gi
 ---
 apiVersion: v1
 kind: Service

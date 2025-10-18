@@ -314,3 +314,4 @@ Latest commits show Traefik internal routing improvements:
 - **VPN:** Tailscale
 - **Network Policies:** Cilium
 - do not add namespace field in Kustomization yaml
+- all pvc init size should be 1Gi
