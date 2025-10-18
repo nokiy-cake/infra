@@ -32,7 +32,10 @@ spec:
             - name: FORGEJO__database__NAME
               value: forgejo
             - name: FORGEJO__database__USER
-              value: forgejo
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-postgres-credentials
+                  key: username
             - name: FORGEJO__database__PASSWD
               valueFrom:
                 secretKeyRef:
@@ -92,11 +95,11 @@ spec:
               mountPath: /data
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 50m
+              memory: 128Mi
             limits:
-              cpu: 1000m
-              memory: 2Gi
+              cpu: 2000m
+              memory: 1Gi
       volumes:
         - name: data
           persistentVolumeClaim:
