@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: header-echo
+  labels:
+    app.kubernetes.io/name: header-echo
