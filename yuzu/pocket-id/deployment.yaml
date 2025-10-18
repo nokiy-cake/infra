@@ -23,7 +23,7 @@ spec:
       serviceAccountName: pocket-id
       initContainers:
         - name: litestream-restore
-          image: litestream/litestream:0.5.0
+          image: litestream/litestream:0.5.2
           imagePullPolicy: IfNotPresent
           args:
             - restore
@@ -44,7 +44,7 @@ spec:
               cpu: 500m
               memory: 128Mi
         - name: litestream
-          image: litestream/litestream:0.5.0
+          image: litestream/litestream:0.5.2
           imagePullPolicy: IfNotPresent
           restartPolicy: Always
           args:

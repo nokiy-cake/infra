@@ -23,7 +23,7 @@ spec:
       serviceAccountName: vaultwarden
       initContainers:
         - name: litestream
-          image: litestream/litestream:0.5.0
+          image: litestream/litestream:0.5.2
           imagePullPolicy: IfNotPresent
           restartPolicy: Always
           args:
