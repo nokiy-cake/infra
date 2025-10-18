@@ -14,9 +14,6 @@ spec:
         kind: HelmRepository
         name: authentik
         namespace: authentik
-  crds:
-    adopt: true
-    keep: false
   install:
     crds: CreateReplace
     remediation:
