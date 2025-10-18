@@ -39,8 +39,8 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 10m
+              memory: 32Mi
             limits:
               cpu: 1000m
               memory: 512Mi
@@ -61,8 +61,8 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 10m
+              memory: 32Mi
             limits:
               cpu: 1000m
               memory: 512Mi
@@ -101,8 +101,8 @@ spec:
             failureThreshold: 5
           resources:
             requests:
-              cpu: 100m
-              memory: 512Mi
+              cpu: 10m
+              memory: 256Mi
             limits:
               cpu: 1000m
               memory: 1Gi
