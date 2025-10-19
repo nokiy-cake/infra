@@ -35,26 +35,23 @@ spec:
               containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - name: mas-config
+            - name: config
               mountPath: /data/mas.yaml
               subPath: mas.yaml
               readOnly: true
-            - name: synapse-config
+            - name: config
               mountPath: /data/homeserver.yaml
               subPath: homeserver.yaml
               readOnly: true
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 10m
+              memory: 64Mi
             limits:
-              cpu: 1000m
-              memory: 1Gi
+              cpu: 100m
+              memory: 256Mi
       volumes:
-        - name: mas-config
-          secret:
-            secretName: mas-config
-        - name: synapse-config
+        - name: config
           secret:
             secretName: synapse-config
 ---
