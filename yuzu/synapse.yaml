@@ -40,6 +40,25 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: synapse-config
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/synapse/config
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+    - name: synapse-init
+    - name: cert-manager-release
+    - name: traefik-release
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: synapse-release
   namespace: flux-system
 spec:
@@ -53,4 +72,5 @@ spec:
   wait: true
   dependsOn:
     - name: synapse-secrets
+    - name: synapse-config
     - name: cilium
