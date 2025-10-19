@@ -36,8 +36,8 @@ spec:
           port: 8080
       middlewares:
         - name: synapse-headers
-    # Main Matrix endpoints - route to Synapse
-    - match: Host(`synapse.nokiy.net`) && PathPrefix(`/_matrix`, `/_synapse/client`)
+    # Main Matrix endpoints - route to Synapse (match /_matrix or /_synapse/client)
+    - match: Host(`synapse.nokiy.net`) && (PathPrefix(`/_matrix`) || PathPrefix(`/_synapse`))
       kind: Rule
       priority: 10
       services:
