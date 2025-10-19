@@ -1,0 +1,23 @@
+---
+# Headers middleware for Synapse
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: synapse-headers
+  namespace: synapse
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+---
+# CORS headers for well-known endpoints
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: matrix-wellknown-headers
+  namespace: synapse
+spec:
+  headers:
+    customResponseHeaders:
+      Access-Control-Allow-Origin: "*"
+      Content-Type: "application/json"

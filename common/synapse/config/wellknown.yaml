@@ -1,0 +1,102 @@
+---
+# ConfigMap for Matrix well-known files
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+data:
+  server: |
+    {
+      "m.server": "synapse.nokiy.net:443"
+    }
+  client: |
+    {
+      "m.homeserver": {
+        "base_url": "https://synapse.nokiy.net"
+      },
+      "m.identity_server": {
+        "base_url": "https://vector.im"
+      }
+    }
+---
+# Nginx deployment to serve well-known files
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matrix-wellknown
+  template:
+    metadata:
+      labels:
+        app: matrix-wellknown
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: wellknown
+              mountPath: /usr/share/nginx/html/.well-known/matrix
+              readOnly: true
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: wellknown
+          configMap:
+            name: matrix-wellknown
+        - name: nginx-config
+          configMap:
+            name: matrix-wellknown-nginx
+---
+# Nginx config to set proper headers
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-wellknown-nginx
+  namespace: synapse
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location /.well-known/matrix/server {
+        default_type application/json;
+        add_header Access-Control-Allow-Origin *;
+        alias /usr/share/nginx/html/.well-known/matrix/server;
+      }
+
+      location /.well-known/matrix/client {
+        default_type application/json;
+        add_header Access-Control-Allow-Origin *;
+        alias /usr/share/nginx/html/.well-known/matrix/client;
+      }
+    }
+---
+# Service for well-known
+apiVersion: v1
+kind: Service
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+spec:
+  selector:
+    app: matrix-wellknown
+  ports:
+    - port: 80
+      targetPort: 80

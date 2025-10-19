@@ -1,0 +1,29 @@
+---
+# Certificate for synapse.nokiy.net and auth.synapse.nokiy.net
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: synapse-nokiy-net
+  namespace: synapse
+spec:
+  secretName: synapse-nokiy-net-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - synapse.nokiy.net
+    - auth.synapse.nokiy.net
+---
+# Certificate for nokiy.net (for well-known endpoints)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nokiy-net
+  namespace: synapse
+spec:
+  secretName: nokiy-net-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - nokiy.net

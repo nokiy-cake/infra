@@ -5,6 +5,7 @@ resources:
 - init
 - secrets
 - release
+- config
 labels:
 - pairs:
     app.kubernetes.io/name: synapse
