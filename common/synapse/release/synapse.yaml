@@ -38,8 +38,6 @@ spec:
               containerPort: 8008
               protocol: TCP
           volumeMounts:
-            - name: key
-              mountPath: /data/key
             - name: media
               mountPath: /data/media_store
             - name: config
@@ -57,9 +55,6 @@ spec:
               cpu: 2000m
               memory: 4Gi
       volumes:
-        - name: key
-          persistentVolumeClaim:
-            claimName: synapse-key
         - name: media
           persistentVolumeClaim:
             claimName: synapse-media
