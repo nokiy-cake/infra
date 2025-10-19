@@ -38,12 +38,17 @@ spec:
               containerPort: 8008
               protocol: TCP
           volumeMounts:
-            - name: data
-              mountPath: /data
+            - name: key
+              mountPath: /data/key
+            - name: media
+              mountPath: /data/media_store
             - name: config
               mountPath: /data/homeserver.yaml
               subPath: homeserver.yaml
               readOnly: true
+            - name: config
+              mountPath: /data/homeserver.signing.key
+              subPath: homeserver.signing.key
           resources:
             requests:
               cpu: 500m
@@ -52,9 +57,12 @@ spec:
               cpu: 2000m
               memory: 4Gi
       volumes:
-        - name: data
+        - name: key
           persistentVolumeClaim:
-            claimName: synapse-data
+            claimName: synapse-key
+        - name: media
+          persistentVolumeClaim:
+            claimName: synapse-media
         - name: config
           secret:
             secretName: synapse-config
