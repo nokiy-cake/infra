@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: usesend
+  namespace: usesend
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`usesend.example.com`)
+    kind: Rule
+    services:
+    - name: usesend
+      port: 3000
+  tls:
+    certResolver: letsencrypt

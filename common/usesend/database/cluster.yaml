@@ -1,0 +1,35 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: usesend-db
+  namespace: usesend
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: "256MB"
+
+  bootstrap:
+    initdb:
+      database: usesend
+      owner: usesend
+      secret:
+        name: usesend-db-credentials
+
+  storage:
+    size: 1Gi
+    storageClass: local-path
+
+  monitoring:
+    enablePodMonitor: false
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
