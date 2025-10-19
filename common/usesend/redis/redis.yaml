@@ -5,7 +5,7 @@ metadata:
   namespace: usesend
 spec:
   kubernetesConfig:
-    image: redis:7
+    image: redis:8
     imagePullPolicy: IfNotPresent
     resources:
       requests:
