@@ -20,10 +20,41 @@ spec:
   values:
     grafana:
       enabled: true
+      persistence:
+        enabled: true
+        type: pvc
+        size: 1Gi
+        accessModes:
+          - ReadWriteOnce
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+          - grafana.nokiy.net
+          - grafana.yuzu.nokiy.net
+        path: /
+        pathType: Prefix
+        tls:
+          - secretName: grafana-tls
+            hosts:
+              - grafana.nokiy.net
+              - grafana.yuzu.nokiy.net
     loki:
       enabled: true
+      loki:
+        commonConfig:
+          replication_factor: 1
+        storage:
+          type: filesystem
     mimir:
       enabled: true
+      mimir:
+        structuredConfig:
+          common:
+            storage:
+              backend: filesystem
     tempo:
       enabled: true
     grafana-oncall:
@@ -32,3 +63,11 @@ spec:
         enabled: false
       externalGrafana:
         url: http://lgtm-distributed-grafana.lgtm.svc.cluster.local
+      mariadb:
+        image:
+          repository: bitnami/mariadb
+          tag: latest
+        primary:
+          persistence:
+            enabled: true
+            size: 1Gi
