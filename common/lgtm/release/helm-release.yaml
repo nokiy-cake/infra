@@ -84,18 +84,8 @@ spec:
     tempo:
       enabled: true
 
-    # Grafana OnCall configuration
+    # Grafana OnCall configuration - disabled due to naming length issues
+    # The job name "lgtm-distributed-grafana-oncall-engine-migrate-*" exceeds 63 chars
+    # Can be enabled later with a shorter release name or custom nameOverride
     grafana-oncall:
-      enabled: true
-      grafana:
-        enabled: false
-      externalGrafana:
-        url: http://lgtm-distributed-grafana.lgtm.svc.cluster.local
-      mariadb:
-        image:
-          repository: bitnami/mariadb
-          tag: latest
-        primary:
-          persistence:
-            enabled: true
-            size: 1Gi
+      enabled: false
