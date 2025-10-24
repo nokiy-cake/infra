@@ -30,3 +30,5 @@ spec:
       enabled: true
       grafana:
         enabled: false
+      externalGrafana:
+        url: http://lgtm-distributed-grafana.lgtm.svc.cluster.local
