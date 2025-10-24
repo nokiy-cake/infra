@@ -1,0 +1,46 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: external-dns
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: external-dns
+      version: "1.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: external-dns
+        namespace: flux-system
+  values:
+    provider:
+      name: cloudflare
+    env:
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: cloudflare-api-token
+          key: api-token
+    extraArgs:
+    - --cloudflare-dns-records-per-page=5000  # Optimize API requests to avoid rate limits
+    sources:
+    - ingress
+    - service
+    policy: sync  # sync = create and delete records, upsert-only = only create/update
+    registry: txt
+    txtOwnerId: external-dns
+    txtPrefix: _external-dns.
+    domainFilters: []  # Override in environment-specific patches
+    logLevel: info
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
