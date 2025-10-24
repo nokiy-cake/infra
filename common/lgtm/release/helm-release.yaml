@@ -80,6 +80,10 @@ spec:
             storage:
               backend: filesystem
 
+      # Disable MinIO since we're using filesystem storage
+      minio:
+        enabled: false
+
     # Tempo configuration
     tempo:
       enabled: true
