@@ -18,6 +18,26 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
+    # Disable nginx gateway, use Traefik ingress instead
+    gateway:
+      enabled: false
+
+    # Configure Traefik ingress for Mimir endpoints
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - mimir.yuzu.nokiy.net
+        - mimir.nokiy.net
+      tls:
+        - secretName: mimir-tls
+          hosts:
+            - mimir.yuzu.nokiy.net
+            - mimir.nokiy.net
+
+    # Grafana configuration
     grafana:
       enabled: true
       persistence:
@@ -41,6 +61,8 @@ spec:
             hosts:
               - grafana.nokiy.net
               - grafana.yuzu.nokiy.net
+
+    # Loki configuration
     loki:
       enabled: true
       loki:
@@ -48,6 +70,8 @@ spec:
           replication_factor: 1
         storage:
           type: filesystem
+
+    # Mimir configuration with filesystem backend for dev/staging
     mimir:
       enabled: true
       mimir:
@@ -55,8 +79,12 @@ spec:
           common:
             storage:
               backend: filesystem
+
+    # Tempo configuration
     tempo:
       enabled: true
+
+    # Grafana OnCall configuration
     grafana-oncall:
       enabled: true
       grafana:
