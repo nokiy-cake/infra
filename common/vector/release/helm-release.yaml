@@ -1,0 +1,116 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vector
+  namespace: vector
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: vector
+      version: '0.46.0'
+      sourceRef:
+        kind: HelmRepository
+        name: vector
+        namespace: flux-system
+  values:
+    # Run Vector as DaemonSet to collect logs from all nodes
+    role: Agent
+
+    # Vector configuration
+    customConfig:
+      # Data directory
+      data_dir: /vector-data-dir
+
+      # Sources - collect logs and metrics
+      sources:
+        # Kubernetes logs from all pods
+        kubernetes_logs:
+          type: kubernetes_logs
+          # Exclude Vector's own logs to avoid loops
+          exclude_paths_glob_patterns:
+            - "**/vector-*.log"
+
+        # Kubernetes metrics (from kubelet)
+        kubernetes_metrics:
+          type: internal_metrics
+
+        # Host metrics
+        host_metrics:
+          type: host_metrics
+          collectors:
+            - cpu
+            - disk
+            - filesystem
+            - load
+            - host
+            - memory
+            - network
+
+      # Transforms - add cluster label and parse logs
+      transforms:
+        # Add cluster label to logs
+        log_cluster_label:
+          type: remap
+          inputs:
+            - kubernetes_logs
+          source: |
+            .cluster = "yuzu"
+
+        # Add cluster label to metrics
+        metrics_cluster_label:
+          type: remap
+          inputs:
+            - kubernetes_metrics
+            - host_metrics
+          source: |
+            .tags.cluster = "yuzu"
+
+      # Sinks - send to Loki and Mimir
+      sinks:
+        # Send logs to Loki
+        loki:
+          type: loki
+          inputs:
+            - log_cluster_label
+          endpoint: http://lgtm-distributed-loki-gateway.lgtm.svc.cluster.local
+          encoding:
+            codec: json
+          labels:
+            cluster: "{{ cluster }}"
+            namespace: "{{ kubernetes.pod_namespace }}"
+            pod: "{{ kubernetes.pod_name }}"
+            container: "{{ kubernetes.container_name }}"
+          # Remove fields that are already in labels to reduce cardinality
+          remove_label_fields: true
+
+        # Send metrics to Mimir (Prometheus remote write)
+        mimir:
+          type: prometheus_remote_write
+          inputs:
+            - metrics_cluster_label
+          endpoint: http://lgtm-distributed-mimir-nginx.lgtm.svc.cluster.local/api/v1/push
+          # Use default tenant for now
+          default_namespace: vector
+
+    # Resources
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # Run on all nodes
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+
+    # Persistence for Vector's data directory
+    persistence:
+      enabled: true
+      storageClassName: ""
+      size: 1Gi
+      accessModes:
+        - ReadWriteOnce

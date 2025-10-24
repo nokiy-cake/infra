@@ -15,6 +15,7 @@ resources:
 - simple-backup.yaml
 - forgejo-runner.yaml
 - lgtm.yaml
+- vector.yaml
 # - signoz
 # - pds
 - gotosocial.yaml
