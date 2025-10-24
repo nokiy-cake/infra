@@ -49,15 +49,28 @@ spec:
 
       # Transforms - add cluster label and parse logs
       transforms:
-        # Add cluster label to logs
+        # Add cluster label and service name to logs
         log_cluster_label:
           type: remap
           inputs:
             - kubernetes_logs
           source: |
             .cluster = "yuzu"
+            # Extract service name from pod labels or name
+            # Try to get from app.kubernetes.io/name label first
+            if exists(.kubernetes.pod_labels."app.kubernetes.io/name") {
+              .service = .kubernetes.pod_labels."app.kubernetes.io/name"
+            } else if exists(.kubernetes.pod_labels."app") {
+              .service = .kubernetes.pod_labels."app"
+            } else if exists(.kubernetes.pod_labels."k8s-app") {
+              .service = .kubernetes.pod_labels."k8s-app"
+            } else {
+              # Fallback: extract from pod name (remove the trailing hash)
+              # e.g., "forgejo-7b8c5d6f9-abc12" -> "forgejo"
+              .service = replace!(.kubernetes.pod_name, r'-[a-z0-9]{5,10}-[a-z0-9]{5}$', "")
+            }
 
-        # Add cluster label to metrics
+        # Add cluster label and service name to metrics
         metrics_cluster_label:
           type: remap
           inputs:
@@ -65,6 +78,19 @@ spec:
             - host_metrics
           source: |
             .tags.cluster = "yuzu"
+            # For host metrics, set service to "node"
+            if !exists(.tags.pod) {
+              .tags.service = "node"
+            } else {
+              # Extract service name from pod labels or name (similar to logs)
+              if exists(.tags."app.kubernetes.io/name") {
+                .tags.service = .tags."app.kubernetes.io/name"
+              } else if exists(.tags.app) {
+                .tags.service = .tags.app
+              } else if exists(.tags.pod) {
+                .tags.service = replace!(.tags.pod, r'-[a-z0-9]{5,10}-[a-z0-9]{5}$', "")
+              }
+            }
 
       # Sinks - send to Loki and Mimir
       sinks:
@@ -77,10 +103,11 @@ spec:
           encoding:
             codec: json
           labels:
-            cluster: "{{ cluster }}"
-            namespace: "{{ kubernetes.pod_namespace }}"
-            pod: "{{ kubernetes.pod_name }}"
-            container: "{{ kubernetes.container_name }}"
+            cluster: "{{`{{ cluster }}`}}"
+            namespace: "{{`{{ kubernetes.pod_namespace }}`}}"
+            service: "{{`{{ service }}`}}"
+            pod: "{{`{{ kubernetes.pod_name }}`}}"
+            container: "{{`{{ kubernetes.container_name }}`}}"
           # Remove fields that are already in labels to reduce cardinality
           remove_label_fields: true
 
