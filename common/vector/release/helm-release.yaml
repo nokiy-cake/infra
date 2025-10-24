@@ -115,10 +115,8 @@ spec:
         mimir:
           type: prometheus_remote_write
           inputs:
-            - metrics_cluster_label
+            - metrics_cluster_label 
           endpoint: http://lgtm-distributed-mimir-nginx.lgtm.svc.cluster.local/api/v1/push
-          # Use default tenant for now
-          default_namespace: vector
 
     # Resources
     resources:
