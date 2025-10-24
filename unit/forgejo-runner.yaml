@@ -27,3 +27,12 @@ spec:
         - op: add
           path: /spec/values/runner/config/file/runner/labels/-
           value: "amd64:docker://git.nokiy.net/actions/runner:latest"
+        - op: add
+          path: /spec/values/resources
+          value:
+            limits:
+              cpu: "3500m"
+              memory: 6Gi
+            requests:
+              cpu: 250m
+              memory: 512Mi
