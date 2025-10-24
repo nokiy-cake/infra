@@ -14,6 +14,7 @@ resources:
 - redis-operator.yaml
 - simple-backup.yaml
 - forgejo-runner.yaml
+- lgtm.yaml
 # - signoz
 # - pds
 - gotosocial.yaml
