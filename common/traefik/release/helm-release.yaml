@@ -18,6 +18,7 @@ spec:
     #   replicas: 1
     service:
       externalTrafficPolicy: Local
+      single: true  # Use mixed protocol service (TCP+UDP on same ports)
     globalArguments:
       - "--providers.kubernetesIngressRoute.allowCrossNamespace=true"
     ports:
@@ -38,6 +39,7 @@ spec:
           maxConcurrentStreams: 250
         http3:
           enabled: true
+          advertisedPort: 443
         forwardedHeaders:
           trustedIPs:
             - 10.0.0.0/8
@@ -68,6 +70,7 @@ spec:
           maxConcurrentStreams: 250
         http3:
           enabled: true
+          advertisedPort: 9443
         forwardedHeaders:
           trustedIPs:
             - 10.0.0.0/8
