@@ -175,42 +175,31 @@ spec:
   tls:
     secretName: nokiy-web-internal-tls
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: nokiy-web-http
+  name: nokiy-web-public
   namespace: nokiy
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-compress@kubernetescrd
+    external-dns.alpha.kubernetes.io/hostname: nokiy.net
+    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
-  entryPoints:
-    - web
-  routes:
-    - match: Host(`nokiy.net`)
-      kind: Rule
-      middlewares:
-        - name: redirect-https
-          namespace: traefik
-        - name: compress
-          namespace: traefik
-      services:
-        - name: nokiy-web
-          port: 80
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: nokiy-web
-  namespace: nokiy
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`nokiy.net`)
-      kind: Rule
-      middlewares:
-        - name: compress
-          namespace: traefik
-      services:
-        - name: nokiy-web
-          port: 80
+  ingressClassName: traefik
   tls:
+  - hosts:
+    - nokiy.net
     secretName: nokiy-web-tls
+  rules:
+  - host: nokiy.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nokiy-web
+            port:
+              number: 80
