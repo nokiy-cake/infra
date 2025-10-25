@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: nokiy-cms-secrets
+  name: nokiy-api-secrets
 spec:
   secretStoreRef:
     name: production
@@ -9,7 +9,7 @@ spec:
   refreshPolicy: Periodic
   refreshInterval: "1h"
   target:
-    name: nokiy-cms-secrets
+    name: nokiy-api-secrets
     creationPolicy: Owner
     deletionPolicy: Delete
     template:
@@ -52,39 +52,39 @@ spec:
         property: password
     - secretKey: B2_KEY_ID
       remoteRef:
-        key: nokiy-cms
+        key: nokiy-api
         property: ACCESS_KEY
     - secretKey: B2_APPLICATION_KEY
       remoteRef:
-        key: nokiy-cms
+        key: nokiy-api
         property: SECRET_KEY
     - secretKey: B2_BUCKET_ID
       remoteRef:
-        key: nokiy-cms
+        key: nokiy-api
         property: BUCKET_ID
     - secretKey: B2_BUCKET
       remoteRef:
-        key: nokiy-cms
+        key: nokiy-api
         property: BUCKET
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nokiy-cms
+  name: nokiy-api
   labels:
-    app: nokiy-cms
+    app: nokiy-api
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nokiy-cms
+      app: nokiy-api
   template:
     metadata:
       labels:
-        app: nokiy-cms
+        app: nokiy-api
     spec:
       containers:
-      - name: nokiy-cms
+      - name: nokiy-api
         image: git.nokiy.net/reonokiy/nokiy:main
         imagePullPolicy: Always
         ports:
@@ -101,7 +101,7 @@ spec:
       volumes:
       - name: config
         secret:
-          secretName: nokiy-cms-secrets
+          secretName: nokiy-api-secrets
       - name: cache
         emptyDir:
           sizeLimit: 1Gi
@@ -109,10 +109,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nokiy-cms
+  name: nokiy-api
 spec:
   selector:
-    app: nokiy-cms
+    app: nokiy-api
   ports:
     - protocol: TCP
       port: 80
@@ -122,24 +122,24 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nokiy-cms-internal-tls
+  name: nokiy-api-internal-tls
 spec:
-  secretName: nokiy-cms-internal-tls
+  secretName: nokiy-api-internal-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - cms.i.nokiy.net
+    - api.i.nokiy.net
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: nokiy-cms-http
+  name: nokiy-api-http
 spec:
   entryPoints:
     - webinternal
   routes:
-    - match: Host(`cms.i.nokiy.net`)
+    - match: Host(`api.i.nokiy.net`)
       kind: Rule
       middlewares:
         - name: internal-redirect-https
@@ -147,18 +147,18 @@ spec:
         - name: compress
           namespace: traefik
       services:
-        - name: nokiy-cms
+        - name: nokiy-api
           port: 80
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: nokiy-cms
+  name: nokiy-api
 spec:
   entryPoints:
     - websecureinternal
   routes:
-    - match: Host(`cms.i.nokiy.net`)
+    - match: Host(`api.i.nokiy.net`)
       kind: Rule
       middlewares:
         - name: internal-redirect-https
@@ -166,7 +166,7 @@ spec:
         - name: compress
           namespace: traefik
       services:
-        - name: nokiy-cms
+        - name: nokiy-api
           port: 80
   tls:
-    secretName: nokiy-cms-internal-tls
+    secretName: nokiy-api-internal-tls

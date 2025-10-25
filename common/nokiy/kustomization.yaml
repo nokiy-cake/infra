@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
   - postgres.yaml
   - redis.yaml
-  - cms.yaml
+  - api.yaml
   - web.yaml
