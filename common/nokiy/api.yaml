@@ -2,6 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: nokiy-api-secrets
+  namespace: nokiy
 spec:
   secretStoreRef:
     name: production
@@ -71,6 +72,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nokiy-api
+  namespace: nokiy
   labels:
     app: nokiy-api
 spec:
@@ -110,6 +112,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nokiy-api
+  namespace: nokiy
 spec:
   selector:
     app: nokiy-api
@@ -123,6 +126,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: nokiy-api-internal-tls
+  namespace: nokiy
 spec:
   secretName: nokiy-api-internal-tls
   issuerRef:
@@ -135,6 +139,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: nokiy-api-http
+  namespace: nokiy
 spec:
   entryPoints:
     - webinternal
@@ -154,6 +159,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: nokiy-api
+  namespace: nokiy
 spec:
   entryPoints:
     - websecureinternal

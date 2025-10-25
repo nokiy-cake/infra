@@ -99,6 +99,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nokiy-web
+  namespace: nokiy
 spec:
   selector:
     app: nokiy-web
@@ -112,6 +113,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: nokiy-web-internal-tls
+  namespace: nokiy
 spec:
   secretName: nokiy-web-internal-tls
   issuerRef:
@@ -124,6 +126,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: nokiy-web-http
+  namespace: nokiy
 spec:
   entryPoints:
     - webinternal
@@ -143,6 +146,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: nokiy-web
+  namespace: nokiy
 spec:
   entryPoints:
     - websecureinternal

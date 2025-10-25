@@ -2,6 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: postgres-nokiy-documents
+  namespace: nokiy
 spec:
   refreshInterval: 1h
   refreshPolicy: Periodic
@@ -30,6 +31,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: postgres-nokiy-auth
+  namespace: nokiy
 spec:
   refreshInterval: 1h
   refreshPolicy: Periodic
@@ -58,6 +60,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres
+  namespace: nokiy
 spec:
   instances: 2
   enableSuperuserAccess: true
@@ -83,6 +86,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: nokiy-documents
+  namespace: nokiy
 spec:
   name: documents
   owner: nokiy-documents
@@ -93,6 +97,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
   name: nokiy-auth
+  namespace: nokiy
 spec:
   name: auth
   owner: nokiy-auth
