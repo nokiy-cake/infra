@@ -44,7 +44,7 @@ spec:
 
       containers:
       - name: sing-box
-        image: ghcr.io/sagernet/sing-box:v1.12.10
+        image: ghcr.io/sagernet/sing-box:v1.12.11
         ports:
         - containerPort: 443
         command: ["/usr/local/bin/sing-box", "run", "-c", "/etc/sing-box/config.json"]
