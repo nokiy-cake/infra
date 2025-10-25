@@ -71,3 +71,18 @@ spec:
     - name: gotosocial-release
     - name: traefik-config
     - name: cert-manager-letsencrypt
+    - name: external-dns-release
+  patches:
+  - patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: gotosocial
+        namespace: gotosocial
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: social.nokiy.net
+          external-dns.alpha.kubernetes.io/ttl: "300"
+    target:
+      kind: Ingress
+      name: gotosocial
+      namespace: gotosocial

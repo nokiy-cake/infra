@@ -31,3 +31,22 @@ spec:
   wait: true
   dependsOn:
     - name: lgtm-init
+    - name: external-dns-release
+  patches:
+  - patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: lgtm
+        namespace: lgtm
+      spec:
+        values:
+          grafana:
+            ingress:
+              annotations:
+                external-dns.alpha.kubernetes.io/hostname: grafana.nokiy.net
+                external-dns.alpha.kubernetes.io/ttl: "300"
+    target:
+      kind: HelmRelease
+      name: lgtm
+      namespace: lgtm

@@ -12,6 +12,12 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value: echo.yuzu.nokiy.net
+      - op: add
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1hostname
+        value: echo.yuzu.nokiy.net
+      - op: add
+        path: /metadata/annotations/external-dns.alpha.kubernetes.io~1ttl
+        value: "300"
     target:
       kind: Ingress
       name: header-echo
