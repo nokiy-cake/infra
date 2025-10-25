@@ -147,7 +147,7 @@ spec:
     - match: Host(`web.i.nokiy.net`)
       kind: Rule
       middlewares:
-        - name: internal-redirect-https
+        - name: redirect-https
           namespace: traefik
         - name: compress
           namespace: traefik
@@ -167,8 +167,6 @@ spec:
     - match: Host(`web.i.nokiy.net`)
       kind: Rule
       middlewares:
-        - name: internal-redirect-https
-          namespace: traefik
         - name: compress
           namespace: traefik
       services:
