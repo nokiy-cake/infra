@@ -16,7 +16,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        API_ENDPOINT: "https://cms.i.nokiy.net"
+        API_ENDPOINT: "http://nokiy-api"
         POSTGRES_DB: "auth"
         POSTGRES_USER: "{{ .POSTGRES_USER }}"
         POSTGRES_PASSWORD: "{{ .POSTGRES_PASSWORD }}"
@@ -122,10 +122,23 @@ spec:
   dnsNames:
     - web.i.nokiy.net
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nokiy-web-tls
+  namespace: nokiy
+spec:
+  secretName: nokiy-web-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - nokiy.net
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: nokiy-web-http
+  name: nokiy-web-internal-http
   namespace: nokiy
 spec:
   entryPoints:
@@ -145,7 +158,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: nokiy-web
+  name: nokiy-web-internal
   namespace: nokiy
 spec:
   entryPoints:
@@ -163,3 +176,43 @@ spec:
           port: 80
   tls:
     secretName: nokiy-web-internal-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nokiy-web-http
+  namespace: nokiy
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`nokiy.net`)
+      kind: Rule
+      middlewares:
+        - name: redirect-https
+          namespace: traefik
+        - name: compress
+          namespace: traefik
+      services:
+        - name: nokiy-web
+          port: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nokiy-web
+  namespace: nokiy
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nokiy.net`)
+      kind: Rule
+      middlewares:
+        - name: compress
+          namespace: traefik
+      services:
+        - name: nokiy-web
+          port: 80
+  tls:
+    secretName: nokiy-web-tls
