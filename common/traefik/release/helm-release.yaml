@@ -19,8 +19,10 @@ spec:
     service:
       externalTrafficPolicy: Local
       single: true  # Use mixed protocol service (TCP+UDP on same ports)
-    globalArguments:
-      - "--providers.kubernetesIngressRoute.allowCrossNamespace=true"
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: true
+        allowExternalNameServices: true
     ports:
       web:
         redirections:
