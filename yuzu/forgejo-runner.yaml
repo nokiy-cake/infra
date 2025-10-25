@@ -31,8 +31,18 @@ spec:
           path: /spec/values/resources
           value:
             limits:
-              cpu: "4"
-              memory: 4Gi
-            requests:
-              cpu: 250m
+              cpu: 500m
               memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+        - op: add
+          path: /spec/values/dind
+          value:
+            resources:
+              limits:
+                cpu: "3500m"
+                memory: 6Gi
+              requests:
+                cpu: 250m
+                memory: 512Mi
