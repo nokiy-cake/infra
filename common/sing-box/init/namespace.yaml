@@ -4,3 +4,4 @@ metadata:
   name: sing-box
   labels:
     name: sing-box
+    nokiy.net/cluster-secret-store: "production"
