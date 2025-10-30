@@ -12,3 +12,4 @@ resources:
 - cnpg.yaml
 - redis-operator.yaml
 - forgejo-runner.yaml
+- sing-box.yaml

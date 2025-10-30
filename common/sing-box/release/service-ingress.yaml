@@ -3,18 +3,24 @@ kind: Service
 metadata:
   name: sing-box
   namespace: sing-box
+  labels:
+    app.kubernetes.io/name: sing-box
+    app.kubernetes.io/instance: sing-box
+    app.kubernetes.io/component: proxy
 spec:
   selector:
+    app.kubernetes.io/name: sing-box
+    app.kubernetes.io/instance: sing-box
     app: sing-box
   ports:
-    - protocol: TCP
-      name: vless
+    - name: vless
       port: 443
-      targetPort: 443
-    - protocol: TCP
-      name: anytls
+      protocol: TCP
+      targetPort: vless
+    - name: anytls
       port: 444
-      targetPort: 444
+      protocol: TCP
+      targetPort: anytls
   type: ClusterIP
 ---
 apiVersion: traefik.io/v1alpha1
@@ -22,6 +28,10 @@ kind: IngressRouteTCP
 metadata:
   name: sing-box-ingress
   namespace: sing-box
+  labels:
+    app.kubernetes.io/name: sing-box
+    app.kubernetes.io/instance: sing-box
+    app.kubernetes.io/component: proxy
 spec:
   entryPoints:
     - websecure
@@ -29,10 +39,10 @@ spec:
     - match: HostSNIRegexp(`^.+\.org$`)
       services:
         - name: sing-box
-          port: 444
+          port: anytls
     - match: HostSNIRegexp(`^.+\.hk$`)
       services:
         - name: sing-box
-          port: 443
+          port: vless
   tls:
     passthrough: true

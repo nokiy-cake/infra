@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sing-box-deployment
+  namespace: sing-box
+  labels:
+    app.kubernetes.io/name: sing-box
+    app.kubernetes.io/instance: sing-box
+    app.kubernetes.io/component: proxy
+    app: sing-box
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sing-box
+      app.kubernetes.io/instance: sing-box
+      app: sing-box
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sing-box
+        app.kubernetes.io/instance: sing-box
+        app.kubernetes.io/component: proxy
+        app: sing-box
+    spec:
+      volumes:
+        - name: config
+          secret:
+            secretName: sing-box-config
+      containers:
+        - name: sing-box
+          image: ghcr.io/sagernet/sing-box:v1.12.12
+          args:
+            - run
+            - -c
+            - /etc/sing-box/config.json
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 443
+              name: vless
+              protocol: TCP
+            - containerPort: 444
+              name: anytls
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/sing-box
+              readOnly: true

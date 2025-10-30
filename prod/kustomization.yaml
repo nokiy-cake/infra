@@ -9,7 +9,7 @@ resources:
 # - kubeblocks
 - traefik.yaml
 # - forgejo-runner
-- sing-box
+- sing-box.yaml
 # - telemetry
 # - self-nokiy-net
 # - coder
