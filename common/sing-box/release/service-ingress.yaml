@@ -44,5 +44,9 @@ spec:
       services:
         - name: sing-box
           port: vless
+    - match: HostSNIRegexp(`^.+\.edu$`)
+      services:
+        - name: sing-box
+          port: anytls
   tls:
     passthrough: true
