@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nofx-backend
+  namespace: nofx
+  labels:
+    app.kubernetes.io/name: nofx
+    app.kubernetes.io/instance: nofx
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: nofx
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: nofx
+    app.kubernetes.io/instance: nofx
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: nofx
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP

@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: nofx-headers
+  namespace: nofx
+  labels:
+    app.kubernetes.io/name: nofx
+    app.kubernetes.io/instance: nofx
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: nofx
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"

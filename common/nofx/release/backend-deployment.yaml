@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nofx-backend
+  namespace: nofx
+  labels:
+    app.kubernetes.io/name: nofx
+    app.kubernetes.io/instance: nofx
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: nofx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nofx
+      app.kubernetes.io/instance: nofx
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/part-of: nofx
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nofx
+        app.kubernetes.io/instance: nofx
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: nofx
+    spec:
+      initContainers:
+        - name: prepare-storage
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - >
+              set -euo pipefail;
+              mkdir -p /data/decision_logs /data/coin_pool_cache;
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      containers:
+        - name: backend
+          image: ghcr.io/nofxaios/nofx-backend:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 1500m
+              memory: 2Gi
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.json
+              subPath: config.json
+              readOnly: true
+            - name: data
+              mountPath: /app/decision_logs
+              subPath: decision_logs
+            - name: data
+              mountPath: /app/coin_pool_cache
+              subPath: coin_pool_cache
+      volumes:
+        - name: config
+          secret:
+            secretName: nofx-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: nofx-data
