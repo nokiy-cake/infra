@@ -24,7 +24,6 @@ spec:
           containers:
           - name: tsync
             image: ghcr.io/reonokiy/tsync:main@sha256:9a53aa65654927c6616d02591722190d5b267121fbf2c87da77e541f4c6cc25f
-            imagePullPolicy: Always
             env:
             - name: TAILSCALE_TAILNET
               valueFrom:
