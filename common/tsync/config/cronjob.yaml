@@ -1,47 +1,58 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: sync-tailscale-to-cloudflare
-  namespace: self-nokiy-net
+  name: tsync
+  namespace: tsync
+  labels:
+    app.kubernetes.io/name: tsync
+    app.kubernetes.io/instance: tsync
+    app.kubernetes.io/component: cronjob
+    app.kubernetes.io/part-of: tsync
 spec:
   schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: tsync
+            app.kubernetes.io/instance: tsync
+            app.kubernetes.io/component: job
+            app.kubernetes.io/part-of: tsync
         spec:
+          restartPolicy: OnFailure
           containers:
-          - name: sync-tailscale-to-cloudflare
-            image: ghcr.io/reonokiy/sync_tailscale_to_cloudflare
+          - name: tsync
+            image: ghcr.io/reonokiy/tsync:main@sha256:9a53aa65654927c6616d02591722190d5b267121fbf2c87da77e541f4c6cc25f
             imagePullPolicy: Always
             env:
             - name: TAILSCALE_TAILNET
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: TAILSCALE_TAILNET
             - name: TAILSCALE_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: TAILSCALE_API_KEY
             - name: CLOUDFLARE_API_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: CLOUDFLARE_API_TOKEN
             - name: CLOUDFLARE_ZONE_ID
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: CLOUDFLARE_ZONE_ID
             - name: CLOUDFLARE_DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: CLOUDFLARE_DOMAIN
             - name: CLOUDFLARE_BASE_DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: sync-tailscale-to-cloudflare
+                  name: tsync
                   key: CLOUDFLARE_BASE_DOMAIN
-          restartPolicy: OnFailure

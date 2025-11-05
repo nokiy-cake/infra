@@ -30,3 +30,4 @@ resources:
 - tg-bot
 - pocket-id
 - vaultwarden
+- tsync.yaml
