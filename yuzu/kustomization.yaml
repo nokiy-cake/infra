@@ -23,6 +23,7 @@ resources:
 # - nofx.yaml
 # - skypilot.yaml
 - header-echo
+- beszel
 - nokiy.yaml
 - authentik.yaml
 - forgejo.yaml

@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: beszel
+  labels:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: beszel

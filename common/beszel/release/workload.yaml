@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beszel
+  namespace: beszel
+  labels:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: beszel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: beszel
+      app.kubernetes.io/instance: beszel
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: beszel
+        app.kubernetes.io/instance: beszel
+        app.kubernetes.io/component: app
+        app.kubernetes.io/part-of: beszel
+    spec:
+      containers:
+        - name: beszel
+          image: henrygd/beszel:0.8.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /beszel_data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: beszel-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: beszel
+  namespace: beszel
+  labels:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: beszel
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+  ports:
+    - name: http
+      port: 8090
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: beszel-data
+  namespace: beszel
+  labels:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+    app.kubernetes.io/component: data
+    app.kubernetes.io/part-of: beszel
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

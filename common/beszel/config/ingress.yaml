@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: beszel
+  namespace: beszel
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  labels:
+    app.kubernetes.io/name: beszel
+    app.kubernetes.io/instance: beszel
+    app.kubernetes.io/component: ingress
+    app.kubernetes.io/part-of: beszel
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - monitor.nokiy.net
+      secretName: monitor-tls
+  rules:
+    - host: monitor.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: beszel
+                port:
+                  name: http
