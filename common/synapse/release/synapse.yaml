@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: synapse
-          image: ghcr.io/element-hq/synapse:v1.141.0
+          image: ghcr.io/element-hq/synapse:v1.142.0
           imagePullPolicy: IfNotPresent
           env:
             - name: SYNAPSE_CONFIG_PATH
