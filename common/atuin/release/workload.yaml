@@ -57,14 +57,14 @@ spec:
         - name: tls
           mountPath: /etc/atuin/tls
           readOnly: true
-        volumes:
-        - name: server-config
+      volumes:
+      - name: server-config
         secret:
           secretName: atuin-secrets
           items:
           - key: server.toml
             path: server.toml
-        - name: tls
+      - name: tls
         secret:
           secretName: atuin-tls
           defaultMode: 0400
@@ -84,4 +84,3 @@ spec:
   selector:
     app.kubernetes.io/name: atuin
     app.kubernetes.io/component: server
-

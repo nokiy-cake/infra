@@ -4,6 +4,7 @@ metadata:
   name: atuin
   namespace: atuin
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     external-dns.alpha.kubernetes.io/hostname: atuin.nokiy.net
     external-dns.alpha.kubernetes.io/ttl: "300"
 spec:
@@ -22,4 +23,4 @@ spec:
   tls:
   - hosts:
     - atuin.nokiy.net
-    secretName: atuin-tls
+    secretName: atuin-tls-cert
