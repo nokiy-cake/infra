@@ -1,0 +1,45 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: atuin
+  namespace: atuin
+spec:
+  instances: 1
+  storage:
+    size: 1Gi
+  managed:
+    roles:
+    - name: atuin
+      ensure: present
+      login: true
+      superuser: false
+      passwordSecret:
+        name: atuin-secrets
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: atuin-db
+  namespace: atuin
+spec:
+  name: atuin
+  owner: atuin
+  cluster:
+    name: atuin
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: atuin-pooler-rw
+  namespace: atuin
+spec:
+  cluster:
+    name: atuin
+  instances: 1
+  type: rw
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "100"
+      default_pool_size: "10"

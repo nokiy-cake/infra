@@ -32,3 +32,4 @@ resources:
 - pocket-id
 - vaultwarden
 - tsync.yaml
+- atuin.yaml
