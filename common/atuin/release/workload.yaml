@@ -27,18 +27,6 @@ spec:
         - name: http
           containerPort: 8888
           protocol: TCP
-        env:
-        - name: ATUIN_HOST
-          value: "0.0.0.0"
-        - name: ATUIN_PORT
-          value: "8888"
-        - name: ATUIN_OPEN_REGISTRATION
-          value: "true"
-        - name: ATUIN_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: atuin-secrets
-              key: POSTGRES_PASSWORD
         resources:
           requests:
             cpu: 100m
@@ -64,23 +52,19 @@ spec:
           initialDelaySeconds: 15
           periodSeconds: 10
         volumeMounts:
-        - name: config
-          mountPath: /config
         - name: server-config
           mountPath: /root/.config/atuin
         - name: tls
           mountPath: /etc/atuin/tls
           readOnly: true
-      volumes:
-      - name: config
-        emptyDir: {}
-      - name: server-config
+        volumes:
+        - name: server-config
         secret:
           secretName: atuin-secrets
           items:
           - key: server.toml
             path: server.toml
-      - name: tls
+        - name: tls
         secret:
           secretName: atuin-tls
           defaultMode: 0400
