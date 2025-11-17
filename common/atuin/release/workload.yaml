@@ -34,13 +34,11 @@ spec:
           value: "8888"
         - name: ATUIN_OPEN_REGISTRATION
           value: "true"
-        - name: ATUIN_DB_URI
-          value: "postgres://atuin:$(ATUIN_DB_PASSWORD)@atuin-pooler-rw.atuin.svc.cluster.local:6432/atuin"
         - name: ATUIN_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: atuin-secrets
-              key: ATUIN_DB_PASSWORD
+              key: POSTGRES_PASSWORD
         resources:
           requests:
             cpu: 100m
@@ -77,8 +75,11 @@ spec:
       - name: config
         emptyDir: {}
       - name: server-config
-        configMap:
-          name: atuin-server-config
+        secret:
+          secretName: atuin-secrets
+          items:
+          - key: server.toml
+            path: server.toml
       - name: tls
         secret:
           secretName: atuin-tls
