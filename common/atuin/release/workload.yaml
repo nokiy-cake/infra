@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: atuin
-        image: ghcr.io/atuinsh/atuin:latest
+        image: ghcr.io/atuinsh/atuin:18.3.0
         imagePullPolicy: IfNotPresent
         args:
         - server
