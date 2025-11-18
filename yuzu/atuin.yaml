@@ -25,4 +25,4 @@ spec:
     name: atuin
   dependsOn:
   - name: cnpg
-  - name: external-secrets
+  - name: external-secrets-config
