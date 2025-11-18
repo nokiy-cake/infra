@@ -1,0 +1,180 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkding
+  namespace: linkding
+  labels:
+    app.kubernetes.io/name: linkding
+    app.kubernetes.io/instance: linkding
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: linkding
+      app.kubernetes.io/instance: linkding
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: linkding
+        app.kubernetes.io/instance: linkding
+    spec:
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+        # Restore database from S3 backup if it doesn't exist
+        - name: litestream-restore
+          image: litestream/litestream:0.5.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - restore
+            - -if-db-not-exists
+            - -config
+            - /etc/litestream.yml
+            - /etc/linkding/data/db.sqlite3
+          volumeMounts:
+            - name: data
+              mountPath: /etc/linkding/data
+            - name: litestream-config
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yml
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+
+        # Fix permissions after restore (litestream runs as root)
+        - name: fix-permissions
+          image: busybox:1.37
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 1000:1000 /etc/linkding/data
+              chmod -R u+rwX,go+rX /etc/linkding/data
+          volumeMounts:
+            - name: data
+              mountPath: /etc/linkding/data
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+
+      containers:
+        # Continuous replication to S3
+        - name: litestream
+          image: litestream/litestream:0.5.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - replicate
+            - -config
+            - /etc/litestream.yml
+          volumeMounts:
+            - name: data
+              mountPath: /etc/linkding/data
+            - name: litestream-config
+              mountPath: /etc/litestream.yml
+              subPath: litestream.yml
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+
+        # Linkding application
+        - name: linkding
+          image: sissbruecker/linkding:1.44.1
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: http
+            containerPort: 9090
+            protocol: TCP
+          env:
+          - name: LD_SERVER_PORT
+            value: "9090"
+          - name: LD_ENABLE_REGISTRATION
+            value: "false"
+          - name: LD_ENABLE_ADMIN_PANEL
+            value: "true"
+          - name: LD_CSRF_TRUSTED_ORIGINS
+            value: "https://link.nokiy.net"
+          # OIDC configuration - uncomment to enable
+          - name: LD_ENABLE_OIDC
+            value: "false"
+          - name: OIDC_RP_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_RP_CLIENT_ID
+                optional: true
+          - name: OIDC_RP_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_RP_CLIENT_SECRET
+                optional: true
+          - name: OIDC_OP_AUTHORIZATION_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_OP_AUTHORIZATION_ENDPOINT
+                optional: true
+          - name: OIDC_OP_TOKEN_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_OP_TOKEN_ENDPOINT
+                optional: true
+          - name: OIDC_OP_USER_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_OP_USER_ENDPOINT
+                optional: true
+          - name: OIDC_OP_JWKS_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: linkding-oidc
+                key: OIDC_OP_JWKS_ENDPOINT
+                optional: true
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+          - name: data
+            mountPath: /etc/linkding/data
+
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: linkding-data
+      - name: litestream-config
+        secret:
+          secretName: litestream-secrets
