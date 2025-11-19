@@ -16,6 +16,7 @@ spec:
       superuser: false
       passwordSecret:
         name: atuin-secrets
+        key: password
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
