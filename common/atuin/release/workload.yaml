@@ -27,6 +27,9 @@ spec:
         - name: http
           containerPort: 8888
           protocol: TCP
+        env:
+        - name: ATUIN_PORT
+          value: "8888"
         resources:
           requests:
             cpu: 100m
