@@ -39,6 +39,8 @@ spec:
             secretKeyRef:
               name: atuin-secrets
               key: db_uri
+        - name: ATUIN_TLS__ENABLE
+          value: "false"
         resources:
           requests:
             cpu: 100m
@@ -63,23 +65,8 @@ spec:
             port: http
           initialDelaySeconds: 15
           periodSeconds: 10
-        volumeMounts:
-        - name: server-config
-          mountPath: /root/.config/atuin
-        - name: tls
-          mountPath: /etc/atuin/tls
-          readOnly: true
-      volumes:
-      - name: server-config
-        secret:
-          secretName: atuin-secrets
-          items:
-          - key: server.toml
-            path: server.toml
-      - name: tls
-        secret:
-          secretName: atuin-tls-cert
-          defaultMode: 0400
+        volumeMounts: []
+        volumes: []
 ---
 apiVersion: v1
 kind: Service

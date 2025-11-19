@@ -1,2 +1,2 @@
 - use `nokiy.net/cluster-secret-store: "production"` label in namespace that you want to use the production secret store.
-- do not git commit your changes to repo
+- do not git commit your changes to repo.
