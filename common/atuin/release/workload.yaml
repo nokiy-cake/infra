@@ -40,11 +40,17 @@ spec:
               name: atuin-secrets
               key: db_uri
         - name: ATUIN_TLS__ENABLE
-          value: "true"
-        - name: ATUIN_TLS__CERT_PATH
-          value: "/etc/atuin/tls/tls.crt"
-        - name: ATUIN_TLS__PKEY_PATH
-          value: "/etc/atuin/tls/tls.key"
+          value: "false"
+        - name: ATUIN_TLS__CERT
+          valueFrom:
+            secretKeyRef:
+              name: atuin-tls-cert
+              key: tls.crt
+        - name: ATUIN_TLS__PKEY
+          valueFrom:
+            secretKeyRef:
+              name: atuin-tls-cert
+              key: tls.key
         resources:
           requests:
             cpu: 100m
@@ -69,15 +75,8 @@ spec:
             port: http
           initialDelaySeconds: 15
           periodSeconds: 10
-        volumeMounts:
-        - name: tls
-          mountPath: /etc/atuin/tls
-          readOnly: true
-      volumes:
-      - name: tls
-        secret:
-          secretName: atuin-tls-cert
-          defaultMode: 0400
+        volumeMounts: []
+        volumes: []
 ---
 apiVersion: v1
 kind: Service
