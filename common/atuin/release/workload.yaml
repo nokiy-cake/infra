@@ -39,12 +39,6 @@ spec:
             secretKeyRef:
               name: atuin-secrets
               key: db_uri
-        - name: ATUIN_TLS__ENABLE
-          value: "true"
-        - name: ATUIN_TLS__CERT_PATH
-          value: "/etc/atuin/tls/tls.crt"
-        - name: ATUIN_TLS__PKEY_PATH
-          value: "/etc/atuin/tls/tls.key"
         resources:
           requests:
             cpu: 100m
