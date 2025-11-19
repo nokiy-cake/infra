@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mitra
+  namespace: mitra
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: mitra.nokiy.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mitra
+            port:
+              name: http
+  tls:
+  - hosts:
+    - mitra.nokiy.net
+    secretName: mitra-tls

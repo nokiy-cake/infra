@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mitra
+  namespace: mitra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mitra
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mitra
+        app.kubernetes.io/component: server
+    spec:
+      containers:
+      - name: mitra
+        image: bleakfuture0/mitra:v4.13.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8383
+          protocol: TCP
+        env:
+
+        volumeMounts:
+        - name: config
+          mountPath: /etc/mitra
+        - name: storage
+          mountPath: /var/lib/mitra
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      volumes:
+      - name: config
+        configMap:
+          name: mitra-config
+      - name: storage
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mitra
+  namespace: mitra
+  labels:
+    app.kubernetes.io/name: mitra
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8383
+    targetPort: http
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: mitra
+    app.kubernetes.io/component: server

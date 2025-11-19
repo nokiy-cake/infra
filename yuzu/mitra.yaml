@@ -1,0 +1,28 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: mitra
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://github.com/nokiy-cake/infra
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: mitra
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/mitra
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: mitra
+  dependsOn:
+  - name: cnpg
+  - name: external-secrets-config

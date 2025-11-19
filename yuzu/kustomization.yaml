@@ -33,4 +33,5 @@ resources:
 - vaultwarden
 - tsync.yaml
 - atuin.yaml
+# - mitra.yaml
 # - linkding.yaml
