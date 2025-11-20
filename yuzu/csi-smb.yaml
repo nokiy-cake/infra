@@ -1,0 +1,15 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: csi-smb
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/csi-smb
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  targetNamespace: smb-csi
+  timeout: 5m
+  wait: true
