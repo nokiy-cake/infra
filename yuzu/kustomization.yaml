@@ -6,7 +6,7 @@ resources:
 - k3s.yaml
 - hetzner.yaml
 - traefik.yaml
-# - csi-smb.yaml
+- csi-smb.yaml
 - external-secrets.yaml
 - external-dns.yaml
 - cert-manager.yaml

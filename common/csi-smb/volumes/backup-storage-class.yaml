@@ -4,10 +4,9 @@ metadata:
   name: smb-backup
 provisioner: smb.csi.k8s.io
 parameters:
-  source: "//u509824.your-storagebox.de/backup"
-  csi.storage.k8s.io/node-stage-secret-name: smb-credentials
+  csi.storage.k8s.io/node-stage-secret-name: smb-credentials-backup
   csi.storage.k8s.io/node-stage-secret-namespace: smb-csi
-  csi.storage.k8s.io/provisioner-secret-name: smb-credentials
+  csi.storage.k8s.io/provisioner-secret-name: smb-credentials-backup
   csi.storage.k8s.io/provisioner-secret-namespace: smb-csi
 reclaimPolicy: Retain
 allowVolumeExpansion: true
