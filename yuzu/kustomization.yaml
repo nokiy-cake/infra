@@ -11,12 +11,12 @@ resources:
 - external-dns.yaml
 - cert-manager.yaml
 - tailscale.yaml
-#- velero.yaml
+# - velero.yaml
 - cnpg.yaml
 - redis-operator.yaml
 - simple-backup.yaml
 - forgejo-runner.yaml
-- lgtm.yaml
+# - lgtm.yaml
 - vector.yaml
 # - signoz
 # - pds
