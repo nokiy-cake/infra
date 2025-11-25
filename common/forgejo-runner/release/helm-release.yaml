@@ -4,7 +4,7 @@ metadata:
   name: forgejo-runner
   namespace: forgejo-runner
 spec:
-  interval: 5m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: forgejo-runner

@@ -4,7 +4,7 @@ metadata:
   name: hetzner-csi
   namespace: hetzner
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: hcloud-csi

@@ -4,7 +4,7 @@ metadata:
   name: external-dns
   namespace: external-dns
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: external-dns

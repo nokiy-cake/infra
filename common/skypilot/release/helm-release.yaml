@@ -70,7 +70,7 @@ metadata:
   name: skypilot
   namespace: skypilot
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: skypilot

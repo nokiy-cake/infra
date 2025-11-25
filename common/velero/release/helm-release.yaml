@@ -4,7 +4,7 @@ metadata:
   name: velero
   namespace: velero
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: velero

@@ -4,5 +4,5 @@ metadata:
   name: csi-driver-smb
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 12h
   url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts

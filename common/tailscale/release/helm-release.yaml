@@ -4,7 +4,7 @@ metadata:
   name: tailscale-operator
   namespace: tailscale
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: tailscale-operator

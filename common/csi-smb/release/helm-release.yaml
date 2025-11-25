@@ -4,7 +4,7 @@ metadata:
   name: csi-driver-smb
   namespace: smb-csi
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: csi-driver-smb

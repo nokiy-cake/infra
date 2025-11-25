@@ -4,7 +4,7 @@ metadata:
   name: cnpg
   namespace: cnpg
 spec:
-  interval: 5m
+  interval: 1h
   chart:
     spec:
       chart: cloudnative-pg
