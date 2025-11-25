@@ -43,4 +43,3 @@ spec:
         - op: replace
           path: /spec/values/alloy-profiles/alloy/extraEnv/1/value
           value: mine
-      patchType: JSONPatch
