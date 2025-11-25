@@ -1,0 +1,64 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns-init
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/external-dns/init
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns-secrets
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/external-dns/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+  - name: external-dns-init
+  - name: external-secrets-config
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-dns-release
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: ./common/external-dns/release
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 2m
+  wait: true
+  dependsOn:
+  - name: external-dns-secrets
+  patches:
+  - patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: external-dns
+        namespace: external-dns
+      spec:
+        values:
+          domainFilters:
+          - nokiy.net
+    target:
+      kind: HelmRelease
+      name: external-dns
+      namespace: external-dns
