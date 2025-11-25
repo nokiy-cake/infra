@@ -8,3 +8,4 @@ resources:
 - cnpg.yaml
 - openebs.yaml
 - redis-operator.yaml
+- k8s-monitoring.yaml
