@@ -4,7 +4,7 @@ metadata:
   name: cert-manager-init
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/cert-manager/init
   prune: true
   sourceRef:
@@ -19,7 +19,7 @@ metadata:
   name: cert-manager-release
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/cert-manager/release
   prune: true
   sourceRef:
@@ -36,7 +36,7 @@ metadata:
   name: cert-manager-issuer
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/cert-manager/issuer
   prune: true
   sourceRef:
@@ -53,7 +53,7 @@ metadata:
   name: cert-manager-secrets
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/cert-manager/secrets
   prune: true
   sourceRef:
@@ -71,7 +71,7 @@ metadata:
   name: cert-manager-letsencrypt
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/cert-manager/letsencrypt
   prune: true
   sourceRef:

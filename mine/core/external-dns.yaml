@@ -4,7 +4,7 @@ metadata:
   name: external-dns-init
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/external-dns/init
   prune: true
   sourceRef:
@@ -19,7 +19,7 @@ metadata:
   name: external-dns-secrets
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/external-dns/secrets
   prune: true
   sourceRef:
@@ -37,7 +37,7 @@ metadata:
   name: external-dns-release
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/external-dns/release
   prune: true
   sourceRef:

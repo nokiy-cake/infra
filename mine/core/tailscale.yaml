@@ -4,7 +4,7 @@ metadata:
   name: tailscale-init
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1h
   path: ./common/tailscale/init
   prune: true
   sourceRef:
@@ -19,7 +19,7 @@ metadata:
   name: tailscale-secrets
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 1h
   path: ./common/tailscale/secrets
   prune: true
   sourceRef:
@@ -37,7 +37,7 @@ metadata:
   name: tailscale-release
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 1h
   path: ./common/tailscale/release
   prune: true
   sourceRef:
