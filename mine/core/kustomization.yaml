@@ -6,6 +6,5 @@ resources:
 - cert-manager.yaml
 - tailscale.yaml
 - cnpg.yaml
-- openebs.yaml
 - redis-operator.yaml
 - k8s-monitoring.yaml
