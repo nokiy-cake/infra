@@ -1,18 +1,256 @@
+---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: k8s-monitoring-credentials
+  name: k8s-monitoring-values
   namespace: k8s-monitoring
 spec:
   refreshInterval: 1h
+  refreshPolicy: Periodic
   secretStoreRef:
     name: production
     kind: ClusterSecretStore
   target:
-    name: k8s-monitoring-credentials
+    name: k8s-monitoring-values
     creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        values.yaml: |
+          {{- $token := .token }}
+          {{- $cluster := "${CLUSTER_NAME}" }}
+          cluster:
+            name: {{ $cluster }}
+          destinations:
+            - name: grafana-cloud-metrics
+              type: prometheus
+              url: https://prometheus-prod-49-prod-ap-northeast-0.grafana.net./api/prom/push
+              auth:
+                type: basic
+                username: "1852962"
+                password: {{ $token }}
+            - name: grafana-cloud-logs
+              type: loki
+              url: https://logs-prod-030.grafana.net./loki/api/v1/push
+              auth:
+                type: basic
+                username: "1025766"
+                password: {{ $token }}
+            - name: gc-otlp-endpoint
+              type: otlp
+              url: https://otlp-gateway-prod-ap-northeast-0.grafana.net./otlp
+              protocol: http
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+              metrics:
+                enabled: true
+              logs:
+                enabled: true
+              traces:
+                enabled: true
+            - name: grafana-cloud-profiles
+              type: pyroscope
+              url: https://profiles-prod-019.grafana.net.:443
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+          clusterMetrics:
+            enabled: true
+            opencost:
+              enabled: true
+              metricsSource: grafana-cloud-metrics
+              opencost:
+                exporter:
+                  defaultClusterId: {{ $cluster }}
+              prometheus:
+                existingSecretName: grafana-cloud-metrics-grafana-k8s-monitoring
+                external:
+                  url: https://prometheus-prod-49-prod-ap-northeast-0.grafana.net./api/prom
+            kepler:
+              enabled: true
+          annotationAutodiscovery:
+            enabled: true
+          prometheusOperatorObjects:
+            enabled: true
+          clusterEvents:
+            enabled: true
+          nodeLogs:
+            enabled: true
+          podLogs:
+            enabled: true
+          applicationObservability:
+            enabled: true
+            receivers:
+              otlp:
+                grpc:
+                  enabled: true
+                  port: 4317
+                http:
+                  enabled: true
+                  port: 4318
+              zipkin:
+                enabled: true
+                port: 9411
+          autoInstrumentation:
+            enabled: true
+          profiling:
+            enabled: true
+          alloy-metrics:
+            enabled: true
+            alloy:
+              extraEnv:
+                - name: GCLOUD_RW_API_KEY
+                  value: {{ $token }}
+                - name: CLUSTER_NAME
+                  value: {{ $cluster }}
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: GCLOUD_FM_COLLECTOR_ID
+                  value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-$(POD_NAME)
+            remoteConfig:
+              enabled: true
+              url: https://fleet-management-prod-019.grafana.net
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+          alloy-singleton:
+            enabled: true
+            alloy:
+              extraEnv:
+                - name: GCLOUD_RW_API_KEY
+                  value: {{ $token }}
+                - name: CLUSTER_NAME
+                  value: {{ $cluster }}
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: GCLOUD_FM_COLLECTOR_ID
+                  value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-$(POD_NAME)
+            remoteConfig:
+              enabled: true
+              url: https://fleet-management-prod-019.grafana.net
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+          alloy-logs:
+            enabled: true
+            alloy:
+              extraEnv:
+                - name: GCLOUD_RW_API_KEY
+                  value: {{ $token }}
+                - name: CLUSTER_NAME
+                  value: {{ $cluster }}
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: spec.nodeName
+                - name: GCLOUD_FM_COLLECTOR_ID
+                  value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-logs-$(NODE_NAME)
+            remoteConfig:
+              enabled: true
+              url: https://fleet-management-prod-019.grafana.net
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+          alloy-receiver:
+            enabled: true
+            alloy:
+              extraPorts:
+                - name: otlp-grpc
+                  port: 4317
+                  targetPort: 4317
+                  protocol: TCP
+                - name: otlp-http
+                  port: 4318
+                  targetPort: 4318
+                  protocol: TCP
+                - name: zipkin
+                  port: 9411
+                  targetPort: 9411
+                  protocol: TCP
+              extraEnv:
+                - name: GCLOUD_RW_API_KEY
+                  value: {{ $token }}
+                - name: CLUSTER_NAME
+                  value: {{ $cluster }}
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: spec.nodeName
+                - name: GCLOUD_FM_COLLECTOR_ID
+                  value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-receiver-$(NODE_NAME)
+            remoteConfig:
+              enabled: true
+              url: https://fleet-management-prod-019.grafana.net
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
+          alloy-profiles:
+            enabled: true
+            alloy:
+              extraEnv:
+                - name: GCLOUD_RW_API_KEY
+                  value: {{ $token }}
+                - name: CLUSTER_NAME
+                  value: {{ $cluster }}
+                - name: NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: spec.nodeName
+                - name: GCLOUD_FM_COLLECTOR_ID
+                  value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-profiles-$(NODE_NAME)
+            remoteConfig:
+              enabled: true
+              url: https://fleet-management-prod-019.grafana.net
+              auth:
+                type: basic
+                username: "1067987"
+                password: {{ $token }}
   data:
-    - secretKey: grafana-cloud-access-policy-token
+    - secretKey: token
       remoteRef:
         key: k8s-monitoring
         property: PASSWORD
@@ -36,284 +274,5 @@ spec:
     createNamespace: true
   valuesFrom:
     - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.0.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.1.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.2.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-metrics.alloy.extraEnv.0.value
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-metrics.remoteConfig.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-singleton.alloy.extraEnv.0.value
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-singleton.remoteConfig.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-logs.alloy.extraEnv.0.value
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-logs.remoteConfig.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-receiver.alloy.extraEnv.0.value
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-receiver.remoteConfig.auth.password
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-profiles.alloy.extraEnv.0.value
-    - kind: Secret
-      name: k8s-monitoring-credentials
-      valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-profiles.remoteConfig.auth.password
-  values:
-    cluster:
-      name: PLACEHOLDER_CLUSTER_NAME
-    destinations:
-      - name: grafana-cloud-metrics
-        type: prometheus
-        url: https://prometheus-prod-49-prod-ap-northeast-0.grafana.net./api/prom/push
-        auth:
-          type: basic
-          username: "1852962"
-          # password: <placeholder from valuesFrom>
-      - name: grafana-cloud-logs
-        type: loki
-        url: https://logs-prod-030.grafana.net./loki/api/v1/push
-        auth:
-          type: basic
-          username: "1025766"
-          # password: <placeholder from valuesFrom>
-      - name: gc-otlp-endpoint
-        type: otlp
-        url: https://otlp-gateway-prod-ap-northeast-0.grafana.net./otlp
-        protocol: http
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-        metrics:
-          enabled: true
-        logs:
-          enabled: true
-        traces:
-          enabled: true
-      - name: grafana-cloud-profiles
-        type: pyroscope
-        url: https://profiles-prod-019.grafana.net.:443
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-    clusterMetrics:
-      enabled: true
-      opencost:
-        enabled: true
-        metricsSource: grafana-cloud-metrics
-        opencost:
-          exporter:
-            defaultClusterId: PLACEHOLDER_CLUSTER_NAME
-        prometheus:
-          existingSecretName: grafana-cloud-metrics-grafana-k8s-monitoring
-          external:
-            url: https://prometheus-prod-49-prod-ap-northeast-0.grafana.net./api/prom
-      kepler:
-        enabled: true
-    annotationAutodiscovery:
-      enabled: true
-    prometheusOperatorObjects:
-      enabled: true
-    clusterEvents:
-      enabled: true
-    nodeLogs:
-      enabled: true
-    podLogs:
-      enabled: true
-    applicationObservability:
-      enabled: true
-      receivers:
-        otlp:
-          grpc:
-            enabled: true
-            port: 4317
-          http:
-            enabled: true
-            port: 4318
-        zipkin:
-          enabled: true
-          port: 9411
-    autoInstrumentation:
-      enabled: true
-    profiling:
-      enabled: true
-    alloy-metrics:
-      enabled: true
-      alloy:
-        extraEnv:
-          - name: GCLOUD_RW_API_KEY
-            # value: <placeholder from valuesFrom>
-          - name: CLUSTER_NAME
-            value: PLACEHOLDER_CLUSTER_NAME
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: GCLOUD_FM_COLLECTOR_ID
-            value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-$(POD_NAME)
-      remoteConfig:
-        enabled: true
-        url: https://fleet-management-prod-019.grafana.net
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-    alloy-singleton:
-      enabled: true
-      alloy:
-        extraEnv:
-          - name: GCLOUD_RW_API_KEY
-            # value: <placeholder from valuesFrom>
-          - name: CLUSTER_NAME
-            value: PLACEHOLDER_CLUSTER_NAME
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: GCLOUD_FM_COLLECTOR_ID
-            value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-$(POD_NAME)
-      remoteConfig:
-        enabled: true
-        url: https://fleet-management-prod-019.grafana.net
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-    alloy-logs:
-      enabled: true
-      alloy:
-        extraEnv:
-          - name: GCLOUD_RW_API_KEY
-            # value: <placeholder from valuesFrom>
-          - name: CLUSTER_NAME
-            value: PLACEHOLDER_CLUSTER_NAME
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-          - name: GCLOUD_FM_COLLECTOR_ID
-            value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-logs-$(NODE_NAME)
-      remoteConfig:
-        enabled: true
-        url: https://fleet-management-prod-019.grafana.net
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-    alloy-receiver:
-      enabled: true
-      alloy:
-        extraPorts:
-          - name: otlp-grpc
-            port: 4317
-            targetPort: 4317
-            protocol: TCP
-          - name: otlp-http
-            port: 4318
-            targetPort: 4318
-            protocol: TCP
-          - name: zipkin
-            port: 9411
-            targetPort: 9411
-            protocol: TCP
-        extraEnv:
-          - name: GCLOUD_RW_API_KEY
-            # value: <placeholder from valuesFrom>
-          - name: CLUSTER_NAME
-            value: PLACEHOLDER_CLUSTER_NAME
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-          - name: GCLOUD_FM_COLLECTOR_ID
-            value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-receiver-$(NODE_NAME)
-      remoteConfig:
-        enabled: true
-        url: https://fleet-management-prod-019.grafana.net
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
-    alloy-profiles:
-      enabled: true
-      alloy:
-        extraEnv:
-          - name: GCLOUD_RW_API_KEY
-            # value: <placeholder from valuesFrom>
-          - name: CLUSTER_NAME
-            value: PLACEHOLDER_CLUSTER_NAME
-          - name: NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-          - name: GCLOUD_FM_COLLECTOR_ID
-            value: grafana-k8s-monitoring-$(CLUSTER_NAME)-$(NAMESPACE)-alloy-profiles-$(NODE_NAME)
-      remoteConfig:
-        enabled: true
-        url: https://fleet-management-prod-019.grafana.net
-        auth:
-          type: basic
-          username: "1067987"
-          # password: <placeholder from valuesFrom>
+      name: k8s-monitoring-values
+      valuesKey: values.yaml

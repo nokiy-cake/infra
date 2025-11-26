@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  instances: 3
+  enableSuperuserAccess: true
+  storage:
+    size: 20Gi
+    storageClass: local-path
+  walStorage:
+    size: 10Gi
+    storageClass: local-path
+  monitoring:
+    enablePodMonitor: true

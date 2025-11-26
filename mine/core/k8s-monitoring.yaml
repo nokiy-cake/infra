@@ -14,32 +14,6 @@ spec:
   wait: true
   dependsOn:
     - name: external-secrets-config
-  patches:
-    - target:
-        group: helm.toolkit.fluxcd.io
-        version: v2
-        kind: HelmRelease
-        name: k8s-monitoring
-        namespace: k8s-monitoring
-      patch: |-
-        - op: replace
-          path: /spec/values/cluster/name
-          value: mine
-        - op: replace
-          path: /spec/values/clusterMetrics/opencost/opencost/exporter/defaultClusterId
-          value: mine
-        - op: replace
-          path: /spec/values/alloy-metrics/alloy/extraEnv/1/value
-          value: mine
-        - op: replace
-          path: /spec/values/alloy-singleton/alloy/extraEnv/1/value
-          value: mine
-        - op: replace
-          path: /spec/values/alloy-logs/alloy/extraEnv/1/value
-          value: mine
-        - op: replace
-          path: /spec/values/alloy-receiver/alloy/extraEnv/1/value
-          value: mine
-        - op: replace
-          path: /spec/values/alloy-profiles/alloy/extraEnv/1/value
-          value: mine
+  postBuild:
+    substitute:
+      CLUSTER_NAME: mine
