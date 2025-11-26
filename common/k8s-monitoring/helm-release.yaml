@@ -1,3 +1,22 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: k8s-monitoring-credentials
+  namespace: k8s-monitoring
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: k8s-monitoring-credentials
+    creationPolicy: Owner
+  data:
+    - secretKey: grafana-cloud-access-policy-token
+      remoteRef:
+        key: k8s-monitoring
+        property: PASSWORD
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -15,6 +34,59 @@ spec:
         namespace: flux-system
   install:
     createNamespace: true
+  valuesFrom:
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: destinations.[0].auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: destinations.[1].auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: destinations.[2].auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-metrics.alloy.extraEnv.[0].value
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-metrics.remoteConfig.auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-singleton.alloy.extraEnv.[0].value
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-singleton.remoteConfig.auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-logs.alloy.extraEnv.[0].value
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-logs.remoteConfig.auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-receiver.alloy.extraEnv.[0].value
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-receiver.remoteConfig.auth.password
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-profiles.alloy.extraEnv.[0].value
+    - kind: Secret
+      name: k8s-monitoring-credentials
+      valuesKey: grafana-cloud-access-policy-token
+      targetPath: alloy-profiles.remoteConfig.auth.password
   values:
     cluster:
       name: PLACEHOLDER_CLUSTER_NAME
@@ -25,22 +97,14 @@ spec:
         auth:
           type: basic
           username: "1852962"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
       - name: grafana-cloud-logs
         type: loki
         url: https://logs-prod-030.grafana.net./loki/api/v1/push
         auth:
           type: basic
           username: "1025766"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
       - name: gc-otlp-endpoint
         type: otlp
         url: https://otlp-gateway-prod-ap-northeast-0.grafana.net./otlp
@@ -48,11 +112,7 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
         metrics:
           enabled: true
         logs:
@@ -65,11 +125,7 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
     clusterMetrics:
       enabled: true
       opencost:
@@ -116,10 +172,7 @@ spec:
       alloy:
         extraEnv:
           - name: GCLOUD_RW_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+            # value: <placeholder from valuesFrom>
           - name: CLUSTER_NAME
             value: PLACEHOLDER_CLUSTER_NAME
           - name: NAMESPACE
@@ -138,20 +191,13 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
     alloy-singleton:
       enabled: true
       alloy:
         extraEnv:
           - name: GCLOUD_RW_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+            # value: <placeholder from valuesFrom>
           - name: CLUSTER_NAME
             value: PLACEHOLDER_CLUSTER_NAME
           - name: NAMESPACE
@@ -170,20 +216,13 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
     alloy-logs:
       enabled: true
       alloy:
         extraEnv:
           - name: GCLOUD_RW_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+            # value: <placeholder from valuesFrom>
           - name: CLUSTER_NAME
             value: PLACEHOLDER_CLUSTER_NAME
           - name: NAMESPACE
@@ -206,11 +245,7 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
     alloy-receiver:
       enabled: true
       alloy:
@@ -229,10 +264,7 @@ spec:
             protocol: TCP
         extraEnv:
           - name: GCLOUD_RW_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+            # value: <placeholder from valuesFrom>
           - name: CLUSTER_NAME
             value: PLACEHOLDER_CLUSTER_NAME
           - name: NAMESPACE
@@ -255,20 +287,13 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
     alloy-profiles:
       enabled: true
       alloy:
         extraEnv:
           - name: GCLOUD_RW_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+            # value: <placeholder from valuesFrom>
           - name: CLUSTER_NAME
             value: PLACEHOLDER_CLUSTER_NAME
           - name: NAMESPACE
@@ -291,8 +316,4 @@ spec:
         auth:
           type: basic
           username: "1067987"
-          password:
-            valueFrom:
-              secretKeyRef:
-                name: k8s-monitoring-credentials
-                key: grafana-cloud-access-policy-token
+          # password: <placeholder from valuesFrom>
