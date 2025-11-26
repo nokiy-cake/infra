@@ -38,19 +38,19 @@ spec:
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.[0].auth.password
+      targetPath: destinations.0.auth.password
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.[1].auth.password
+      targetPath: destinations.1.auth.password
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: destinations.[2].auth.password
+      targetPath: destinations.2.auth.password
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-metrics.alloy.extraEnv.[0].value
+      targetPath: alloy-metrics.alloy.extraEnv.0.value
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
@@ -58,7 +58,7 @@ spec:
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-singleton.alloy.extraEnv.[0].value
+      targetPath: alloy-singleton.alloy.extraEnv.0.value
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
@@ -66,7 +66,7 @@ spec:
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-logs.alloy.extraEnv.[0].value
+      targetPath: alloy-logs.alloy.extraEnv.0.value
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
@@ -74,7 +74,7 @@ spec:
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-receiver.alloy.extraEnv.[0].value
+      targetPath: alloy-receiver.alloy.extraEnv.0.value
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
@@ -82,7 +82,7 @@ spec:
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
-      targetPath: alloy-profiles.alloy.extraEnv.[0].value
+      targetPath: alloy-profiles.alloy.extraEnv.0.value
     - kind: Secret
       name: k8s-monitoring-credentials
       valuesKey: grafana-cloud-access-policy-token
