@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - external-secrets.yaml
 - external-dns.yaml
+- local-path-provisioner.yaml
 - cert-manager.yaml
 - tailscale.yaml
 - cnpg.yaml

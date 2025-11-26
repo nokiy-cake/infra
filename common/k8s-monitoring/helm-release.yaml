@@ -15,8 +15,6 @@ spec:
         namespace: flux-system
   install:
     createNamespace: true
-  upgrade:
-    createNamespace: true
   values:
     cluster:
       name: PLACEHOLDER_CLUSTER_NAME
