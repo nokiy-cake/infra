@@ -4,7 +4,7 @@ metadata:
   name: k8s-monitoring
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 2m
   path: ./common/k8s-monitoring
   prune: true
   sourceRef:
