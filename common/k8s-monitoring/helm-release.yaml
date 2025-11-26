@@ -61,15 +61,7 @@ spec:
           clusterMetrics:
             enabled: true
             opencost:
-              enabled: true
-              metricsSource: grafana-cloud-metrics
-              opencost:
-                exporter:
-                  defaultClusterId: {{ $cluster }}
-              prometheus:
-                existingSecretName: grafana-cloud-metrics-grafana-k8s-monitoring
-                external:
-                  url: https://prometheus-prod-49-prod-ap-northeast-0.grafana.net./api/prom
+              enabled: false
             kepler:
               enabled: true
           annotationAutodiscovery:
