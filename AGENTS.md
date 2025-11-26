@@ -1,2 +1,4 @@
 - use `nokiy.net/cluster-secret-store: "production"` label in namespace that you want to use the production secret store.
 - do not git commit your changes to repo.
+- use `kubectl apply -f <file> --dry-run=server -o yaml` to validate your changes before applying them to the cluster.
+- this config file use fluxcd to deploy, DO NOT apply them to the cluster directly.
