@@ -68,36 +68,6 @@ spec:
             - 100.64.0.0/10
             - 172.16.0.0/12
             - 192.168.0.0/16
-      webinternal:
-        port: 9080
-        expose:
-          default: true
-        exposedPort: 9080
-        redirections:
-          entryPoint:
-            to: websecureinternal
-            scheme: https
-            permanent: true
-        forwardedHeaders:
-          trustedIPs:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-      websecureinternal:
-        port: 9443
-        expose:
-          default: true
-        exposedPort: 9443
-        http2:
-          maxConcurrentStreams: 250
-        http3:
-          enabled: true
-          advertisedPort: 9443
-        forwardedHeaders:
-          trustedIPs:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-        tls:
-          enabled: true
     gatewayClass:
       enabled: true
   install:
