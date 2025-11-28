@@ -1,3 +1,30 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: b2-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: b2-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: access_key
+      remoteRef:
+        key: b2-backup
+        property: ACCESS_KEY
+    - secretKey: secret_key
+      remoteRef:
+        key: b2-backup
+        property: SECRET_KEY
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -14,3 +41,34 @@ spec:
     storageClass: local-path
   monitoring:
     enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      destinationPath: s3://backup-nokiy-net/mine/postgres/
+      endpointURL: https://s3.us-east-005.backblazeb2.com
+      s3Credentials:
+        accessKeyId:
+          name: b2-creds
+          key: access_key
+        secretAccessKey:
+          name: b2-creds
+          key: secret_key
+      wal:
+        compression: bzip2
+        maxParallel: 8
+        encryption: AES256
+      data:
+        compression: bzip2
+        maxParallel: 8
+        encryption: AES256
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: postgres-backup
+  namespace: postgres
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: postgres
