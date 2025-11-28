@@ -59,7 +59,6 @@ spec:
         encryption: AES256
       data:
         compression: bzip2
-        maxParallel: 8
         encryption: AES256
 ---
 apiVersion: postgresql.cnpg.io/v1
