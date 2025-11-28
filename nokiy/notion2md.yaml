@@ -1,23 +1,10 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: notion2md-tls
-  namespace: nokiy
-spec:
-  secretName: notion2md-tls
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  dnsNames:
-    - notion.nokiy.net
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: notion2md-server
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 10m
   url: https://github.com/reonokiy/notion2md-server.git
   ref:
     branch: main
@@ -46,8 +33,9 @@ spec:
           annotations:
             external-dns.alpha.kubernetes.io/hostname: notion.nokiy.net
             external-dns.alpha.kubernetes.io/ttl: "300"
-            kubernetes.io/ingress.class: traefik
+            cert-manager.io/cluster-issuer: letsencrypt-prod
         spec:
+          ingressClassName: traefik
           tls:
             - hosts:
                 - notion.nokiy.net
@@ -57,4 +45,3 @@ spec:
       target:
         kind: Ingress
         name: notion2md-server
-
