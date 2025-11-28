@@ -28,7 +28,7 @@ metadata:
   name: notion2md
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 10m
   path: ./deploy/k8s
   prune: true
   sourceRef:
@@ -46,6 +46,7 @@ spec:
           annotations:
             external-dns.alpha.kubernetes.io/hostname: notion.nokiy.net
             external-dns.alpha.kubernetes.io/ttl: "300"
+            kubernetes.io/ingress.class: traefik
         spec:
           tls:
             - hosts:
