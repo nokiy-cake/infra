@@ -7,7 +7,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: traefik-tailscale
-  namespace: flux-system
+  namespace: tailscale
 spec:
   interval: 12h
   url: https://traefik.github.io/charts
@@ -26,7 +26,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: traefik-tailscale
-        namespace: flux-system
+        namespace: tailscale
   values:
     service:
       type: LoadBalancer
