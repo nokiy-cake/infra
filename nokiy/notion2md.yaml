@@ -25,23 +25,25 @@ spec:
   timeout: 2m
   wait: true
   patches:
-    - patch: |-
-        apiVersion: networking.k8s.io/v1
-        kind: Ingress
-        metadata:
-          name: notion2md-server
-          annotations:
-            external-dns.alpha.kubernetes.io/hostname: notion.nokiy.net
-            external-dns.alpha.kubernetes.io/ttl: "300"
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-        spec:
-          ingressClassName: traefik
-          tls:
-            - hosts:
-                - notion.nokiy.net
-              secretName: notion2md-tls
-          rules:
-            - host: notion.nokiy.net
-      target:
+    - target:
         kind: Ingress
         name: notion2md-server
+      patch: |-
+        - op: add
+          path: /spec/ingressClassName
+          value: traefik
+        - op: replace
+          path: /spec/rules/0/host
+          value: notion.nokiy.net
+        - op: replace
+          path: /spec/tls/0/hosts/0
+          value: notion.nokiy.net
+        - op: add
+          path: /metadata/annotations/external-dns.alpha.kubernetes.io~1hostname
+          value: notion.nokiy.net
+        - op: add
+          path: /metadata/annotations/external-dns.alpha.kubernetes.io~1ttl
+          value: "300"
+        - op: add
+          path: /metadata/annotations/cert-manager.io~1cluster-issuer
+          value: letsencrypt-prod
