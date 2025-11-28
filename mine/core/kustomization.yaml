@@ -4,6 +4,7 @@ resources:
 - external-secrets.yaml
 - external-dns.yaml
 - local-path-provisioner.yaml
+#- csi-s3.yaml
 - cert-manager.yaml
 - tailscale.yaml
 - cnpg.yaml
