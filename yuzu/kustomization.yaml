@@ -20,7 +20,6 @@ resources:
 - vector.yaml
 # - signoz
 # - pds
-- gotosocial.yaml
 # - nofx.yaml
 # - skypilot.yaml
 - header-echo
