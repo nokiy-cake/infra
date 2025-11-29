@@ -30,22 +30,26 @@ spec:
         name: kubernetes-dashboard
         namespace: flux-system
   values:
+    app:
+      ingress:
+        enabled: true
+        ingressClassName: tailscale-traefik
+        useDefaultAnnotations: false
+        path: /
+        pathType: Prefix
+        hosts:
+          - dashboard.mine.i.nokiy.net
+        issuer:
+          name: letsencrypt-prod
+          scope: cluster
+        tls:
+          enabled: true
+          secretName: wildcard-mine-i-nokiy-net-tls
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          external-dns.alpha.kubernetes.io/hostname: dashboard.mine.i.nokiy.net
     protocolHttp: true
     metricsScraper:
       enabled: true
-    ingress:
-      enabled: true
-      ingressClassName: tailscale-traefik
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        external-dns.alpha.kubernetes.io/hostname: dashboard.mine.i.nokiy.net
-      hosts:
-        - dashboard.mine.i.nokiy.net
-      paths:
-        - /
-      pathType: Prefix
-      tls:
-        - hosts:
-            - "*.mine.i.nokiy.net"
-            - mine.i.nokiy.net
-          secretName: wildcard-mine-i-nokiy-net-tls
