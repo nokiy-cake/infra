@@ -5,6 +5,11 @@ metadata:
   namespace: traefik
 spec:
   values:
+    logs:
+      general:
+        level: "DEBUG"
+      access:
+        enabled: true
     hostNetwork: false
     service:
       enabled: true
