@@ -62,3 +62,6 @@ spec:
       kind: HelmRelease
       name: external-dns
       namespace: external-dns
+  postBuild:
+    substitute:
+      CLUSTER: mine
