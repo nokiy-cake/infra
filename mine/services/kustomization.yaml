@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - nokiy.yaml
 - kubernetes-dashboard.yaml
+- gotosocial.yaml
