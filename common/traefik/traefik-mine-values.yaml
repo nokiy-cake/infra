@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  values:
+    hostNetwork: false
+    service:
+      enabled: true
+      type: LoadBalancer
+      ipFamilyPolicy: RequireDualStack
+      ipFamilies:
+        - IPv4
+        - IPv6
+      annotations:
+        io.cilium/lb-ipam-pool: public-pool
+      spec:
+        externalTrafficPolicy: Cluster
+      single: true
+    ports:
+      web:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+            permanent: true
+      websecure:
+        expose:
+          default: true
+        exposedPort: 443
+        protocol: TCP
+        http3:
+          enabled: true
+          advertisedPort: 443
+    providers:
+      kubernetesGateway:
+        enabled: true
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
+      name: traefik

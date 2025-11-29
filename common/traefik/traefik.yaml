@@ -1,3 +1,17 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: traefik
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: https://traefik.github.io/charts
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,11 +28,9 @@ spec:
         name: traefik
         namespace: flux-system
   values:
-    # deployment:
-    #   replicas: 1
     service:
       externalTrafficPolicy: Local
-      single: true  # Use mixed protocol service (TCP+UDP on same ports)
+      single: true
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
@@ -48,39 +60,10 @@ spec:
             - 100.64.0.0/10
             - 172.16.0.0/12
             - 192.168.0.0/16
-      # Internal entrypoints for Tailscale traffic only
-      webinternal:
-        port: 9080
-        expose:
-          default: true
-        exposedPort: 9080
-        redirections:
-          entryPoint:
-            to: websecureinternal
-            scheme: https
-            permanent: true
-        forwardedHeaders:
-          trustedIPs:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-      websecureinternal:
-        port: 9443
-        expose:
-          default: true
-        exposedPort: 9443
-        http2:
-          maxConcurrentStreams: 250
-        http3:
-          enabled: true
-          advertisedPort: 9443
-        forwardedHeaders:
-          trustedIPs:
-            - 10.0.0.0/8
-            - 100.64.0.0/10
-        tls:
-          enabled: true
-    gatewayClass:
+    ingressClass:
       enabled: true
+      isDefaultClass: false
+      name: traefik
   install:
     crds: CreateReplace
   upgrade:
