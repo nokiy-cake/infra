@@ -4,7 +4,7 @@ metadata:
   name: traefik
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 10m
   path: ./mine/core/traefik
   prune: true
   sourceRef:
