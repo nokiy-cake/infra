@@ -12,5 +12,3 @@ spec:
     name: flux-system
   timeout: 2m
   wait: true
-  dependsOn:
-    - name: cert-manager-letsencrypt
