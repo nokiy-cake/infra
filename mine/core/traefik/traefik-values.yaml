@@ -32,7 +32,7 @@ spec:
         protocol: TCP
         http3:
           enabled: true
-          advertisedPort: 8443
+          advertisedPort: 443
     providers:
       kubernetesGateway:
         enabled: true
