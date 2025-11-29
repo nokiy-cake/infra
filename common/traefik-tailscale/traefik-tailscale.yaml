@@ -43,6 +43,10 @@ spec:
       kubernetesCRD:
         allowCrossNamespace: true
         allowExternalNameServices: true
+        ingressClass: tailscale-traefik
+      kubernetesIngress:
+        allowEmptyServices: true
+        ingressClass: tailscale-traefik
     ports:
       web:
         redirections:
