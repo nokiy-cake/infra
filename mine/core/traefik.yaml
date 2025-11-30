@@ -4,11 +4,11 @@ metadata:
   name: traefik
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1h
   path: ./mine/core/traefik
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  timeout: 2m
+  timeout: 5m
   wait: true
