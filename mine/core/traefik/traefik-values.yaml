@@ -10,26 +10,17 @@ spec:
         level: "DEBUG"
       access:
         enabled: true
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
-    deployment:
-      kind: DaemonSet
-    updateStrategy:
-      type: RollingUpdate
-      rollingUpdate:
-        maxSurge: 0
-        maxUnavailable: 1
     service:
       enabled: true
-      type: ClusterIP
+      type: LoadBalancer
       ipFamilyPolicy: RequireDualStack
       ipFamilies:
-        - IPv4
         - IPv6
-      # annotations:
-      #   io.cilium/lb-ipam-pool: public-pool
-      # spec:
-      #   externalTrafficPolicy: Cluster
+        - IPv4
+      annotations:
+        kube-vip.io/loadbalancerIPs: "2a0a:4cc0:2000:8e66:cafe::1,152.53.243.175"
+      spec:
+        externalTrafficPolicy: Local # Preserve client IPs
       single: true
     ports:
       web:
