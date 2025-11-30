@@ -14,6 +14,8 @@ spec:
     dnsPolicy: ClusterFirstWithHostNet
     deployment:
       kind: DaemonSet
+    rollingUpdate:
+      maxUnavailable: 1
     service:
       enabled: true
       type: ClusterIP
