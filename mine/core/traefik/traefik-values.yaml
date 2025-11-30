@@ -18,7 +18,6 @@ spec:
       type: RollingUpdate
       rollingUpdate:
         maxUnavailable: 1
-        maxSurge: 1  
     service:
       enabled: true
       type: ClusterIP
