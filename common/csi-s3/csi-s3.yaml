@@ -17,7 +17,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: csi-s3-credentials
+  name: b2-csi-credentials
   namespace: csi-s3
 spec:
   refreshInterval: 1h
@@ -26,7 +26,7 @@ spec:
     name: production
     kind: ClusterSecretStore
   target:
-    name: csi-s3-secret
+    name: b2-csi-secret
     creationPolicy: Owner
     deletionPolicy: Delete
     template:
@@ -48,7 +48,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: csi-s3
+  name: b2-csi
   namespace: csi-s3
 spec:
   interval: 1h
