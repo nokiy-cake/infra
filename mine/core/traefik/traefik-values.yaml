@@ -10,18 +10,21 @@ spec:
         level: "DEBUG"
       access:
         enabled: true
-    hostNetwork: false
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    deployment:
+      kind: DaemonSet
     service:
       enabled: true
-      type: LoadBalancer
+      type: ClusterIP
       ipFamilyPolicy: RequireDualStack
       ipFamilies:
         - IPv4
         - IPv6
-      annotations:
-        io.cilium/lb-ipam-pool: public-pool
-      spec:
-        externalTrafficPolicy: Cluster
+      # annotations:
+      #   io.cilium/lb-ipam-pool: public-pool
+      # spec:
+      #   externalTrafficPolicy: Cluster
       single: true
     ports:
       web:
