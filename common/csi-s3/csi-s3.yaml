@@ -34,27 +34,16 @@ spec:
       data:
         accessKeyID: "{{ .ACCESS_KEY_ID }}"
         secretAccessKey: "{{ .SECRET_ACCESS_KEY }}"
-        endpoint: "{{ .ENDPOINT | default \"https://storage.yandexcloud.net\" }}"
-        region: "{{ .REGION | default \"\" }}"
+        endpoint: "https://s3.us-east-005.backblazeb2.com"
   data:
     - secretKey: ACCESS_KEY_ID
       remoteRef:
         key: csi-s3
-        property: ACCESS_KEY_ID
+        property: ACCESS_KEY
     - secretKey: SECRET_ACCESS_KEY
       remoteRef:
         key: csi-s3
-        property: SECRET_ACCESS_KEY
-    - secretKey: ENDPOINT
-      remoteRef:
-        key: csi-s3
-        property: ENDPOINT
-        optional: true
-    - secretKey: REGION
-      remoteRef:
-        key: csi-s3
-        property: REGION
-        optional: true
+        property: SECRET_KEY
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -76,7 +65,9 @@ spec:
       create: false
       name: csi-s3-secret
     storageClass:
-      name: csi-s3
+      name: b2-csi
+      singleBucket: "csi-nokiy-net"
       mounter: geesefs
       mountOptions: "--memory-limit 1000 --dir-mode 0777 --file-mode 0666"
       reclaimPolicy: Retain
+    kubeletPath: /var/lib/rancher/rke2/bin/kubelet
