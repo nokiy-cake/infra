@@ -15,8 +15,8 @@ spec:
       type: LoadBalancer
       ipFamilyPolicy: RequireDualStack
       ipFamilies:
-        - IPv6
         - IPv4
+        - IPv6
       annotations:
         kube-vip.io/loadbalancerIPs: "2a0a:4cc0:2000:8e66:cafe::1,152.53.243.175"
       spec:
@@ -47,6 +47,7 @@ spec:
         ingressClass: traefik
       kubernetesGateway:
         enabled: true
+    hostNetwork: false
     ingressClass:
       enabled: true
       isDefaultClass: true
