@@ -63,7 +63,7 @@ spec:
   values:
     secret:
       create: false
-      name: csi-s3-secret
+      name: b2-csi-secret
     storageClass:
       name: b2-csi
       singleBucket: "csi-nokiy-net"
