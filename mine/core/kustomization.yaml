@@ -12,3 +12,4 @@ resources:
 - redis-operator.yaml
 - k8s-monitoring.yaml
 - traefik-tailscale.yaml
+- kube-vip.yaml
