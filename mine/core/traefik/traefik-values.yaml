@@ -15,7 +15,7 @@ spec:
     deployment:
       kind: DaemonSet
     rollingUpdate:
-      maxUnavailable: 1
+      maxUnavailable: "100%"
     service:
       enabled: true
       type: ClusterIP
