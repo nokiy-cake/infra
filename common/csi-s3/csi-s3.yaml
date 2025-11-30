@@ -38,11 +38,11 @@ spec:
   data:
     - secretKey: ACCESS_KEY_ID
       remoteRef:
-        key: csi-s3
+        key: b2-csi
         property: ACCESS_KEY
     - secretKey: SECRET_ACCESS_KEY
       remoteRef:
-        key: csi-s3
+        key: b2-csi
         property: SECRET_KEY
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
