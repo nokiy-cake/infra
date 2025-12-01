@@ -6,7 +6,7 @@ metadata:
   namespace: synapse
 spec:
   kubernetesConfig:
-    image: quay.io/opstree/redis:v8.2.2
+    image: quay.io/opstree/redis:v8.4.0
     imagePullPolicy: IfNotPresent
     resources:
       requests:
