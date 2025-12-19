@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
 # - authentik.yaml
 # - forgejo.yaml
-- kubernetes-dashboard.yaml
 - gotosocial.yaml
 - nokiy.yaml
 # - pocket-id.yaml
