@@ -61,6 +61,11 @@ spec:
       login: true
       passwordSecret:
         name: postgres-mas
+    - name: nokiy
+      ensure: present
+      login: true
+      passwordSecret:
+        name: postgres-nokiy
   monitoring:
     enablePodMonitor: true
   backup:
@@ -107,5 +112,16 @@ metadata:
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-nokiy
+  namespace: postgres
+spec:
+  name: nokiy
+  owner: nokiy
   cluster:
     name: postgres
