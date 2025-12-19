@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - cluster.yaml
-- app-secrets.yaml
