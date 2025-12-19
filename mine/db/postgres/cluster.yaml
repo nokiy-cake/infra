@@ -125,3 +125,47 @@ spec:
   owner: nokiy
   cluster:
     name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-authentik
+  namespace: postgres
+spec:
+  name: authentik
+  owner: authentik
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-forgejo
+  namespace: postgres
+spec:
+  name: forgejo
+  owner: forgejo
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-synapse
+  namespace: postgres
+spec:
+  name: synapse
+  owner: synapse
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-mas
+  namespace: postgres
+spec:
+  name: mas
+  owner: mas
+  cluster:
+    name: postgres
