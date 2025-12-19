@@ -4,6 +4,8 @@ metadata:
   name: traefik
   namespace: traefik
 spec:
+  upgrade:
+    force: true
   values:
     logs:
       general:
