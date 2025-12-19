@@ -70,4 +70,3 @@ spec:
       mounter: geesefs
       mountOptions: "--memory-limit 1000 --dir-mode 0777 --file-mode 0666"
       reclaimPolicy: Retain
-    kubeletPath: /var/lib/rancher/rke2/bin/kubelet
