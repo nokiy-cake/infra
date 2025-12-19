@@ -39,6 +39,28 @@ spec:
   walStorage:
     size: 10Gi
     storageClass: local-path
+  managed:
+    roles:
+    - name: authentik
+      ensure: present
+      login: true
+      passwordSecret:
+        name: postgres-authentik
+    - name: forgejo
+      ensure: present
+      login: true
+      passwordSecret:
+        name: postgres-forgejo
+    - name: synapse
+      ensure: present
+      login: true
+      passwordSecret:
+        name: postgres-synapse
+    - name: mas
+      ensure: present
+      login: true
+      passwordSecret:
+        name: postgres-mas
   monitoring:
     enablePodMonitor: true
   backup:

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./common/forgejo/init
+  path: ./common/forgejo/init-shared
   prune: true
   sourceRef:
     kind: GitRepository
@@ -52,6 +52,25 @@ spec:
   wait: true
   dependsOn:
     - name: forgejo-secrets
+  patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: forgejo
+        namespace: forgejo
+      spec:
+        template:
+          spec:
+            containers:
+            - name: forgejo
+              env:
+              - name: FORGEJO__database__HOST
+                value: postgres-rw.postgres.svc.cluster.local:5432
+    target:
+      kind: Deployment
+      name: forgejo
+      namespace: forgejo
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

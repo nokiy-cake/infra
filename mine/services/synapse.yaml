@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./common/synapse/init
+  path: ./common/synapse/init-shared
   prune: true
   sourceRef:
     kind: GitRepository
@@ -24,7 +24,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./common/synapse/secrets
+  path: ./common/synapse/secrets-shared
   prune: true
   sourceRef:
     kind: GitRepository
