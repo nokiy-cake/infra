@@ -12,5 +12,5 @@ resources:
 # - redis-operator.yaml
 - valkey-operator.yaml
 - k8s-monitoring.yaml
-- traefik-tailscale.yaml
+- tailscale-traefik.yaml
 - kube-vip.yaml

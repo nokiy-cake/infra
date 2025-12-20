@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-tailscale
+  name: tailscale-traefik
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./common/traefik-tailscale
+  path: ./common/tailscale-traefik
   prune: true
   sourceRef:
     kind: GitRepository

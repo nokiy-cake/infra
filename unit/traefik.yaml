@@ -53,7 +53,7 @@ spec:
   patches:
     - target:
         kind: Service
-        name: traefik-tailscale
+        name: tailscale-traefik
         namespace: traefik
       patch: |-
         - op: replace
