@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: tailscale
-annotations:
-  nokiy.net/cluster-secret-store: "production"
+  labels:
+    nokiy.net/cluster-secret-store: "production"
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
@@ -76,6 +76,7 @@ spec:
             - 192.168.0.0/16
     gatewayClass:
       enabled: true
+      name: tailscale-traefik
   install:
     crds: CreateReplace
   upgrade:
