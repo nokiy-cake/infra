@@ -49,6 +49,8 @@ spec:
       kubernetesIngress:
         allowEmptyServices: true
         ingressClass: tailscale-traefik
+      kubernetesGateway:
+        enabled: true
     ports:
       web:
         redirections:
@@ -62,6 +64,12 @@ spec:
             - 100.64.0.0/10
             - 172.16.0.0/12
             - 192.168.0.0/16
+      postgres:
+        port: 5432
+        expose:
+          default: true
+        exposedPort: 5432
+        protocol: TCP
       websecure:
         http2:
           maxConcurrentStreams: 250
