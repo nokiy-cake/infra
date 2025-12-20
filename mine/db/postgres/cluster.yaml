@@ -25,6 +25,122 @@ spec:
         key: b2-backup
         property: SECRET_KEY
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-nokiy-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-nokiy-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: password
+      remoteRef:
+        key: nokiy
+        property: POSTGRES_PASSWORD
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-authentik-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-authentik-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: password
+      remoteRef:
+        key: authentik
+        property: POSTGRES_PASSWORD
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-forgejo-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-forgejo-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: password
+      remoteRef:
+        key: forgejo
+        property: POSTGRES_PASSWORD
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-synapse-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-synapse-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: password
+      remoteRef:
+        key: synapse
+        property: SYNAPSE_POSTGRES_PASSWORD
+---
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-mas-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-mas-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+  data:
+    - secretKey: password
+      remoteRef:
+        key: synapse
+        property: MAS_POSTGRES_PASSWORD
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -45,27 +161,27 @@ spec:
       ensure: present
       login: true
       passwordSecret:
-        name: postgres-authentik
+        name: postgres-authentik-creds
     - name: forgejo
       ensure: present
       login: true
       passwordSecret:
-        name: postgres-forgejo
+        name: postgres-forgejo-creds
     - name: synapse
       ensure: present
       login: true
       passwordSecret:
-        name: postgres-synapse
+        name: postgres-synapse-creds
     - name: mas
       ensure: present
       login: true
       passwordSecret:
-        name: postgres-mas
+        name: postgres-mas-creds
     - name: nokiy
       ensure: present
       login: true
       passwordSecret:
-        name: postgres-nokiy
+        name: postgres-nokiy-creds
   monitoring:
     enablePodMonitor: true
   backup:
