@@ -10,6 +10,7 @@ resources:
 - tailscale.yaml
 - cnpg.yaml
 - redis-operator.yaml
+- valkey-operator.yaml
 - k8s-monitoring.yaml
 - traefik-tailscale.yaml
 - kube-vip.yaml
