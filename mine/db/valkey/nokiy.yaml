@@ -7,7 +7,7 @@ spec:
   nodes: 1
   replicas: 0
 
-  tls: true
+  tls: false # Set to true to enable TLS using cert-manager
   certIssuer: ca-cluster-issuer
   certIssuerType: ClusterIssuer
 
