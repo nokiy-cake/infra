@@ -24,7 +24,7 @@ spec:
 
   storage:
     labels:
-      app: keyval
+      app: valkey
     spec:
       accessModes:
         - ReadWriteOnce
