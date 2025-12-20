@@ -1,15 +1,8 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: valkey
-  labels:
-    nokiy.net/cluster-secret-store: "production"
----
 apiVersion: hyperspike.io/v1
 kind: Valkey
 metadata:
   name: valkey-nokiy
-  namespace: valkey
+  namespace: nokiy
 spec:
   nodes: 1
   replicas: 0
