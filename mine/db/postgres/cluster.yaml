@@ -42,6 +42,9 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
+      data:
+        username: nokiy
+        password: "{{ .password }}"
   data:
     - secretKey: password
       remoteRef:
@@ -65,6 +68,9 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
+      data:
+        username: authentik
+        password: "{{ .password }}"
   data:
     - secretKey: password
       remoteRef:
@@ -88,6 +94,9 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
+      data:
+        username: forgejo
+        password: "{{ .password }}"
   data:
     - secretKey: password
       remoteRef:
@@ -111,12 +120,14 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
+      data:
+        username: synapse
+        password: "{{ .password }}"
   data:
     - secretKey: password
       remoteRef:
         key: synapse
         property: SYNAPSE_POSTGRES_PASSWORD
----
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
@@ -135,6 +146,9 @@ spec:
     deletionPolicy: Delete
     template:
       engineVersion: v2
+      data:
+        username: mas
+        password: "{{ .password }}"
   data:
     - secretKey: password
       remoteRef:
