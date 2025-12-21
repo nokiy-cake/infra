@@ -4,6 +4,7 @@ metadata:
   name: valkey-forgejo
   namespace: forgejo
 spec:
+  anonymousAuth: true
   nodes: 1
   replicas: 0
 
