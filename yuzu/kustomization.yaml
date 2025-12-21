@@ -31,7 +31,7 @@ resources:
 - tg-bot
 # - pocket-id
 # - vaultwarden
-- tsync.yaml
+# - tsync.yaml
 # - atuin.yaml
 # - mitra.yaml
 # - linkding.yaml

@@ -4,7 +4,4 @@ metadata:
   name: tsync
   labels:
     app.kubernetes.io/name: tsync
-    app.kubernetes.io/instance: tsync
-    app.kubernetes.io/component: namespace
-    app.kubernetes.io/part-of: tsync
     nokiy.net/cluster-secret-store: "production"
