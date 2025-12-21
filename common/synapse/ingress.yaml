@@ -59,6 +59,7 @@ metadata:
   namespace: synapse
   annotations:
     external-dns.alpha.kubernetes.io/hostname: nokiy.net
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
   entryPoints:
     - websecure
