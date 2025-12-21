@@ -29,7 +29,7 @@ resources:
 # - forgejo.yaml
 - synapse.yaml
 - tg-bot
-- pocket-id
+# - pocket-id
 - vaultwarden
 - tsync.yaml
 - atuin.yaml
