@@ -15,7 +15,7 @@ resources:
 - cnpg.yaml
 - redis-operator.yaml
 - simple-backup.yaml
-- forgejo-runner.yaml
+# - forgejo-runner.yaml
 # - lgtm.yaml
 - vector.yaml
 # - signoz
@@ -26,7 +26,7 @@ resources:
 - beszel
 - nokiy.yaml
 - authentik.yaml
-- forgejo.yaml
+# - forgejo.yaml
 - synapse.yaml
 - tg-bot
 - pocket-id
