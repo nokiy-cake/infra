@@ -14,24 +14,24 @@ resources:
 # - velero.yaml
 - cnpg.yaml
 - redis-operator.yaml
-- simple-backup.yaml
+# - simple-backup.yaml
 # - forgejo-runner.yaml
 # - lgtm.yaml
-- vector.yaml
+# - vector.yaml
 # - signoz
 # - pds
 # - nofx.yaml
 # - skypilot.yaml
 - header-echo
 - beszel
-- nokiy.yaml
+# - nokiy.yaml
 # - authentik.yaml
 # - forgejo.yaml
-- synapse.yaml
+# - synapse.yaml
 - tg-bot
 # - pocket-id
-- vaultwarden
+# - vaultwarden
 - tsync.yaml
-- atuin.yaml
+# - atuin.yaml
 # - mitra.yaml
 # - linkding.yaml
