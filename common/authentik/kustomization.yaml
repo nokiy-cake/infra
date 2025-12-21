@@ -1,12 +1,4 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- init
-- database
-- secrets
-- release
-labels:
-- pairs:
-    app.kubernetes.io/name: authentik
-    app.kubernetes.io/instance: authentik
+- helm.yaml
