@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse
+  namespace: synapse
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/instance: synapse
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/instance: synapse
+  ports:
+    - name: http
+      port: 8008
+      targetPort: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mas
+  namespace: synapse
+  labels:
+    app.kubernetes.io/name: mas
+    app.kubernetes.io/instance: synapse
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: mas
+    app.kubernetes.io/instance: synapse
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP
+---
+# Service for well-known
+apiVersion: v1
+kind: Service
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+spec:
+  selector:
+    app: matrix-wellknown
+  ports:
+    - port: 80
+      targetPort: 80

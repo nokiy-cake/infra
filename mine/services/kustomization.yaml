@@ -6,4 +6,4 @@ resources:
 - gotosocial.yaml
 - nokiy.yaml
 - pocket-id.yaml
-# - synapse.yaml
+- synapse.yaml

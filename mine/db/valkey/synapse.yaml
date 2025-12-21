@@ -1,0 +1,26 @@
+apiVersion: hyperspike.io/v1
+kind: Valkey
+metadata:
+  name: valkey-synapse
+  namespace: synapse
+spec:
+  anonymousAuth: true
+  nodes: 1
+  replicas: 0
+
+  tls: false # Set to true to enable TLS using cert-manager
+  certIssuer: ca-cluster-issuer
+  certIssuerType: ClusterIssuer
+
+  prometheus: true
+  prometheusLabels:
+    prometheus: prometheus 
+
+  storage:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: local-path

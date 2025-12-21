@@ -4,3 +4,4 @@ resources:
 - authentik.yaml
 - nokiy.yaml
 - forgejo.yaml
+- synapse.yaml

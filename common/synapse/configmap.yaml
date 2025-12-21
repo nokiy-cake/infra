@@ -1,0 +1,46 @@
+---
+# ConfigMap for Matrix well-known files
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+data:
+  server: |
+    {
+      "m.server": "synapse.nokiy.net:443"
+    }
+  client: |
+    {
+      "m.homeserver": {
+        "base_url": "https://synapse.nokiy.net"
+      },
+      "m.identity_server": {
+        "base_url": "https://vector.im"
+      }
+    }
+---
+# Nginx config to set proper headers
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-wellknown-nginx
+  namespace: synapse
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location /.well-known/matrix/server {
+        default_type application/json;
+        add_header Access-Control-Allow-Origin *;
+        alias /usr/share/nginx/html/.well-known/matrix/server;
+      }
+
+      location /.well-known/matrix/client {
+        default_type application/json;
+        add_header Access-Control-Allow-Origin *;
+        alias /usr/share/nginx/html/.well-known/matrix/client;
+      }
+    }
