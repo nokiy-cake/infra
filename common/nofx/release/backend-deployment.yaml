@@ -27,7 +27,7 @@ spec:
     spec:
       initContainers:
         - name: prepare-storage
-          image: alpine:3.22
+          image: alpine:3.23
           imagePullPolicy: IfNotPresent
           command:
             - sh
