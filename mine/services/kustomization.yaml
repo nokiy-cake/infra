@@ -5,5 +5,5 @@ resources:
 - forgejo.yaml
 - gotosocial.yaml
 - nokiy.yaml
-# - pocket-id.yaml
+- pocket-id.yaml
 # - synapse.yaml
