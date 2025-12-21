@@ -20,6 +20,9 @@ spec:
         app.kubernetes.io/name: pocket-id
         app.kubernetes.io/instance: pocket-id
     spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       serviceAccountName: pocket-id
       initContainers:
         - name: litestream-restore
@@ -43,6 +46,30 @@ spec:
             limits:
               cpu: 500m
               memory: 128Mi
+
+        # Fix permissions after restore (litestream runs as root)
+        - name: fix-permissions
+          image: busybox:1.37
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 1000:1000 /fix/db /fix/data
+              chmod -R u+rwX,go+rX /fix/db /fix/data
+          volumeMounts:
+            - name: db
+              mountPath: /fix/db
+            - name: data
+              mountPath: /fix/data
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+
         - name: litestream
           image: litestream/litestream:0.5.2
           imagePullPolicy: IfNotPresent
@@ -63,6 +90,7 @@ spec:
             limits:
               cpu: 500m
               memory: 128Mi
+
       containers:
         - name: pocket-id
           image: ghcr.io/pocket-id/pocket-id:v1.16.0-distroless
@@ -76,21 +104,21 @@ spec:
               value: "https://id.nokiy.net"
             - name: TRUST_PROXY
               value: "true"
-            - name: ENCRYPTION_KEY 
+            - name: ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:
                   name: pocket-id-secrets
                   key: ENCRYPTION_KEY
-            - name: ANALYTICS_DISABLED 
+            - name: ANALYTICS_DISABLED
               value: "true"
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
             - name: DB_CONNECTION_STRING
-              value: "data/db/pocket-id.db"
+              value: "/app/data/db/pocket-id.db"
             - name: UPLOAD_PATH
-              value: "data/uploads"
+              value: "/app/data/uploads"
           volumeMounts:
             - name: db
               mountPath: /app/data/db
