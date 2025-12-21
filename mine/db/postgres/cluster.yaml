@@ -171,31 +171,31 @@ spec:
     storageClass: local-path
   managed:
     roles:
-    - name: authentik
-      ensure: present
-      login: true
-      passwordSecret:
-        name: postgres-authentik-creds
-    - name: forgejo
-      ensure: present
-      login: true
-      passwordSecret:
-        name: postgres-forgejo-creds
-    - name: synapse
-      ensure: present
-      login: true
-      passwordSecret:
-        name: postgres-synapse-creds
-    - name: mas
-      ensure: present
-      login: true
-      passwordSecret:
-        name: postgres-mas-creds
-    - name: nokiy
-      ensure: present
-      login: true
-      passwordSecret:
-        name: postgres-nokiy-creds
+      - name: authentik
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-authentik-creds
+      - name: forgejo
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-forgejo-creds
+      - name: synapse
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-synapse-creds
+      - name: mas
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-mas-creds
+      - name: nokiy
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-nokiy-creds
   monitoring:
     enablePodMonitor: true
   backup:
@@ -274,17 +274,17 @@ spec:
   owner: nokiy
   cluster:
     name: postgres
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: postgres-authentik
-  namespace: postgres
-spec:
-  name: authentik
-  owner: authentik
-  cluster:
-    name: postgres
+# ---
+# apiVersion: postgresql.cnpg.io/v1
+# kind: Database
+# metadata:
+#   name: postgres-authentik
+#   namespace: postgres
+# spec:
+#   name: authentik
+#   owner: authentik
+#   cluster:
+#     name: postgres
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
