@@ -274,17 +274,17 @@ spec:
   owner: nokiy
   cluster:
     name: postgres
-# ---
-# apiVersion: postgresql.cnpg.io/v1
-# kind: Database
-# metadata:
-#   name: postgres-authentik
-#   namespace: postgres
-# spec:
-#   name: authentik
-#   owner: authentik
-#   cluster:
-#     name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-authentik
+  namespace: postgres
+spec:
+  name: authentik
+  owner: authentik
+  cluster:
+    name: postgres
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
