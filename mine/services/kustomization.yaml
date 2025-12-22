@@ -7,4 +7,5 @@ resources:
 - nokiy.yaml
 - pocket-id.yaml
 - synapse.yaml
+- tg-bot
 - tsync.yaml
