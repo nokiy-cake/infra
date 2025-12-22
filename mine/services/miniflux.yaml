@@ -13,7 +13,6 @@ spec:
   timeout: 5m
   wait: true
   dependsOn:
-    - name: traefik
     - name: external-secrets-config
     - name: cert-manager-letsencrypt
     - name: external-dns-release
