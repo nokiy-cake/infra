@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniflux
+  namespace: miniflux
+  labels:
+    app.kubernetes.io/name: miniflux
+    app.kubernetes.io/instance: miniflux
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: miniflux
+      app.kubernetes.io/instance: miniflux
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: miniflux
+        app.kubernetes.io/instance: miniflux
+    spec:
+      containers:
+        - name: miniflux
+          image: ghcr.io/miniflux/miniflux:nightly-distroless:2.2.15
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: miniflux-secrets
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

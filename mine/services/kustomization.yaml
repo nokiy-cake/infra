@@ -5,6 +5,7 @@ resources:
 - forgejo.yaml
 - gotosocial.yaml
 - linkding.yaml
+- miniflux.yaml
 - nokiy.yaml
 - pocket-id.yaml
 - synapse.yaml

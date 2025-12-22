@@ -181,6 +181,32 @@ spec:
         key: linkding
         property: POSTGRES_PASSWORD
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-miniflux-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-miniflux-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        username: miniflux
+        password: "{{ .password }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: miniflux
+        property: POSTGRES_PASSWORD
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -227,6 +253,11 @@ spec:
         login: true
         passwordSecret:
           name: postgres-linkding-creds
+      - name: miniflux
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-miniflux-creds
   monitoring:
     enablePodMonitor: true
   backup:
@@ -323,5 +354,16 @@ metadata:
 spec:
   name: linkding
   owner: linkding
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-miniflux
+  namespace: postgres
+spec:
+  name: miniflux
+  owner: miniflux
   cluster:
     name: postgres
