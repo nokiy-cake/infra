@@ -1,0 +1,33 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mysql-operator
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: https://mysql.github.io/mysql-operator/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mysql-operator
+  namespace: mysql-operator
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: mysql-operator
+      version: "2025.10.3"
+      sourceRef:
+        kind: HelmRepository
+        name: mysql-operator
+        namespace: flux-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values: {}
