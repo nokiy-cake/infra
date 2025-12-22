@@ -94,7 +94,7 @@ spec:
 
         # Linkding application
         - name: linkding
-          image: sissbruecker/linkding:1.44.1
+          image: sissbruecker/linkding:1.44.2
           imagePullPolicy: IfNotPresent
           ports:
           - name: http
