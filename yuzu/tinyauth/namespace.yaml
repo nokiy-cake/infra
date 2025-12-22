@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: tinyauth
-  labels:
-    app.kubernetes.io/name: tinyauth
-    nokiy.net/cluster-secret-store: "production"
