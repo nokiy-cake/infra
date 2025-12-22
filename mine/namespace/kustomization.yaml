@@ -5,5 +5,5 @@ resources:
 - forgejo.yaml
 - linkding.yaml
 - synapse.yaml
-- tg-bot
+- tg-bot.yaml
 - tsync.yaml
