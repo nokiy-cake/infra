@@ -11,6 +11,6 @@ resources:
 - cnpg.yaml
 # - redis-operator.yaml
 - valkey-operator.yaml
-- k8s-monitoring.yaml
+# - k8s-monitoring.yaml
 - tailscale-traefik.yaml
 - kube-vip.yaml
