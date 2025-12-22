@@ -71,7 +71,7 @@ spec:
               memory: 32Mi
 
         - name: litestream
-          image: litestream/litestream:0.5.5
+          image: litestream/litestream:0.5.1
           imagePullPolicy: IfNotPresent
           restartPolicy: Always
           args:
