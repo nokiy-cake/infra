@@ -173,7 +173,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        username: mas
+        username: linkding
         password: "{{ .password }}"
   data:
     - secretKey: password
