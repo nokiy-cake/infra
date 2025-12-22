@@ -250,41 +250,6 @@ spec:
         encryption: AES256
 ---
 apiVersion: postgresql.cnpg.io/v1
-kind: Pooler
-metadata:
-  name: pooler-rw
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  instances: 3
-  type: rw
-  pgbouncer:
-    poolMode: session
-    parameters:
-      max_client_conn: "1000"
-      default_pool_size: "20"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pooler-rw-tailscale
-  namespace: postgres
-  annotations:
-    tailscale.com/hostname: mine-postgres
-spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
-  externalTrafficPolicy: Local
-  ports:
-    - name: pgbouncer
-      port: 5432
-      protocol: TCP
-      targetPort: pgbouncer
-  selector:
-    cnpg.io/poolerName: pooler-rw
----
-apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: postgres-backup
