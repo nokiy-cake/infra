@@ -6,6 +6,8 @@ metadata:
   namespace: gotosocial
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: social.nokiy.net
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     traefik.ingress.kubernetes.io/router.middlewares: gotosocial-gotosocial-headers@kubernetescrd
 spec:
   ingressClassName: traefik
