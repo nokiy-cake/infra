@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - authentik.yaml
 - forgejo.yaml
+- linkding.yaml
 - synapse.yaml
 - tg-bot
 - tsync.yaml

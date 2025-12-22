@@ -9,11 +9,11 @@ metadata:
     app.kubernetes.io/instance: linkding
 spec:
   type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
-    name: http
   selector:
     app.kubernetes.io/name: linkding
     app.kubernetes.io/instance: linkding
+  ports:
+    - name: http
+      port: 9090
+      targetPort: http
+      protocol: TCP
