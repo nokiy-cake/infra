@@ -7,6 +7,7 @@ resources:
 - linkding.yaml
 - miniflux.yaml
 - nokiy.yaml
+- notion-sync.yaml
 - pocket-id.yaml
 - synapse.yaml
 - tg-bot.yaml
