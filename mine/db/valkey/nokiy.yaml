@@ -4,6 +4,7 @@ metadata:
   name: valkey-nokiy
   namespace: nokiy
 spec:
+  anonymousAuth: true
   nodes: 1
   replicas: 0
 
