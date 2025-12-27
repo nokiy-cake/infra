@@ -54,8 +54,8 @@ spec:
               cpu: 50m
               memory: 64Mi
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 500m
+              memory: 512Mi
       volumes:
         - name: notion-sync-config
           secret:
