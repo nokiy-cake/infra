@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: notion-sync
-          image: ghcr.io/reonokiy/notion-sync:v0.0.7
+          image: ghcr.io/reonokiy/notion-sync:v0.0.8
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -46,7 +46,7 @@ spec:
             failureThreshold: 3
           volumeMounts:
             - name: notion-sync-config
-              mountPath: /app/config.toml
+              mountPath: /etc/notion-sync/config.toml
               subPath: config.toml
               readOnly: true
           resources:
