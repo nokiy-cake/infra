@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cinny
+  namespace: cinny
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: matrix.nokiy.net
+
+spec:
+  tls:
+    - hosts:
+        - matrix.nokiy.net
+      secretName: matrix-tls
+
+  rules:
+    - host: matrix.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cinny
+                port:
+                  number: 8080
