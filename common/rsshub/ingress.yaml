@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rsshub
+  namespace: rsshub
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: rsshub.nokiy.net
+spec:
+  tls:
+    - hosts:
+        - rsshub.nokiy.net
+      secretName: rsshub-tls
+
+  rules:
+    - host: rsshub.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rsshub
+                port:
+                  number: 1200

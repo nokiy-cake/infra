@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - rsshub-deployment.yaml
+  - rsshub-service.yaml
+  - real-browser-deployment.yaml
+  - real-browser-service.yaml
+  - browserless-deployment.yaml
+  - browserless-service.yaml
+  - ingress.yaml
+labels:
+  - pairs:
+      app.kubernetes.io/name: rsshub
+      app.kubernetes.io/instance: rsshub

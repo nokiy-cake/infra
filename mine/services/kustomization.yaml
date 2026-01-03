@@ -10,6 +10,7 @@ resources:
 - nokiy.yaml
 - notion-sync.yaml
 - pocket-id.yaml
+- rsshub.yaml
 - synapse.yaml
 - tg-bot.yaml
 - tsync.yaml
