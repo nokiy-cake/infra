@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cinny-static
+  namespace: cinny
+data:
+  config.json: |
+    {
+      "defaultHomeserver": 0,
+      "homeserverList": [
+        "nokiy.net",
+      ],
+      "allowCustomHomeservers": false,
+      "featuredCommunities": {
+        "openAsDefault": false,
+        "spaces": [
+          "#cinny-space:matrix.org",
+          "#community:matrix.org",
+          "#space:envs.net",
+          "#science-space:matrix.org",
+          "#libregaming-games:tchncs.de",
+          "#mathematics-on:matrix.org"
+        ],
+        "rooms": [
+          "#cinny:matrix.org",
+          "#freesoftware:matrix.org",
+          "#pcapdroid:matrix.org",
+          "#gentoo:matrix.org",
+          "#PrivSec.dev:arcticfoxes.net",
+          "#disroot:aria-net.org"
+        ],
+        "servers": ["envs.net", "matrix.org", "monero.social", "mozilla.org"]
+      },
+      "hashRouter": {
+        "enabled": false,
+        "basename": "/"
+      }
+    }
+  # manifest.json: |
+  #   {
+  #     "name": "Cinny",
+  #     "short_name": "Cinny",
+  #     "start_url": "/",
+  #     "scope": "/",
+  #     "display": "standalone",
+  #     "background_color": "#f5f1e8",
+  #     "theme_color": "#1e1a14",
+  #     "icons": [
+  #       {
+  #         "src": "icon-192.png",
+  #         "sizes": "192x192",
+  #         "type": "image/png"
+  #       }
+  #     ]
+  #   }
