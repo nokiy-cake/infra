@@ -157,6 +157,3 @@ spec:
     redis:
       hostname: valkey-mastodon.mastodon.svc.cluster.local
       port: 6379
-      existingSecret: mastodon-secrets
-      existingSecretKeys:
-        password: redis-password
