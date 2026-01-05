@@ -6,6 +6,7 @@ resources:
 - forgejo.yaml
 - linkding.yaml
 - miniflux.yaml
+- elastic.yaml
 - rsshub.yaml
 - synapse.yaml
 - tg-bot.yaml

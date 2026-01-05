@@ -14,3 +14,4 @@ resources:
 # - k8s-monitoring.yaml
 - tailscale-traefik.yaml
 - kube-vip.yaml
+- elastic.yaml
