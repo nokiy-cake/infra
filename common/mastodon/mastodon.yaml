@@ -101,9 +101,10 @@ spec:
       retries: 3
   values:
     mastodon:
-      localDomain: mastodon.nokiy.net
-      webDomain: mastodon.nokiy.net
+      localDomain: yi0.org
+      webDomain: yi0.org
       trustedProxyIp: "10.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16"
+      authorizedFetch: true
       secrets:
         existingSecret: mastodon-secrets
         existingSecretKeys:
@@ -116,7 +117,7 @@ spec:
       s3:
         endpoint: s3.us-east-005.backblazeb2.com
         region: us-east-005
-        bucket: mastodon
+        bucket: mastodon-yi0-org
         protocol: https
         existingSecret: mastodon-secrets
         existingSecretKeys:
@@ -125,8 +126,8 @@ spec:
       smtp:
         server: smtp.mailgun.org
         port: 587
-        domain: mastodon.nokiy.net
-        fromAddress: notifications@mastodon.nokiy.net
+        domain: mail.yi0.org
+        fromAddress: noreply@mail.yi0.org
         existingSecret: mastodon-secrets
         existingSecretKeys:
           username: smtp-username
@@ -136,16 +137,16 @@ spec:
       className: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        external-dns.alpha.kubernetes.io/hostname: mastodon.nokiy.net
+        external-dns.alpha.kubernetes.io/hostname: yi0.org
       hosts:
-      - host: mastodon.nokiy.net
+      - host: yi0.org
         paths:
         - path: /
           pathType: Prefix
       tls:
       - secretName: mastodon-tls
         hosts:
-        - mastodon.nokiy.net
+        - yi0.org
     postgresql:
       hostname: cnpg-mastodon-rw.mastodon.svc.cluster.local
       port: 5432
