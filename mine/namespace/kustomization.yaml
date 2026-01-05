@@ -8,6 +8,7 @@ resources:
 - mastodon.yaml
 - elastic.yaml
 - elasticsearch.yaml
+- arpk.yaml
 - rsshub.yaml
 - synapse.yaml
 - tg-bot.yaml
