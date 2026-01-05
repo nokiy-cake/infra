@@ -1,0 +1,170 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mastodon
+  labels:
+    app.kubernetes.io/name: mastodon
+    nokiy.net/cluster-secret-store: "production"
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mastodon
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: https://mastodon.github.io/helm-charts
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: mastodon-secrets
+  namespace: mastodon
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: mastodon-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+  data:
+  - secretKey: secret-key-base
+    remoteRef:
+      key: mastodon
+      property: SECRET_KEY_BASE
+  - secretKey: vapid-private-key
+    remoteRef:
+      key: mastodon
+      property: VAPID_PRIVATE_KEY
+  - secretKey: vapid-public-key
+    remoteRef:
+      key: mastodon
+      property: VAPID_PUBLIC_KEY
+  - secretKey: are-primary-key
+    remoteRef:
+      key: mastodon
+      property: ARE_PRIMARY_KEY
+  - secretKey: are-deterministic-key
+    remoteRef:
+      key: mastodon
+      property: ARE_DETERMINISTIC_KEY
+  - secretKey: are-derivation-salt
+    remoteRef:
+      key: mastodon
+      property: ARE_KEY_DERIVATION_SALT
+  - secretKey: s3-access-key-id
+    remoteRef:
+      key: mastodon
+      property: S3_ACCESS_KEY_ID
+  - secretKey: s3-secret-access-key
+    remoteRef:
+      key: mastodon
+      property: S3_SECRET_ACCESS_KEY
+  - secretKey: smtp-username
+    remoteRef:
+      key: mastodon
+      property: SMTP_USERNAME
+  - secretKey: smtp-password
+    remoteRef:
+      key: mastodon
+      property: SMTP_PASSWORD
+  - secretKey: postgres-username
+    remoteRef:
+      key: mastodon
+      property: POSTGRES_USERNAME
+  - secretKey: postgres-password
+    remoteRef:
+      key: mastodon
+      property: POSTGRES_PASSWORD
+  - secretKey: redis-password
+    remoteRef:
+      key: mastodon
+      property: REDIS_PASSWORD
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mastodon
+  namespace: mastodon
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: mastodon
+      version: "0.2.7"
+      sourceRef:
+        kind: HelmRepository
+        name: mastodon
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    mastodon:
+      localDomain: mastodon.nokiy.net
+      webDomain: mastodon.nokiy.net
+      trustedProxyIp: "10.0.0.0/8,100.64.0.0/10,172.16.0.0/12,192.168.0.0/16"
+      secrets:
+        existingSecret: mastodon-secrets
+        existingSecretKeys:
+          secretKeyBase: secret-key-base
+          vapidPrivateKey: vapid-private-key
+          vapidPublicKey: vapid-public-key
+          arePrimaryKey: are-primary-key
+          areDeterministicKey: are-deterministic-key
+          areKeyDerivationSalt: are-derivation-salt
+      s3:
+        endpoint: s3.us-east-005.backblazeb2.com
+        region: us-east-005
+        bucket: mastodon
+        protocol: https
+        existingSecret: mastodon-secrets
+        existingSecretKeys:
+          accessKeyId: s3-access-key-id
+          secretAccessKey: s3-secret-access-key
+      smtp:
+        server: smtp.mailgun.org
+        port: 587
+        domain: mastodon.nokiy.net
+        fromAddress: notifications@mastodon.nokiy.net
+        existingSecret: mastodon-secrets
+        existingSecretKeys:
+          username: smtp-username
+          password: smtp-password
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: mastodon.nokiy.net
+      hosts:
+      - host: mastodon.nokiy.net
+        paths:
+        - path: /
+          pathType: Prefix
+      tls:
+      - secretName: mastodon-tls
+        hosts:
+        - mastodon.nokiy.net
+    postgresql:
+      hostname: cnpg-mastodon-rw.mastodon.svc.cluster.local
+      port: 5432
+      database: mastodon
+      existingSecret: mastodon-secrets
+      existingSecretKeys:
+        username: postgres-username
+        password: postgres-password
+    redis:
+      hostname: valkey-mastodon.mastodon.svc.cluster.local
+      port: 6379
+      existingSecret: mastodon-secrets
+      existingSecretKeys:
+        password: redis-password
