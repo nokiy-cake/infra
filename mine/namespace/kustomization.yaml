@@ -6,6 +6,7 @@ resources:
 - forgejo.yaml
 - linkding.yaml
 - miniflux.yaml
+- mastodon.yaml
 - elastic.yaml
 - elasticsearch.yaml
 - rsshub.yaml
