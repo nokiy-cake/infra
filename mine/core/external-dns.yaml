@@ -58,6 +58,7 @@ spec:
         values:
           domainFilters:
           - nokiy.net
+          - yi0.org
     target:
       kind: HelmRelease
       name: external-dns
