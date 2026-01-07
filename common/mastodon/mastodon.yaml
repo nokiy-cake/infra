@@ -52,11 +52,11 @@ spec:
   - secretKey: s3-access-key-id
     remoteRef:
       key: mastodon
-      property: S3_ACCESS_KEY_ID
+      property: B2_ACCESS_KEY
   - secretKey: s3-secret-access-key
     remoteRef:
       key: mastodon
-      property: S3_SECRET_ACCESS_KEY
+      property: B2_SECRET_KEY
   - secretKey: smtp-username
     remoteRef:
       key: mastodon
@@ -151,9 +151,9 @@ spec:
       hostname: cnpg-mastodon-rw.mastodon.svc.cluster.local
       port: 5432
       database: mastodon
+      username: mastodon
       existingSecret: mastodon-secrets
       existingSecretKeys:
-        username: postgres-username
         password: postgres-password
     redis:
       hostname: valkey-mastodon.mastodon.svc.cluster.local
