@@ -191,8 +191,21 @@ spec:
         # clientSecret: SECRETKEY
         redirectUri: https://yi0.org/auth/auth/openid_connect/callback
         assumeEmailIsVerified: true
+    elasticsearch:
+      enabled: true
+      hostname: elasticsearch-es-http.mastodon.svc.cluster.local
+      port: 9200
+      tls: true
+      username: elastic
+      caSecret:
+        name: elasticsearch-es-http-certs-public
+        key: ca.crt
   valuesFrom:
     - kind: Secret
       name: mastodon-secrets
       valuesKey: oidc-client-secret
       targetPath: externalAuth.oidc.clientSecret
+    - kind: Secret
+      name: elasticsearch-es-elastic-user
+      valuesKey: elastic
+      targetPath: elasticsearch.password

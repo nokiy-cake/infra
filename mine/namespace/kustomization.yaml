@@ -7,7 +7,6 @@ resources:
 - miniflux.yaml
 - mastodon.yaml
 - elastic.yaml
-- elasticsearch.yaml
 - arpk.yaml
 - rsshub.yaml
 - synapse.yaml
