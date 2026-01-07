@@ -125,6 +125,7 @@ spec:
         bucket: mastodon-yi0-org
         protocol: https
         permission: private
+        aliasHost: https://cdn.yi0.org
         existingSecret: mastodon-secrets
         existingSecretKeys:
           accessKeyId: s3-access-key-id
