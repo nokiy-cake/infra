@@ -119,7 +119,7 @@ spec:
           areDeterministicKey: are-deterministic-key
           areKeyDerivationSalt: are-derivation-salt
       s3:
-        endpoint: s3.us-east-005.backblazeb2.com
+        endpoint: https://s3.us-east-005.backblazeb2.com
         hostname: s3.us-east-005.backblazeb2.com
         region: us-east-005
         bucket: mastodon-yi0-org
