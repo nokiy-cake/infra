@@ -1,11 +1,11 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: bitnami
+  name: valkey-helm
   namespace: flux-system
 spec:
   interval: 12h
-  url: https://charts.bitnami.com/bitnami
+  url: https://valkey-io.github.io/valkey-helm
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -17,10 +17,10 @@ spec:
   chart:
     spec:
       chart: valkey
-      version: "5.1.0"
+      version: "0.9.2"
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: valkey-helm
         namespace: flux-system
   install:
     remediation:
@@ -30,13 +30,14 @@ spec:
       retries: 3
   values:
     fullnameOverride: valkey-mastodon
-    architecture: standalone
     auth:
       enabled: true
-      existingSecret: mastodon-secrets
-      existingSecretPasswordKey: redis-password
-    primary:
-      persistence:
-        enabled: true
-        size: 1Gi
-        storageClass: local-path
+      usersExistingSecret: mastodon-secrets
+      aclUsers:
+        default:
+          permissions: "~* &* +@all"
+          passwordKey: redis-password
+    dataStorage:
+      enabled: true
+      requestedSize: 1Gi
+      className: local-path
