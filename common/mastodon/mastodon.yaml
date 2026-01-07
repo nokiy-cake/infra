@@ -193,7 +193,7 @@ spec:
         assumeEmailIsVerified: true
     elasticsearch:
       enabled: true
-      hostname: elasticsearch-es-http.mastodon.svc.cluster.local
+      hostname: elasticsearch-es-http.mastodon.svc
       port: 9200
       tls: true
       username: elastic
