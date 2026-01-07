@@ -137,6 +137,12 @@ spec:
         existingSecretKeys:
           username: smtp-username
           password: smtp-password
+      web:
+        extraEnvVars:
+          BIND: "::"
+      streaming:
+        extraEnvVars:
+          BIND: "::"
     ingress:
       enabled: true
       className: traefik
