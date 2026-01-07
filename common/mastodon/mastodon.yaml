@@ -65,6 +65,10 @@ spec:
     remoteRef:
       key: mastodon
       property: SMTP_PASSWORD
+  - secretKey: postgres-username
+    remoteRef:
+      key: mastodon
+      property: POSTGRES_USERNAME
   - secretKey: postgres-password
     remoteRef:
       key: mastodon
@@ -153,9 +157,9 @@ spec:
       hostname: pooler-rw.postgres.svc.cluster.local
       port: 5432
       database: mastodon
-      username: mastodon
       existingSecret: mastodon-secrets
       existingSecretKeys:
+        username: postgres-username
         password: postgres-password
     redis:
       hostname: valkey-mastodon.mastodon.svc.cluster.local
