@@ -178,5 +178,5 @@ spec:
   valuesFrom:
     - kind: Secret
       name: mastodon-secrets
-      valuesKey: oidc-cient-secret
+      valuesKey: oidc-client-secret
       targetPath: externalAuth.oidc.clientSecret
