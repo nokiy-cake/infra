@@ -107,7 +107,7 @@ spec:
     mastodon:
       localDomain: yi0.org
       webDomain: yi0.org
-      trustedProxyIp: "10.0.0.0/8,::ffff:10.0.0.0/104,100.64.0.0/10,::ffff:100.64.0.0/106,172.16.0.0/12,::ffff:172.16.0.0/108,192.168.0.0/16,::ffff:192.168.0.0/112"
+      trustedProxyIp: "10.0.0.0/8,::ffff:10.0.0.0/104,100.64.0.0/10,::ffff:100.64.0.0/106,172.16.0.0/12,::ffff:172.16.0.0/108,192.168.0.0/16,::ffff:192.168.0.0/112,2001:cafe:42::/64"
       authorizedFetch: true
       secrets:
         existingSecret: mastodon-secrets
