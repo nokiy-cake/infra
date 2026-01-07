@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - mastodon.yaml
+- redis.yaml
 
 labels:
 - pairs:
