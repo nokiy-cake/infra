@@ -139,10 +139,10 @@ spec:
           password: smtp-password
       web:
         extraEnvVars:
-          BIND: "::"
+          BIND: "[::]"
       streaming:
         extraEnvVars:
-          BIND: "::"
+          BIND: "[::]"
     ingress:
       enabled: true
       className: traefik
