@@ -40,15 +40,15 @@ spec:
   - secretKey: are-primary-key
     remoteRef:
       key: mastodon
-      property: ARE_PRIMARY_KEY
+      property: ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
   - secretKey: are-deterministic-key
     remoteRef:
       key: mastodon
-      property: ARE_DETERMINISTIC_KEY
+      property: ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
   - secretKey: are-derivation-salt
     remoteRef:
       key: mastodon
-      property: ARE_KEY_DERIVATION_SALT
+      property: ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
   - secretKey: s3-access-key-id
     remoteRef:
       key: mastodon
@@ -65,10 +65,6 @@ spec:
     remoteRef:
       key: mastodon
       property: SMTP_PASSWORD
-  - secretKey: postgres-username
-    remoteRef:
-      key: mastodon
-      property: POSTGRES_USERNAME
   - secretKey: postgres-password
     remoteRef:
       key: mastodon
@@ -124,7 +120,7 @@ spec:
           accessKeyId: s3-access-key-id
           secretAccessKey: s3-secret-access-key
       smtp:
-        server: smtp.mailgun.org
+        server: email-smtp.ap-southeast-1.amazonaws.com
         port: 587
         domain: mail.yi0.org
         fromAddress: noreply@mail.yi0.org
@@ -148,7 +144,7 @@ spec:
         hosts:
         - yi0.org
     postgresql:
-      hostname: cnpg-mastodon-rw.mastodon.svc.cluster.local
+      hostname: pooler-rw.postgres.svc.cluster.local
       port: 5432
       database: mastodon
       username: mastodon
@@ -158,3 +154,6 @@ spec:
     redis:
       hostname: valkey-mastodon.mastodon.svc.cluster.local
       port: 6379
+      existingSecret: mastodon-secrets
+      existingSecretKeys:
+        password: redis-password

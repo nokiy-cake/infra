@@ -4,7 +4,10 @@ metadata:
   name: valkey-mastodon
   namespace: mastodon
 spec:
-  anonymousAuth: true
+  anonymousAuth: false
+  servicePassword:
+    name: mastodon-secrets
+    key: redis-password
   nodes: 1
   replicas: 0
 

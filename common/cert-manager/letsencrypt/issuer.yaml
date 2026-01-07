@@ -12,6 +12,7 @@ spec:
     - selector:
         dnsZones:
         - 'nokiy.net'
+        - 'yi0.org'
       dns01:
         cloudflare:
           apiTokenSecretRef:
