@@ -175,7 +175,7 @@ spec:
       oidc:
         enabled: true
         displayName: "NOKIY ID"
-        issuer: https://id.nokiy.net/
+        issuer: https://id.nokiy.net
         discovery: true
         scope: "openid,profile,email"
         uidField: preferred_username
