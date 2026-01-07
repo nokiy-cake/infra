@@ -124,6 +124,7 @@ spec:
         region: us-east-005
         bucket: mastodon-yi0-org
         protocol: https
+        permission: private
         existingSecret: mastodon-secrets
         existingSecretKeys:
           accessKeyId: s3-access-key-id
