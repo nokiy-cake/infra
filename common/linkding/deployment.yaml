@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: linkding
-          image: ghcr.io/sissbruecker/linkding:1.44.2-plus
+          image: ghcr.io/sissbruecker/linkding:1.45.0-plus
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
