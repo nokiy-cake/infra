@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: notion-sync
-          image: ghcr.io/reonokiy/notion-sync:v0.0.11
+          image: ghcr.io/reonokiy/notion-sync:0.0.11
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
