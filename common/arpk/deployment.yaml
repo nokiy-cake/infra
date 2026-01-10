@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: arpk
-          image: ghcr.io/moeru-ai/arpk:latest
+          image: ghcr.io/moeru-ai/arpk:0.4
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
