@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: unspeech
+  namespace: moeru-ai
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: unspeech.nokiy.net
+spec:
+  ingressClassName: tailscale-traefik
+  tls:
+    - hosts:
+        - unspeech.nokiy.net
+      secretName: unspeech-tls
+  rules:
+    - host: unspeech.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: unspeech
+                port:
+                  name: http

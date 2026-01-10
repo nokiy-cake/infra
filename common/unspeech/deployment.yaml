@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unspeech
+  namespace: moeru-ai
+  labels:
+    app.kubernetes.io/name: unspeech
+    app.kubernetes.io/instance: unspeech
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: unspeech
+      app.kubernetes.io/instance: unspeech
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: unspeech
+        app.kubernetes.io/instance: unspeech
+    spec:
+      containers:
+        - name: unspeech
+          image: ghcr.io/moeru-ai/unspeech:0.1.11
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5933
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unspeech
+  namespace: moeru-ai
+  labels:
+    app.kubernetes.io/name: unspeech
+    app.kubernetes.io/instance: unspeech
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: unspeech
+    app.kubernetes.io/instance: unspeech
+  ports:
+    - name: http
+      port: 5933
+      targetPort: http
+      protocol: TCP

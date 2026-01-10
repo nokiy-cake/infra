@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: unspeech
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/unspeech
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 5m
+  wait: true
+  dependsOn:
+    - name: tailscale-traefik
+    - name: cert-manager-letsencrypt
+    - name: external-dns-release

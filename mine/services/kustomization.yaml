@@ -16,3 +16,4 @@ resources:
 - synapse.yaml
 - tg-bot.yaml
 - tsync.yaml
+- unspeech.yaml
