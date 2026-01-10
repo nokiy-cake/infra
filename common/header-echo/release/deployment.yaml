@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: header-echo
-          image: mendhak/http-https-echo:38
+          image: mendhak/http-https-echo:39
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
