@@ -79,6 +79,9 @@ spec:
       labels:
         app: local-path-provisioner
     spec:
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
       serviceAccountName: local-path-provisioner-service-account
       containers:
         - name: local-path-provisioner
@@ -134,6 +137,9 @@ data:
     metadata:
       name: helper-pod
     spec:
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
       priorityClassName: system-node-critical
       tolerations:
         - key: node.kubernetes.io/disk-pressure
