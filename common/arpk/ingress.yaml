@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: arpk
+  namespace: moeru-ai
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: arpk.nokiy.net
+spec:
+  ingressClassName: tailscale-traefik
+  tls:
+    - hosts:
+        - arpk.nokiy.net
+      secretName: arpk-tls
+  rules:
+    - host: arpk.nokiy.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: arpk
+                port:
+                  name: http

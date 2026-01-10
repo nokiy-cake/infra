@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - deployment.yaml
+  - ingress.yaml
 
 labels:
   - pairs:
