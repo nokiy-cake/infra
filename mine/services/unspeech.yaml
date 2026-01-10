@@ -12,7 +12,3 @@ spec:
     name: flux-system
   timeout: 5m
   wait: true
-  dependsOn:
-    - name: tailscale-traefik
-    - name: cert-manager-letsencrypt
-    - name: external-dns-release
