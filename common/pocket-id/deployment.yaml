@@ -93,7 +93,7 @@ spec:
 
       containers:
         - name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:v2.1.0-distroless
+          image: ghcr.io/pocket-id/pocket-id:v2.2.0-distroless
           imagePullPolicy: IfNotPresent
           ports:
             - name: pocket-id-port
