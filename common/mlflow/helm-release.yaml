@@ -60,6 +60,7 @@ spec:
           hosts:
             - mlflow.nokiy.net
     extraEnvVars:
+      MLFLOW_SERVER_ALLOWED_HOSTS: "*"
       AWS_DEFAULT_REGION: us-east-005
       MLFLOW_S3_ENDPOINT_URL: "https://s3.us-east-005.backblazeb2.com"
       MLFLOW_S3_IGNORE_TLS: "false"
