@@ -13,3 +13,82 @@ spec:
         kind: HelmRepository
         name: community-charts
         namespace: flux-system
+  values:
+    backendStore:
+      databaseMigration: true
+      postgres:
+        enabled: true
+        host: pooler-rw.postgres.svc.cluster.local
+        port: 5432
+        database: mlflow
+      existingDatabaseSecret:
+        name: mlflow-secrets
+        usernameKey: POSTGRES_USER
+        passwordKey: POSTGRES_PASSWORD
+    artifactRoot:
+      s3:
+        enabled: true
+        bucket: mlflow-nokiy-net
+        path: ""
+        # awsAccessKeyId: ""  # Will use IAM role or secret
+        # awsSecretAccessKey: ""  # Will use IAM role or secret
+    auth:
+      enabled: true
+      #adminUsername: admin
+      #adminPassword: S3cr3+
+      postgres:
+        enabled: true
+        host: pooler-rw.postgres.svc.cluster.local
+        port: 5432
+        database: mlflow-auth
+        # user: mlflow
+        # password: xxxxxxxxxxxxx
+        driver: psycopg2
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: mlflow.nokiy.net
+      hosts:
+        - host: mlflow.nokiy.net
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: mlflow-tls
+          hosts:
+            - mlflow.nokiy.net
+    extraEnvVars:
+      AWS_DEFAULT_REGION: us-east-005
+      MLFLOW_S3_ENDPOINT_URL: "https://s3.us-east-005.backblazeb2.com"
+      MLFLOW_S3_IGNORE_TLS: "false"
+      MLFLOW_ENABLE_MULTIPART_UPLOAD: "true"  # Enable multipart upload for large files
+      MLFLOW_ENABLE_MULTIPART_DOWNLOAD: "true"  # Enable multipart download for large files
+      MLFLOW_MULTIPART_UPLOAD_MINIMUM_FILE_SIZE: "524288000"  # Minimum file size for multipart upload (500MB)
+      MLFLOW_MULTIPART_DOWNLOAD_MINIMUM_FILE_SIZE: "524288000"  # Minimum file size for multipart download (500MB)
+  valuesFrom:
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: S3_ACCESS_KEY
+      targetPath: artifactRoot.s3.awsAccessKeyId
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: S3_SECRET_KEY
+      targetPath: artifactRoot.s3.awsSecretAccessKey
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: ADMIN_USERNAME
+      targetPath: auth.adminUsername
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: ADMIN_PASSWORD
+      targetPath: auth.adminPassword
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: AUTH_POSTGRES_USER
+      targetPath: auth.postgres.user
+    - kind: Secret
+      name: mlflow-secrets
+      valuesKey: AUTH_POSTGRES_PASSWORD
+      targetPath: auth.postgres.password

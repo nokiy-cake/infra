@@ -5,6 +5,7 @@ resources:
 - forgejo.yaml
 - linkding.yaml
 - miniflux.yaml
+- mlflow.yaml
 - mastodon.yaml
 - elastic.yaml
 - moeru-ai.yaml
