@@ -285,6 +285,32 @@ spec:
         key: mlflow
         property: AUTH_POSTGRES_PASSWORD
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-grafana-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-grafana-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        username: grafana
+        password: "{{ .password }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: grafana
+        property: POSTGRES_PASSWORD
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -351,6 +377,11 @@ spec:
         login: true
         passwordSecret:
           name: postgres-mlflow-auth-creds
+      - name: grafana
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-grafana-creds
   monitoring:
     enablePodMonitor: true
   backup:
@@ -491,5 +522,16 @@ metadata:
 spec:
   name: mlflow-auth
   owner: mlflow-auth
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-grafana
+  namespace: postgres
+spec:
+  name: grafana
+  owner: grafana
   cluster:
     name: postgres

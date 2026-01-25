@@ -1,0 +1,148 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: grafana-secrets
+  namespace: vm
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: grafana-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        db_host: "pooler-rw.postgres.svc.cluster.local"
+        db_name: "grafana"
+        db_user: "grafana"
+        db_password: "{{ .db_password | toString }}"
+        db_ssl_mode: "require"
+        oidc_client_id: "grafana"
+        oidc_client_secret: "{{ .oidc_client_secret | toString }}"
+  data:
+    - secretKey: db_password
+      remoteRef:
+        key: grafana
+        property: POSTGRES_PASSWORD
+    - secretKey: oidc_client_secret
+      remoteRef:
+        key: grafana
+        property: OIDC_CLIENT_SECRET
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: vm
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grafana
+      version: "10.5.12"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  values:
+    grafana.ini:
+      database:
+        type: postgres
+
+      server:
+        root_url: "https://grafana.nokiy.net/"
+        serve_from_sub_path: false
+
+      auth:
+        disable_login_form: true
+
+      auth.generic_oauth:
+        enabled: true
+        name: "NOKIY ID"
+        allow_sign_up: true
+        auto_login: true
+
+        # 你的 OIDC client_id（非敏感，直接放这里即可）
+        # client_id: "CHANGE_ME_OIDC_CLIENT_ID"
+        # client_secret 不要写在 ini 里，已经通过 env 注入：GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+
+        auth_url:  "https://id.nokiy.net/authorize"
+        token_url: "https://id.nokiy.net/api/oidc/token"
+        api_url:   "https://id.nokiy.net/api/oidc/userinfo"
+
+        # OIDC 建议 scopes（含 email；需要 refresh token 再加 offline_access）
+        scopes: "openid profile email offline_access"
+        use_pkce: true
+        use_refresh_token: true
+
+        # 显示名/邮箱解析
+        email_attribute_path: email
+        login_attribute_path: preferred_username
+        name_attribute_path: name
+
+        # 角色映射（JMESPath）。默认 Viewer；你按你 token claim 改。
+        # 例：包含 grafana-admin => Admin；包含 grafana-editor => Editor；否则 Viewer
+        role_attribute_path: "contains(realm_access.roles[*], 'grafana-admin') && 'Admin' || contains(realm_access.roles[*], 'grafana-editor') && 'Editor' || 'Viewer'"
+        role_attribute_strict: false
+        skip_org_role_sync: false
+
+      security:
+        cookie_secure: true
+
+    persistence:
+      enabled: false
+
+    envValueFrom:
+      GF_DATABASE_HOST:
+        secretKeyRef: { name: grafana-secrets, key: db_host }
+      GF_DATABASE_NAME:
+        secretKeyRef: { name: grafana-secrets, key: db_name }
+      GF_DATABASE_USER:
+        secretKeyRef: { name: grafana-secrets, key: db_user }
+      GF_DATABASE_PASSWORD:
+        secretKeyRef: { name: grafana-secrets, key: db_password }
+      GF_DATABASE_SSL_MODE:
+        secretKeyRef: { name: grafana-secrets, key: db_ssl_mode }
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID:
+        secretKeyRef: { name: grafana-secrets, key: oidc_client_id }
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+        secretKeyRef: { name: grafana-secrets, key: oidc_client_secret }
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: grafana.nokiy.net
+        external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+      hosts:
+        - grafana.nokiy.net
+      tls:
+        - hosts:
+            - grafana.nokiy.net
+          secretName: grafana-tls
+
+    plugins:
+      - victoriametrics-logs-datasource
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: VictoriaMetrics
+            type: prometheus
+            access: proxy
+            url: http://vmselect-vm.vm.svc:8481/select/0/prometheus
+            isDefault: true
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
+            access: proxy
+            url: http://vlselect-vl.vm.svc:9428/select/0/logsql

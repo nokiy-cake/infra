@@ -1,0 +1,22 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VLCluster
+metadata:
+  name: vl
+  namespace: vm
+spec:
+  retentionPeriod: "30d"
+
+  vlinsert:
+    replicaCount: 2
+  vlselect:
+    replicaCount: 2
+  vlstorage:
+    replicaCount: 3
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 100Gi

@@ -1,0 +1,46 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: vm-auth-ipwhitelist
+  namespace: vm
+spec:
+  ipWhiteList:
+    sourceRange:
+      - 1.2.3.4/32
+      - 5.6.7.0/24
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: vm-auth-ratelimit
+  namespace: vm
+spec:
+  rateLimit:
+    average: 20
+    burst: 60
+    period: 1s
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAuth
+metadata:
+  name: vm-auth
+  namespace: vm
+spec:
+  replicaCount: 2
+  selectAllByDefault: false
+  userSelector:
+    matchLabels:
+      vmauth: main
+
+  ingress:
+    class_name: traefik
+    host: metrics.nokiy.net
+    tlsHosts:
+      - metrics.nokiy.net
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+      #traefik.ingress.kubernetes.io/router.middlewares: vm-auth-ipwhitelist@kubernetescrd,vm-auth-ratelimit@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: vm-auth-ratelimit@kubernetescrd
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: metrics.nokiy.net

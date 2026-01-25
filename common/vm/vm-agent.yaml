@@ -1,0 +1,13 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAgent
+metadata:
+  name: vm-agent
+  namespace: vm
+spec:
+  replicaCount: 1
+
+  # 抓哪些 VMServiceScrape/VMPodScrape/VMNodeScrape 等
+  selectAllByDefault: true
+
+  remoteWrite:
+    - url: http://vminsert-vm.vm.svc:8480/insert/0/prometheus/api/v1/write
