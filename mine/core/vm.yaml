@@ -1,14 +1,31 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: vm
+  name: vm-operator
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./common/vm
+  path: ./common/vm/operator
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   timeout: 5m
   wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: vm-config
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/vm/config
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 5m
+  wait: true
+  dependsOn:
+    - name: vm-operator
