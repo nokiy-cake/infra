@@ -42,6 +42,6 @@ spec:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/router.tls: "true"
       #traefik.ingress.kubernetes.io/router.middlewares: vm-auth-ipwhitelist@kubernetescrd,vm-auth-ratelimit@kubernetescrd
-      traefik.ingress.kubernetes.io/router.middlewares: vm-auth-ratelimit@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: vm-vm-auth-ratelimit@kubernetescrd
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: metrics.nokiy.net
