@@ -7,11 +7,11 @@ spec:
   retentionPeriod: "30d"
 
   vlinsert:
-    replicaCount: 2
+    replicaCount: 1
   vlselect:
-    replicaCount: 2
+    replicaCount: 1
   vlstorage:
-    replicaCount: 3
+    replicaCount: 1
     storage:
       volumeClaimTemplate:
         spec:
