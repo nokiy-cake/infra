@@ -1,28 +1,54 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: vm-user-reonokiy-write
+  namespace: vm
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: vm-user-reonokiy-write
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        token: "{{ .token | toString }}"
+  data:
+    - secretKey: token
+      remoteRef:
+        key: vm-user-reonokiy-write
+        property: TOKEN
+---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMUser
 metadata:
-  name: grafana-ro
+  name: reonokiy-write
   namespace: vm
   labels:
     vmauth: main
 spec:
-  # 建议让 operator 生成密码/Token（Secret 里拿）
-  generatePassword: true
+  tokenRef:
+    name: vm-user-reonokiy-write
+    key: token
 
   targetRefs:
-    # metrics 读：vmselect
     - crd:
-        kind: VMCluster/vmselect
+        kind: VMCluster/vminsert
         name: vm
         namespace: vm
-      target_path_suffix: "/select/0/prometheus"
+      target_path_suffix: "/insert/0/prometheus"
       paths:
-        - "/"
-    # logs 读：vlselect（LogsQL）
+        - "/api/v1/write"
+
     - crd:
-        kind: VLCluster/vlselect
+        kind: VLCluster/vlinsert
         name: vl
         namespace: vm
-      target_path_suffix: "/select/0/logsql"
       paths:
-        - "/"
+        - "/insert/jsonline"
