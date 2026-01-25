@@ -85,10 +85,11 @@ spec:
         email_attribute_path: email
         login_attribute_path: preferred_username
         name_attribute_path: name
+        groups_attribute_path: groups
 
         # 角色映射（JMESPath）。默认 Viewer；你按你 token claim 改。
         # 例：包含 grafana-admin => Admin；包含 grafana-editor => Editor；否则 Viewer
-        role_attribute_path: "contains(realm_access.roles[*], 'grafana-admin') && 'Admin' || contains(realm_access.roles[*], 'grafana-editor') && 'Editor' || 'Viewer'"
+        role_attribute_path: "contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'"
         role_attribute_strict: false
         skip_org_role_sync: false
 
