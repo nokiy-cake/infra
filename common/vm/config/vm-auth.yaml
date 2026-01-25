@@ -37,6 +37,7 @@ spec:
     host: metrics.nokiy.net
     tlsHosts:
       - metrics.nokiy.net
+    tlsSecretName: vm-auth-tls
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       traefik.ingress.kubernetes.io/router.tls: "true"
