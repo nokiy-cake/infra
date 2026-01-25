@@ -146,4 +146,4 @@ spec:
           - name: VictoriaLogs
             type: victoriametrics-logs-datasource
             access: proxy
-            url: http://vlselect-vl.vm.svc:9471/select/0/logsql
+            url: http://vlselect-vl.vm.svc:9471
