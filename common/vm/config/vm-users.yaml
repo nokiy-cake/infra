@@ -51,7 +51,7 @@ spec:
         name: vl
         namespace: vm
       paths:
-        - "/insert/jsonline"
+        - "/insert/.*"
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
@@ -105,4 +105,4 @@ spec:
         name: vl
         namespace: vm
       paths:
-        - "/insert/jsonline"
+        - "/insert/.*"
