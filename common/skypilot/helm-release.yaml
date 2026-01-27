@@ -29,6 +29,58 @@ spec:
         key: skypilot
         property: CLIENT_SECRET
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: vastai-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: vastai-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        api_key: "{{ .vastai-api-key }}"
+  data:
+    - secretKey: vastai-api-key
+      remoteRef:
+        key: skypilot
+        property: VASTAI_API_KEY
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: runpod-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: runpod-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        api_key: "{{ .runpod-api-key }}"
+  data:
+    - secretKey: runpod-api-key
+      remoteRef:
+        key: skypilot
+        property: RUNPOD_API_KEY
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -79,3 +131,9 @@ spec:
         external-dns.alpha.kubernetes.io/hostname: sky.nokiy.net
     ingress-nginx:
       enabled: false
+    vastCredentials:
+      enabled: true
+      vastSecretName: vastai-secrets
+    runpodCredentials:
+      enabled: true
+      runpodSecretName: runpod-secrets
