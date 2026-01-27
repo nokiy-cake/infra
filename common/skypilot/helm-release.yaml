@@ -17,8 +17,8 @@ spec:
       type: Opaque
       engineVersion: v2
       data:
-        CLIENT_ID: "{{ .CLIENT_ID }}"
-        CLIENT_SECRET: "{{ .CLIENT_SECRET }}"
+        client-id: "{{ .CLIENT_ID }}"
+        client-secret: "{{ .CLIENT_SECRET }}"
   data:
     - secretKey: CLIENT_ID
       remoteRef:
@@ -60,8 +60,7 @@ spec:
       oauth:
         enabled: true
         oidc-issuer-url: https://id.nokiy.net
-        # client-id: skypilot-xxxxxx.apps.googleusercontent.com
-        # client-secret: skypilot-xxxxxx.apps.googleusercontent.com
+        client-details-from-secret: "skypilot-secrets"
         session-store-type: redis
         redis-url: redis://valkey-skypilot:6379
     storage:
@@ -77,12 +76,3 @@ spec:
         external-dns.alpha.kubernetes.io/hostname: sky.nokiy.net
     ingress-nginx:
       enabled: false
-  valuesFrom:
-    - kind: Secret
-      name: skypilot-secrets
-      valuesKey: CLIENT_ID
-      targetPath: oauth.client-id
-    - kind: Secret
-      name: skypilot-secrets
-      valuesKey: CLIENT_SECRET
-      targetPath: oauth.client-secret
