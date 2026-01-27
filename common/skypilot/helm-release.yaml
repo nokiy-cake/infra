@@ -48,7 +48,7 @@ spec:
       type: Opaque
       engineVersion: v2
       data:
-        connection_string: postgres://skypilot:{{ .POSTGRES_PASSWORD }}@pooler-rw.postgres.svc.cluster.local:5432/skypilot
+        connection_string: postgresql://skypilot:{{ .POSTGRES_PASSWORD }}@pooler-rw.postgres.svc.cluster.local:5432/skypilot
   data:
     - secretKey: POSTGRES_PASSWORD
       remoteRef:
