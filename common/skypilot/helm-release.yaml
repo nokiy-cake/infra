@@ -56,13 +56,14 @@ spec:
         limits:
           cpu: 1000m
           memory: 1024Mi
-    oauth:
-      enabled: true
-      oidc-issuer-url: https://id.nokiy.net
-      # client-id: skypilot-xxxxxx.apps.googleusercontent.com
-      # client-secret: skypilot-xxxxxx.apps.googleusercontent.com
-      session-store-type: redis
-      redis-url: redis://valkey-skypilot:6379
+    auth:
+      oauth:
+        enabled: true
+        oidc-issuer-url: https://id.nokiy.net
+        # client-id: skypilot-xxxxxx.apps.googleusercontent.com
+        # client-secret: skypilot-xxxxxx.apps.googleusercontent.com
+        session-store-type: redis
+        redis-url: redis://valkey-skypilot:6379
     storage:
       enabled: false
     ingress:
