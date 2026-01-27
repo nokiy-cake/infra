@@ -32,6 +32,32 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
+  name: skypilot-postgres-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: skypilot-postgres-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        connection_string: postgres://skypilot:{{ .POSTGRES_PASSWORD }}@pooler-rw.postgres.svc.cluster.local:5432/skypilot
+  data:
+    - secretKey: POSTGRES_PASSWORD
+      remoteRef:
+        key: skypilot
+        property: POSTGRES_PASSWORD
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
   name: vastai-secrets
   namespace: skypilot
 spec:
@@ -81,6 +107,48 @@ spec:
         key: skypilot
         property: RUNPOD_API_KEY
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: aws-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: aws-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        credentials: |
+          [tigris]
+          aws_access_key_id={{ .tigris_client_id }}
+          aws_secret_access_key={{ .tigris_client_secret }}
+        config: |
+          [profile tigris]
+          region = auto
+          services = tigris-s3
+
+          [services tigris-s3]
+          s3 =
+            endpoint_url = https://t3.storage.dev
+
+  data:
+    - secretKey: tigris_client_id
+      remoteRef:
+        key: skypilot
+        property: TIGRIS_CLIENT_ID
+    - secretKey: tigris_client_secret
+      remoteRef:
+        key: skypilot
+        property: TIGRIS_CLIENT_SECRET
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -100,6 +168,7 @@ spec:
     rbac:
       manageSystemComponents: false
     apiService:
+      dbConnectionSecretName: skypilot-postgres-secrets
       skipResourceCheck: true
       resources:
         requests:
@@ -108,6 +177,21 @@ spec:
         limits:
           cpu: 1000m
           memory: 1024Mi
+      extraVolumes:
+        - name: aws-config
+          secret:
+            secretName: aws-secrets
+            items:
+              - key: config
+                path: config
+      extraVolumeMounts:
+        - name: aws-config
+          mountPath: /root/.aws/config
+          subPath: config
+          readOnly: true
+      extraEnvs:
+        - name: AWS_SDK_LOAD_CONFIG
+          value: "1"
     auth:
       oauth:
         enabled: true
@@ -133,6 +217,10 @@ spec:
         enabled: true
     ingress-nginx:
       enabled: false
+    awsCredentials:
+      enabled: true
+      awsSecretName: aws-secrets
+      useCredentialsFile: true
     kubernetesCredentials:
       useApiServerCluster: false
     vastCredentials:
