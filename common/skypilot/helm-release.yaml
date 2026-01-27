@@ -38,14 +38,14 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: skypilot
-      version: "0.11.1"
+      chart: skypilot-nightly
+      version: "1.0.0-dev.20260125"
       sourceRef:
         kind: HelmRepository
         name: skypilot
         namespace: flux-system
   values:
-    rabc:
+    rbac:
       manageSystemComponents: false
     apiService:
       skipResourceCheck: true
