@@ -48,9 +48,9 @@ spec:
       type: Opaque
       engineVersion: v2
       data:
-        api_key: "{{ .vastai-api-key }}"
+        api_key: "{{ .vastai_api_key }}"
   data:
-    - secretKey: vastai-api-key
+    - secretKey: vastai_api_key
       remoteRef:
         key: skypilot
         property: VASTAI_API_KEY
@@ -74,9 +74,9 @@ spec:
       type: Opaque
       engineVersion: v2
       data:
-        api_key: "{{ .runpod-api-key }}"
+        api_key: "{{ .runpod_api_key }}"
   data:
-    - secretKey: runpod-api-key
+    - secretKey: runpod_api_key
       remoteRef:
         key: skypilot
         property: RUNPOD_API_KEY
