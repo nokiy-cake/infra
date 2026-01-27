@@ -192,6 +192,8 @@ spec:
       extraEnvs:
         - name: AWS_SDK_LOAD_CONFIG
           value: "1"
+        - name: AWS_PROFILE
+          value: "tigris"
     auth:
       oauth:
         enabled: true
