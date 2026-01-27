@@ -29,41 +29,6 @@ spec:
         key: skypilot
         property: CLIENT_SECRET
 ---
-apiVersion: redis.redis.opstreelabs.in/v1beta2
-kind: Redis
-metadata:
-  name: skypilot-redis
-  namespace: skypilot
-spec:
-  kubernetesConfig:
-    image: quay.io/opstree/redis:v8.4.0
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi
-  redisExporter:
-    enabled: true
-    image: quay.io/opstree/redis-exporter:v1.80.1
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 50m
-        memory: 64Mi
-      limits:
-        cpu: 100m
-        memory: 128Mi
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -95,13 +60,18 @@ spec:
       # client-id: skypilot-xxxxxx.apps.googleusercontent.com
       # client-secret: skypilot-xxxxxx.apps.googleusercontent.com
       session-store-type: redis
-      redis-url: redis://skypilot-redis:6379
+      redis-url: redis://valkey-skypilot:6379
     storage:
       enabled: false
     ingress:
       enabled: true
       host: sky.nokiy.net
       ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: sky.nokiy.net
     ingress-nginx:
       enabled: false
   valuesFrom:
