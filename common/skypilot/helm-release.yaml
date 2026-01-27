@@ -64,7 +64,10 @@ spec:
         session-store-type: redis
         redis-url: redis://valkey-skypilot:6379
     storage:
-      enabled: false
+      enabled: true
+      storageClassName: local-path
+      accessMode: ReadWriteOnce
+      size: 10Gi
     ingress:
       enabled: true
       host: sky.nokiy.net
