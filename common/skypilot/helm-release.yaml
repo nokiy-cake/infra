@@ -133,6 +133,8 @@ spec:
         enabled: true
     ingress-nginx:
       enabled: false
+    kubernetesCredentials:
+      useApiServerCluster: false
     vastCredentials:
       enabled: true
       vastSecretName: vastai-secrets
