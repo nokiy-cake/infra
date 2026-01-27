@@ -45,6 +45,8 @@ spec:
         name: skypilot
         namespace: flux-system
   values:
+    rabc:
+      manageSystemComponents: false
     apiService:
       skipResourceCheck: true
       resources:
