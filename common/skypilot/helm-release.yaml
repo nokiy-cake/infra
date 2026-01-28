@@ -223,6 +223,7 @@ spec:
         traefik.ingress.kubernetes.io/router.tls: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
         external-dns.alpha.kubernetes.io/hostname: sky.nokiy.net
+        external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
       tls:
         enabled: true
     ingress-nginx:
