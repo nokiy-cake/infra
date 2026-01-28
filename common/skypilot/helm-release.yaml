@@ -232,7 +232,7 @@ spec:
       awsSecretName: aws-secrets
       useCredentialsFile: true
     kubernetesCredentials:
-      useApiServerCluster: false
+      useApiServerCluster: true
     vastCredentials:
       enabled: true
       vastSecretName: vastai-secrets
