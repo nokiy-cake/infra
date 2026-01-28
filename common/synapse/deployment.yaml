@@ -91,7 +91,7 @@ spec:
     spec:
       containers:
         - name: mas
-          image: ghcr.io/element-hq/matrix-authentication-service:1.8.0
+          image: ghcr.io/element-hq/matrix-authentication-service:1.10.0
           imagePullPolicy: IfNotPresent
           args:
             - server
