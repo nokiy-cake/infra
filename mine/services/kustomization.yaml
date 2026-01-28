@@ -9,7 +9,7 @@ resources:
 - linkding.yaml
 - mastodon.yaml
 - miniflux.yaml
-- mlflow.yaml
+# - mlflow.yaml
 - nokiy.yaml
 - notion-sync.yaml
 - pocket-id.yaml
