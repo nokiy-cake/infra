@@ -194,6 +194,14 @@ spec:
           value: "1"
         - name: AWS_PROFILE
           value: "tigris"
+        - name: AWS_ENDPOINT_URL_S3
+          value: "https://t3.storage.dev"
+        - name: AWS_ENDPOINT_URL_IAM
+          value: "https://iam.storage.dev"
+        - name: AWS_REGION
+          value: "auto"
+        - name: AWS_DEFAULT_REGION
+          value: "auto"
     auth:
       oauth:
         enabled: true
