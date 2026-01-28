@@ -132,7 +132,7 @@ spec:
           aws_secret_access_key={{ .tigris_client_secret }}
         config: |
           [profile tigris]
-          region = auto
+          region = us-east-1
           services = tigris-s3
 
           [services tigris-s3]
@@ -199,9 +199,9 @@ spec:
         - name: AWS_ENDPOINT_URL_IAM
           value: "https://iam.storage.dev"
         - name: AWS_REGION
-          value: "auto"
+          value: "us-east-1"
         - name: AWS_DEFAULT_REGION
-          value: "auto"
+          value: "us-east-1"
     auth:
       oauth:
         enabled: true
