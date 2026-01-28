@@ -175,8 +175,8 @@ spec:
           cpu: 100m
           memory: 512Mi
         limits:
-          cpu: 1000m
-          memory: 1024Mi
+          cpu: 4000m
+          memory: 4096Mi
       extraVolumes:
         - name: aws-config
           secret:
