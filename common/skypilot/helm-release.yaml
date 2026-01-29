@@ -130,6 +130,7 @@ spec:
           [tigris]
           aws_access_key_id={{ .tigris_client_id }}
           aws_secret_access_key={{ .tigris_client_secret }}
+          endpoint_url=https://t3.storage.dev
         config: |
           [profile tigris]
           region = us-east-1
