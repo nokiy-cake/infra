@@ -110,6 +110,44 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
+  name: r2-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: r2-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        "r2.credentials": |
+          [r2]
+          aws_access_key_id={{ .r2_access_key }}
+          aws_secret_access_key={{ .r2_secret_key }}
+        accountid: "{{ .r2_account_id }}"
+  data:
+    - secretKey: r2_access_key
+      remoteRef:
+        key: skypilot
+        property: R2_ACCESS_KEY
+    - secretKey: r2_secret_key
+      remoteRef:
+        key: skypilot
+        property: R2_SECRET_KEY
+    - secretKey: r2_account_id
+      remoteRef:
+        key: skypilot
+        property: R2_ACCOUNT_ID
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
   name: aws-secrets
   namespace: skypilot
 spec:
@@ -241,3 +279,6 @@ spec:
     runpodCredentials:
       enabled: true
       runpodSecretName: runpod-secrets
+    r2Credentials:
+      enabled: true
+      r2SecretName: r2-secrets
