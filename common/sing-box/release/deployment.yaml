@@ -29,7 +29,7 @@ spec:
             secretName: sing-box-config
       containers:
         - name: sing-box
-          image: ghcr.io/sagernet/sing-box:v1.12.17
+          image: ghcr.io/sagernet/sing-box:v1.12.19
           args:
             - run
             - -c
