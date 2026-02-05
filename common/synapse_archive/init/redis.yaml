@@ -17,7 +17,7 @@ spec:
         memory: 512Mi
   redisExporter:
     enabled: false
-    image: quay.io/opstree/redis-exporter:v1.80.1
+    image: quay.io/opstree/redis-exporter:v1.80.2
   storage:
     volumeClaimTemplate:
       spec:
