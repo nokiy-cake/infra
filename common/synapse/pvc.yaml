@@ -11,3 +11,16 @@ spec:
       storage: 1Gi
   storageClassName: b2-csi
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: synapse-media-v2
+  namespace: synapse
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: local-path
+---

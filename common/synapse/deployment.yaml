@@ -60,7 +60,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: synapse-media
+            claimName: synapse-media-v2
         - name: config
           secret:
             secretName: synapse-config
