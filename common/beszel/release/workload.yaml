@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: beszel
-          image: henrygd/beszel:0.17.0
+          image: henrygd/beszel:0.18.3
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
