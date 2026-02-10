@@ -35,13 +35,13 @@ spec:
           max_size = 5368709120 # 5 GiB
           ttl = 2592000 # 30 days
 
-          [archive]
-          type = "b2"
-          root = "archive"
-          application_key_id = "{{ .B2_KEY_ID }}"
-          application_key = "{{ .B2_APPLICATION_KEY }}"
-          bucket_id = "{{ .B2_BUCKET_ID }}"
-          bucket = "{{ .B2_BUCKET }}"
+          # [archive]
+          # type = "b2"
+          # root = "archive"
+          # application_key_id = "{{ .B2_KEY_ID }}"
+          # application_key = "{{ .B2_APPLICATION_KEY }}"
+          # bucket_id = "{{ .B2_BUCKET_ID }}"
+          # bucket = "{{ .B2_BUCKET }}"
   data:
     - secretKey: username
       remoteRef:

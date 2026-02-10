@@ -11,7 +11,7 @@ resources:
 - miniflux.yaml
 # - mlflow.yaml
 - nokiy.yaml
-- notion-sync.yaml
+# - notion-sync.yaml
 - pocket-id.yaml
 - rsshub.yaml
 - skypilot.yaml
