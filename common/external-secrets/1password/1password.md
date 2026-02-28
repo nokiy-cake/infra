@@ -1,7 +1,8 @@
 ```shell
-# 1password need to mannually encode the credentials file to base64
+# Since connect chart 2.3.0, double base64 encoding is no longer needed.
+# Just use --from-file with the credentials file downloaded from 1Password.
 kubectl create secret generic op-credentials \
-  --from-literal=1password-credentials.json=$(cat ./1password-credentials.json | base64 -w 0) \
+  --from-file=1password-credentials.json=./1password-credentials.json \
   -n external-secrets
 ```
 ```shell
