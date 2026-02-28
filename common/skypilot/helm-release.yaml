@@ -145,49 +145,6 @@ spec:
         key: skypilot
         property: R2_ACCOUNT_ID
 ---
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: aws-secrets
-  namespace: skypilot
-spec:
-  secretStoreRef:
-    name: production
-    kind: ClusterSecretStore
-  refreshPolicy: Periodic
-  refreshInterval: "1h"
-  target:
-    name: aws-secrets
-    creationPolicy: Owner
-    deletionPolicy: Delete
-    template:
-      type: Opaque
-      engineVersion: v2
-      data:
-        credentials: |
-          [tigris]
-          aws_access_key_id={{ .tigris_client_id }}
-          aws_secret_access_key={{ .tigris_client_secret }}
-          endpoint_url=https://t3.storage.dev
-        config: |
-          [profile tigris]
-          region = us-east-1
-          services = tigris-s3
-
-          [services tigris-s3]
-          s3 =
-            endpoint_url = https://t3.storage.dev
-
-  data:
-    - secretKey: tigris_client_id
-      remoteRef:
-        key: skypilot
-        property: TIGRIS_CLIENT_ID
-    - secretKey: tigris_client_secret
-      remoteRef:
-        key: skypilot
-        property: TIGRIS_CLIENT_SECRET
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -216,31 +173,7 @@ spec:
         limits:
           cpu: 4000m
           memory: 4096Mi
-      extraVolumes:
-        - name: aws-config
-          secret:
-            secretName: aws-secrets
-            items:
-              - key: config
-                path: config
-      extraVolumeMounts:
-        - name: aws-config
-          mountPath: /root/.aws/config
-          subPath: config
-          readOnly: true
-      extraEnvs:
-        - name: AWS_SDK_LOAD_CONFIG
-          value: "1"
-        - name: AWS_PROFILE
-          value: "tigris"
-        - name: AWS_ENDPOINT_URL_S3
-          value: "https://t3.storage.dev"
-        - name: AWS_ENDPOINT_URL_IAM
-          value: "https://iam.storage.dev"
-        - name: AWS_REGION
-          value: "us-east-1"
-        - name: AWS_DEFAULT_REGION
-          value: "us-east-1"
+
     auth:
       oauth:
         enabled: true
@@ -268,9 +201,7 @@ spec:
     ingress-nginx:
       enabled: false
     awsCredentials:
-      enabled: true
-      awsSecretName: aws-secrets
-      useCredentialsFile: true
+      enabled: false
     kubernetesCredentials:
       useApiServerCluster: true
     vastCredentials:
