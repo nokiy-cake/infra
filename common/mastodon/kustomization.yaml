@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
 - mastodon.yaml
-- elasticsearch.yaml
+# - elasticsearch.yaml
 - redis.yaml
 
 labels:
