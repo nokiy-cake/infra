@@ -17,8 +17,7 @@ spec:
       ipFamilies:
         - IPv4
         - IPv6
-      annotations:
-        kube-vip.io/loadbalancerIPs: "152.53.243.175,2a0a:4cc0:2000:8e66:cafe::1"
+      annotations: {}
       spec:
         externalTrafficPolicy: Local # Preserve client IPs
       single: true

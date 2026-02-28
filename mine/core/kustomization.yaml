@@ -13,6 +13,7 @@ resources:
 - valkey-operator.yaml
 # - k8s-monitoring.yaml
 - tailscale-traefik.yaml
-- kube-vip.yaml
+- cilium.yaml
+# - kube-vip.yaml
 - elastic.yaml
 - vm.yaml
