@@ -12,14 +12,15 @@ spec:
         enabled: true
     service:
       enabled: true
-      type: LoadBalancer
+      type: ClusterIP
       ipFamilyPolicy: RequireDualStack
       ipFamilies:
         - IPv4
         - IPv6
       annotations: {}
-      spec:
-        externalTrafficPolicy: Local # Preserve client IPs
+      externalIPs:
+        - 152.53.243.175
+        - 2a0a:4cc0:2000:8e66:cafe::1
       single: true
     ports:
       web:
