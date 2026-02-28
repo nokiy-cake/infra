@@ -152,6 +152,10 @@ metadata:
   namespace: skypilot
 spec:
   interval: 1h
+  timeout: 10m
+  upgrade:
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: skypilot-nightly
