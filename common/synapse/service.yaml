@@ -35,16 +35,3 @@ spec:
       port: 8080
       targetPort: http
       protocol: TCP
----
-# Service for well-known
-apiVersion: v1
-kind: Service
-metadata:
-  name: matrix-wellknown
-  namespace: synapse
-spec:
-  selector:
-    app: matrix-wellknown
-  ports:
-    - port: 80
-      targetPort: 80

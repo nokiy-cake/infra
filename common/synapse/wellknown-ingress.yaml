@@ -1,0 +1,48 @@
+---
+# Certificate for nokiy.net (for well-known endpoints)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nokiy-net
+  namespace: synapse
+spec:
+  secretName: nokiy-net-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - nokiy.net
+---
+# CORS headers for well-known endpoints
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: matrix-wellknown-headers
+  namespace: synapse
+spec:
+  headers:
+    customResponseHeaders:
+      Access-Control-Allow-Origin: "*"
+      Content-Type: "application/json"
+---
+# Well-known endpoints for Matrix federation on nokiy.net
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: matrix-wellknown
+  namespace: synapse
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: nokiy.net
+    # external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nokiy.net`) && PathPrefix(`/.well-known/matrix`)
+      kind: Rule
+      services:
+        - name: matrix-wellknown
+          port: 80
+  tls:
+    secretName: nokiy-net-tls

@@ -10,7 +10,7 @@ resources:
 # - mastodon.yaml
 - miniflux.yaml
 # - mlflow.yaml
-- nokiy.yaml
+# - nokiy.yaml # disabled
 # - notion-sync.yaml
 - pocket-id.yaml
 - rsshub.yaml
