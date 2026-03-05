@@ -9,6 +9,7 @@ resources:
 - linkding.yaml
 # - mastodon.yaml
 - miniflux.yaml
+- ntfy.yaml
 # - mlflow.yaml
 # - nokiy.yaml # disabled
 # - notion-sync.yaml
