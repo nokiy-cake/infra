@@ -159,7 +159,7 @@ spec:
   chart:
     spec:
       chart: skypilot-nightly
-      version: "1.0.0-dev.20260225"
+      version: "1.0.0-dev.20260314"
       sourceRef:
         kind: HelmRepository
         name: skypilot
