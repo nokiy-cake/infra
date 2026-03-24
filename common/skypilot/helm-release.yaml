@@ -110,6 +110,32 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
+  name: shadeform-secrets
+  namespace: skypilot
+spec:
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  refreshPolicy: Periodic
+  refreshInterval: "1h"
+  target:
+    name: shadeform-secrets
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      type: Opaque
+      engineVersion: v2
+      data:
+        api_key: "{{ .shadeform_api_key }}"
+  data:
+    - secretKey: shadeform_api_key
+      remoteRef:
+        key: skypilot
+        property: SHADEFORM_API_KEY
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
   name: r2-secrets
   namespace: skypilot
 spec:
@@ -177,6 +203,14 @@ spec:
         limits:
           cpu: 4000m
           memory: 4096Mi
+      extraVolumes:
+        - name: shadeform-credentials
+          secret:
+            secretName: shadeform-secrets
+      extraVolumeMounts:
+        - name: shadeform-credentials
+          mountPath: /root/.shadeform/api_key
+          subPath: api_key
 
     auth:
       oauth:
