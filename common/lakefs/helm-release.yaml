@@ -1,0 +1,70 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lakefs
+  namespace: lakefs
+spec:
+  interval: 1h
+  timeout: 10m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: lakefs
+      version: "1.9.4"
+      sourceRef:
+        kind: HelmRepository
+        name: lakefs
+        namespace: flux-system
+  values:
+    service:
+      type: ClusterIP
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: lakefs.nokiy.net
+      hosts:
+        - host: lakefs.nokiy.net
+          paths:
+            - /
+      tls:
+        - hosts:
+            - lakefs.nokiy.net
+          secretName: lakefs-tls
+
+    useDevPostgres: false
+
+    existingSecret: lakefs-secrets
+    secretKeys:
+      authEncryptSecretKey: auth_encrypt_secret_key
+      databaseConnectionString: database_connection_string
+
+    extraEnvVars:
+      - name: LAKEFS_BLOCKSTORE_S3_CREDENTIALS_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: lakefs-secrets
+            key: s3_access_key
+      - name: LAKEFS_BLOCKSTORE_S3_CREDENTIALS_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: lakefs-secrets
+            key: s3_secret_key
+
+    lakefsConfig: |
+      database:
+        type: postgres
+      blockstore:
+        type: s3
+        s3:
+          region: us-east-005
+          force_path_style: true
+          endpoint: https://s3.us-east-005.backblazeb2.com
+          discover_bucket_region: false

@@ -10,6 +10,7 @@ resources:
 # - mastodon.yaml
 - miniflux.yaml
 - ntfy.yaml
+- lakefs.yaml
 # - mlflow.yaml
 # - nokiy.yaml # disabled
 # - notion-sync.yaml
