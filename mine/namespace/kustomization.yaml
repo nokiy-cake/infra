@@ -11,6 +11,7 @@ resources:
 - mastodon.yaml
 - elastic.yaml
 - moeru-ai.yaml
+- phoenix.yaml
 - rsshub.yaml
 - synapse.yaml
 - tg-bot.yaml

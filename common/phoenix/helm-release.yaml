@@ -1,0 +1,92 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: phoenix
+  namespace: phoenix
+spec:
+  interval: 1h
+  timeout: 10m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: phoenix-chart
+    namespace: flux-system
+  values:
+    service:
+      type: ClusterIP
+
+    ingress:
+      enabled: true
+      host: phoenix.nokiy.net
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: phoenix.nokiy.net
+      tls:
+        enabled: true
+
+    postgresql:
+      enabled: false
+
+    persistence:
+      enabled: false
+
+    database:
+      postgres:
+        host: pooler-rw.postgres.svc.cluster.local
+        port: 5432
+        db: phoenix
+        user: phoenix
+
+    server:
+      rootUrl: https://phoenix.nokiy.net
+      telemetryEnabled: false
+
+    auth:
+      createSecret: true
+      name: phoenix-auth
+      useSecureCookies: true
+      disableBasicAuth: true
+      enableStrongPasswordPolicy: true
+      csrfTrustedOrigins:
+        - https://phoenix.nokiy.net
+      oauth2:
+        enabled: true
+        providers:
+          pocket_id:
+            oidc_config_url: https://id.nokiy.net/.well-known/openid-configuration
+            display_name: Pocket ID
+            scopes: groups
+            use_pkce: true
+            auto_login: true
+            allow_sign_up: true
+            groups_attribute_path: groups
+            role_attribute_path: "contains(groups[*], 'phoenix-admin') && 'ADMIN' || contains(groups[*], 'phoenix-member') && 'MEMBER' || 'VIEWER'"
+      secret:
+        - key: PHOENIX_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: phoenix-secrets
+              key: PHOENIX_SECRET
+        - key: PHOENIX_ADMIN_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: phoenix-secrets
+              key: PHOENIX_ADMIN_SECRET
+  valuesFrom:
+    - kind: Secret
+      name: phoenix-secrets
+      valuesKey: POSTGRES_PASSWORD
+      targetPath: database.postgres.password
+    - kind: Secret
+      name: phoenix-secrets
+      valuesKey: POCKET_ID_CLIENT_ID
+      targetPath: auth.oauth2.providers.pocket_id.client_id
+    - kind: Secret
+      name: phoenix-secrets
+      valuesKey: POCKET_ID_CLIENT_SECRET
+      targetPath: auth.oauth2.providers.pocket_id.client_secret

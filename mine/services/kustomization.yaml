@@ -15,6 +15,7 @@ resources:
 # - nokiy.yaml # disabled
 # - notion-sync.yaml
 - pocket-id.yaml
+- phoenix.yaml
 - rsshub.yaml
 - skypilot.yaml
 - synapse.yaml

@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: phoenix
+  labels:
+    app.kubernetes.io/name: phoenix
+    nokiy.net/cluster-secret-store: "production"
