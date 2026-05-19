@@ -54,6 +54,7 @@ spec:
       enableStrongPasswordPolicy: true
       csrfTrustedOrigins:
         - https://phoenix.nokiy.net
+        - https://id.nokiy.net
       oauth2:
         enabled: true
         providers:
