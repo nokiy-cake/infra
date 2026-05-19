@@ -65,6 +65,10 @@ spec:
             auto_login: true
             allow_sign_up: true
             groups_attribute_path: groups
+            allowed_groups:
+              - phoenix-admin
+              - phoenix-member
+              - phoenix-viewer
             role_attribute_path: "contains(groups[*], 'phoenix-admin') && 'ADMIN' || contains(groups[*], 'phoenix-member') && 'MEMBER' || 'VIEWER'"
       secret:
         - key: PHOENIX_SECRET
