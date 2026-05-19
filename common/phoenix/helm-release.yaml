@@ -77,6 +77,11 @@ spec:
             secretKeyRef:
               name: phoenix-secrets
               key: PHOENIX_ADMIN_SECRET
+        - key: PHOENIX_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: phoenix-secrets
+              key: POSTGRES_PASSWORD
   valuesFrom:
     - kind: Secret
       name: phoenix-secrets
