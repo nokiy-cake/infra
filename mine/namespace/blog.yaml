@@ -5,4 +5,3 @@ metadata:
   name: blog
   labels:
     app.kubernetes.io/name: blog
-    nokiy.net/cluster-secret-store: "production"

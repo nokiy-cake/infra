@@ -21,8 +21,6 @@ spec:
         app.kubernetes.io/name: blog
         app.kubernetes.io/instance: blog
     spec:
-      imagePullSecrets:
-        - name: blog-ghcr-pull-secret
       containers:
         - name: blog
           image: ghcr.io/nijunfeng234154/myblog:latest
