@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog
+  namespace: blog
+  labels:
+    app.kubernetes.io/name: blog
+    app.kubernetes.io/instance: blog
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blog
+      app.kubernetes.io/instance: blog
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: blog
+        app.kubernetes.io/instance: blog
+    spec:
+      imagePullSecrets:
+        - name: blog-ghcr-pull-secret
+      containers:
+        - name: blog
+          image: ghcr.io/nijunfeng234154/myblog:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
