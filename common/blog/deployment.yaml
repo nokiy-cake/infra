@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: blog
-  namespace: blog
+  namespace: ni-svc
   labels:
     app.kubernetes.io/name: blog
     app.kubernetes.io/instance: blog
@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: blog
-          image: ghcr.io/nijunfeng234154/myblog:latest
+          image: ghcr.io/nijunfeng234154/myblog:latest@sha256:d65706c06f95bc03fc6ebd50551d44bfd9937cfc8505ef039ed375181c94c64e
           imagePullPolicy: Always
           ports:
             - name: http

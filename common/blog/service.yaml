@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blog
-  namespace: blog
+  namespace: ni-svc
   labels:
     app.kubernetes.io/name: blog
     app.kubernetes.io/instance: blog
