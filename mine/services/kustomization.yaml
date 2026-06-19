@@ -22,3 +22,4 @@ resources:
 - tg-bot.yaml
 - tsync.yaml
 - unspeech.yaml
+- blog.yaml

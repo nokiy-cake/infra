@@ -17,3 +17,4 @@ resources:
 - tg-bot.yaml
 - tsync.yaml
 - vm.yaml
+- ni-svc.yaml
