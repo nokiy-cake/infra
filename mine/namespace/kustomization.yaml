@@ -13,6 +13,7 @@ resources:
 - moeru-ai.yaml
 - phoenix.yaml
 - rsshub.yaml
+- sub2api.yaml
 - synapse.yaml
 - tg-bot.yaml
 - tsync.yaml

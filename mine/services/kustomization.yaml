@@ -18,6 +18,7 @@ resources:
 - phoenix.yaml
 - rsshub.yaml
 - skypilot.yaml
+- sub2api.yaml
 - synapse.yaml
 - tg-bot.yaml
 - tsync.yaml

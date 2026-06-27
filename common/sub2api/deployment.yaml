@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sub2api
+  namespace: sub2api
+  labels:
+    app.kubernetes.io/name: sub2api
+    app.kubernetes.io/instance: sub2api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sub2api
+      app.kubernetes.io/instance: sub2api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sub2api
+        app.kubernetes.io/instance: sub2api
+    spec:
+      containers:
+        - name: sub2api
+          image: ghcr.io/wei-shaw/sub2api:0.1.139
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AUTO_SETUP
+              value: "true"
+            - name: CONFIG_FILE
+              value: /app/data/config.yaml
+            - name: TZ
+              value: Asia/Shanghai
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /app/data/config.yaml
+              subPath: config.yaml
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+      volumes:
+        - name: config
+          secret:
+            secretName: sub2api-secrets
+            items:
+              - key: config.yaml
+                path: config.yaml

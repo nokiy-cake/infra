@@ -389,6 +389,32 @@ spec:
         key: phoenix
         property: POSTGRES_PASSWORD
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-sub2api-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-sub2api-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        username: sub2api
+        password: "{{ .password }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: sub2api
+        property: POSTGRES_PASSWORD
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -475,6 +501,11 @@ spec:
         login: true
         passwordSecret:
           name: postgres-lakefs-creds
+      - name: sub2api
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-sub2api-creds
   monitoring:
     enablePodMonitor: true
   backup:
@@ -659,5 +690,16 @@ metadata:
 spec:
   name: lakefs
   owner: lakefs
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-sub2api
+  namespace: postgres
+spec:
+  name: sub2api
+  owner: sub2api
   cluster:
     name: postgres

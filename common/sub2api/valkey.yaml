@@ -1,0 +1,26 @@
+apiVersion: hyperspike.io/v1
+kind: Valkey
+metadata:
+  name: valkey-sub2api
+  namespace: sub2api
+spec:
+  anonymousAuth: true
+  nodes: 1
+  replicas: 0
+
+  tls: false
+  certIssuer: ca-cluster-issuer
+  certIssuerType: ClusterIssuer
+
+  prometheus: true
+  prometheusLabels:
+    prometheus: prometheus
+
+  storage:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: local-path

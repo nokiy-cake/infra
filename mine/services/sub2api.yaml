@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: sub2api
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./common/sub2api
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 10m
+  wait: true
+  dependsOn:
+    - name: external-secrets-config
+    - name: cert-manager-letsencrypt
+    - name: external-dns-release
+    - name: valkey-operator
