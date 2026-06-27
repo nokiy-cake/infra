@@ -5,6 +5,7 @@ resources:
 - forgejo.yaml
 - linkding.yaml
 - miniflux.yaml
+- new-api.yaml
 - ntfy.yaml
 - mlflow.yaml
 - lakefs.yaml
