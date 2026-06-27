@@ -9,7 +9,6 @@ resources:
 - linkding.yaml
 # - mastodon.yaml
 - miniflux.yaml
-- new-api.yaml
 - ntfy.yaml
 - lakefs.yaml
 # - mlflow.yaml
