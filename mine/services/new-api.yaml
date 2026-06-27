@@ -17,5 +17,4 @@ spec:
     - name: external-secrets-config
     - name: cert-manager-letsencrypt
     - name: external-dns-release
-    - name: cnpg
     - name: valkey-operator

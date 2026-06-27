@@ -32,8 +32,8 @@ spec:
             - name: SQL_DSN
               valueFrom:
                 secretKeyRef:
-                  name: new-api-app
-                  key: uri
+                  name: new-api-secrets
+                  key: SQL_DSN
             - name: REDIS_CONN_STRING
               value: redis://valkey-new-api.new-api.svc.cluster.local:6379
             - name: TZ
