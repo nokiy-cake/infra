@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: omnigent-env
+  namespace: omnigent
+data:
+  ARTIFACT_DIR: /data/artifacts
+  HOST: 0.0.0.0
+  PORT: "8000"
+  OMNIGENT_CONFIG: /etc/omnigent/config.yaml
+  OMNIGENT_ADMIN_LIST_PATH: /etc/omnigent/admins
+  OMNIGENT_AUTH_ENABLED: "1"
+  OMNIGENT_AUTH_PROVIDER: oidc
+  OMNIGENT_DOMAIN: omnigent.nokiy.net
+  OMNIGENT_OIDC_ISSUER: https://id.nokiy.net
+  OMNIGENT_OIDC_REDIRECT_URI: https://omnigent.nokiy.net/auth/callback
+  OMNIGENT_OIDC_SCOPES: openid email profile
+  OMNIGENT_OIDC_SESSION_TTL_HOURS: "8"
+  OMNIGENT_WS_ALLOWED_ORIGINS: https://omnigent.nokiy.net
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: omnigent-config
+  namespace: omnigent
+data:
+  config.yaml: |
+    artifact_location: /data/artifacts
+  admins: ""

@@ -24,3 +24,4 @@ resources:
 - tsync.yaml
 - unspeech.yaml
 - blog.yaml
+- omnigent.yaml

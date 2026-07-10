@@ -1,4 +1,4 @@
 - use `nokiy.net/cluster-secret-store: "production"` label in namespace that you want to use the production secret store.
-- git commit is allowed when explicitly requested by the user, but do not git push changes to repo.
+- git commit and git push are allowed only when explicitly requested by the user.
 - use `kubectl apply -f <file> --dry-run=server -o yaml` to validate your changes before applying them to the cluster.
 - this config file use fluxcd to deploy, DO NOT apply them to the cluster directly.
