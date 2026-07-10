@@ -19,3 +19,4 @@ resources:
 - tsync.yaml
 - vm.yaml
 - ni-svc.yaml
+- omnigent.yaml

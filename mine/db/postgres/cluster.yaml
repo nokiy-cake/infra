@@ -415,6 +415,32 @@ spec:
         key: sub2api
         property: POSTGRES_PASSWORD
 ---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-omnigent-creds
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  refreshPolicy: Periodic
+  secretStoreRef:
+    name: production
+    kind: ClusterSecretStore
+  target:
+    name: postgres-omnigent-creds
+    creationPolicy: Owner
+    deletionPolicy: Delete
+    template:
+      engineVersion: v2
+      data:
+        username: omnigent
+        password: "{{ .password }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: omnigent
+        property: POSTGRES_PASSWORD
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -506,6 +532,11 @@ spec:
         login: true
         passwordSecret:
           name: postgres-sub2api-creds
+      - name: omnigent
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-omnigent-creds
   monitoring:
     enablePodMonitor: true
   backup:
@@ -701,5 +732,16 @@ metadata:
 spec:
   name: sub2api
   owner: sub2api
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-omnigent
+  namespace: postgres
+spec:
+  name: omnigent
+  owner: omnigent
   cluster:
     name: postgres

@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnigent
+  namespace: omnigent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: omnigent
+      app.kubernetes.io/instance: omnigent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: omnigent
+        app.kubernetes.io/instance: omnigent
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: omnigent
+          image: ghcr.io/omnigent-ai/omnigent-server:v0.4.0@sha256:dabbb00deafa796c5ab75a31785285f78044df812db88d7c7c6acdee6c959daf
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          envFrom:
+            - configMapRef:
+                name: omnigent-env
+            - secretRef:
+                name: omnigent-secrets
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: artifacts
+              mountPath: /data/artifacts
+            - name: config
+              mountPath: /etc/omnigent
+              readOnly: true
+      volumes:
+        - name: artifacts
+          persistentVolumeClaim:
+            claimName: omnigent-artifacts
+        - name: config
+          configMap:
+            name: omnigent-config
+            items:
+              - key: config.yaml
+                path: config.yaml
+              - key: admins
+                path: admins
