@@ -51,6 +51,10 @@ spec:
         name: grafana
         namespace: flux-system
   values:
+    # The production Grafana has moved to the Talos cluster. Keep this release
+    # and its external PostgreSQL data resumable, but do not run a legacy pod.
+    replicas: 0
+
     grafana.ini:
       database:
         type: postgres
@@ -116,7 +120,9 @@ spec:
         secretKeyRef: { name: grafana-secrets, key: oidc_client_secret }
 
     ingress:
-      enabled: true
+      # Release grafana.nokiy.net so ExternalDNS and cert-manager have a
+      # single owner on the Talos cluster.
+      enabled: false
       ingressClassName: traefik
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
