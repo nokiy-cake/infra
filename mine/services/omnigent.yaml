@@ -4,9 +4,6 @@ metadata:
   name: omnigent
   namespace: flux-system
 spec:
-  # Retire the legacy Traefik/Cloudflare deployment without pruning its data
-  # while the production Talos Flux stack owns this hostname.
-  suspend: true
   interval: 5m
   path: ./common/omnigent
   prune: true

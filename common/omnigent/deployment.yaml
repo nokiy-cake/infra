@@ -4,7 +4,8 @@ metadata:
   name: omnigent
   namespace: omnigent
 spec:
-  replicas: 1
+  # Preserve the legacy PVC and configuration, but stop the superseded server.
+  replicas: 0
   strategy:
     type: Recreate
   selector:
