@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: unspeech
-          image: ghcr.io/moeru-ai/unspeech:0.1.13
+          image: ghcr.io/moeru-ai/unspeech:0.1.19
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
